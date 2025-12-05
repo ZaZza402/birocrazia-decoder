@@ -1,7 +1,8 @@
 import { UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
-import { getUserPlan, PLANS } from "@/lib/plans";
+import { PLANS } from "@/lib/plans";
+import { getUserPlan } from "@/lib/user-utils";
 import prisma from "@/lib/db";
 import { ArrowRight, Lock, Zap, FileText, Calendar } from "lucide-react";
 import { redirect } from "next/navigation";

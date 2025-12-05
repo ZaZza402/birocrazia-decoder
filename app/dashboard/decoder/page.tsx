@@ -1,5 +1,6 @@
 import { currentUser } from "@clerk/nextjs/server";
-import { getUserPlan, PLANS } from "@/lib/plans";
+import { PLANS } from "@/lib/plans";
+import { getUserPlan } from "@/lib/user-utils";
 import DecoderClient from "./decoder-client";
 import { redirect } from "next/navigation";
 
