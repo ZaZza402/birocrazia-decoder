@@ -13,5 +13,5 @@ export default async function DecoderPage() {
   const planId = await getUserPlan(user.id);
   const plan = PLANS[planId];
 
-  return <DecoderClient plan={plan} />;
+  return <DecoderClient plan={plan} userId={user.id} />;
 }

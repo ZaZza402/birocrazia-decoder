@@ -6,6 +6,8 @@ import prisma from "@/lib/db";
 import { ArrowRight, Lock, Zap, FileText, Calendar } from "lucide-react";
 import { redirect } from "next/navigation";
 import { DecodeHistory } from "@prisma/client";
+import ReferralCard from "../components/referral-card";
+import UsageCard from "../components/usage-card";
 
 export default async function DashboardPage() {
   const user = await currentUser();
@@ -86,14 +88,27 @@ export default async function DashboardPage() {
             </div>
 
             {planType === "FREE" ? (
-              <button className="w-full bg-white text-black px-4 py-2 font-bold border-2 border-black hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+              <Link
+                href="/#pricing"
+                className="w-full bg-white text-black px-4 py-2 font-bold border-2 border-black hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+              >
                 <Zap className="w-4 h-4" /> UPGRADE
-              </button>
+              </Link>
             ) : (
               <div className="bg-white/50 p-2 text-center text-sm font-bold border-2 border-black/20">
                 SEI UN INTOCCABILE
               </div>
             )}
+          </section>
+
+          {/* Usage Card */}
+          <section className="md:col-span-2">
+            <UsageCard />
+          </section>
+
+          {/* Referral Card */}
+          <section>
+            <ReferralCard />
           </section>
 
           {/* History */}

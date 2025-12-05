@@ -3,26 +3,22 @@
 import { experimental_useObject as useObject } from "@ai-sdk/react";
 import { z } from "zod";
 import { useState } from "react";
+import Link from "next/link";
 import {
-  CheckCircle,
-  MessageSquareQuote,
   Send,
   Loader2,
-  Share2,
   Quote,
   Check,
-  Hammer,
   Stamp,
   AlertTriangle,
   Briefcase,
   Scale,
   FileText,
-  Upload,
-  X,
-  Lock,
+  Download,
 } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { generateShareImage, downloadImage } from "@/lib/generate-share-image";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -41,12 +37,20 @@ import { PLANS } from "@/lib/plans";
 type Persona = "cinico" | "solerte" | "avvocato";
 type PlanDetails = (typeof PLANS)["FREE"];
 
-export default function DecoderClient({ plan }: { plan: PlanDetails }) {
+const ADMIN_USER_ID = "user_36O6XglFzqJIEcBuL9wH0Uooi1Z";
+
+export default function DecoderClient({
+  plan,
+  userId,
+}: {
+  plan: PlanDetails;
+  userId: string;
+}) {
+  const isAdmin = userId === ADMIN_USER_ID;
   const [input, setInput] = useState("");
   const [copied, setCopied] = useState(false);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [selectedPersona, setSelectedPersona] = useState<Persona>("cinico");
-  const [fileName, setFileName] = useState<string | null>(null);
-  const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
 
   const { object, submit, isLoading } = useObject({
     api: "/api/chat",
@@ -55,36 +59,39 @@ export default function DecoderClient({ plan }: { plan: PlanDetails }) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() && !base64Image) return;
-    submit({ prompt: input, persona: selectedPersona, image: base64Image });
-  };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setFileName(file.name);
-
-      // Convert file to Base64
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        setBase64Image(base64String);
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!input.trim()) return;
+    submit({ prompt: input, persona: selectedPersona });
   };
 
   const handleShare = async () => {
-    const shareText =
-      "Condividi con qualcuno che non capisce un ca**o: " +
-      window.location.href;
+    if (!object) return;
 
+    setIsGeneratingImage(true);
     try {
-      await navigator.clipboard.writeText(shareText);
+      // Generate the branded image with all response data
+      const imageBlob = await generateShareImage({
+        prompt: input,
+        laVerita: object.la_verita || "In analisi...",
+        livelloDiRischio: object.livello_di_rischio || "MEDIO",
+        cosaDeviFare: object.cosa_devi_fare || "Attendi l'analisi completa...",
+        notaDelBurocrate:
+          object.nota_del_burocrate || "Elaborazione in corso...",
+        persona:
+          personas.find((p) => p.id === selectedPersona)?.name ||
+          "Il Decodificatore",
+      });
+
+      // Download the image
+      const timestamp = new Date().toISOString().split("T")[0];
+      downloadImage(imageBlob, `bur0-decodifica-${timestamp}.png`);
+
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 3000);
     } catch (err) {
-      console.error("Clipboard failed:", err);
+      console.error("Image generation failed:", err);
+      alert("Errore nella generazione dell'immagine. Riprova.");
+    } finally {
+      setIsGeneratingImage(false);
     }
   };
 
@@ -158,12 +165,21 @@ export default function DecoderClient({ plan }: { plan: PlanDetails }) {
               Noi la distruggiamo.
             </span>
           </p>
+          {/* Disclaimer Banner */}
+          <div className="bg-red-100 border-2 border-red-600 p-3 text-sm font-bold max-w-lg mx-auto">
+            <span className="text-red-600">⚠️ NON È CONSULENZA LEGALE</span> •{" "}
+            <Link href="/disclaimer" className="underline hover:text-red-800">
+              Leggi il disclaimer completo
+            </Link>
+          </div>
         </div>
 
         {/* Persona Selector */}
         <div className="grid grid-cols-3 gap-4">
           {personas.map((p) => {
-            const isLocked = !p.requiredPlan.includes(plan.id);
+            const isLocked = isAdmin
+              ? false
+              : !p.requiredPlan.includes(plan.id);
             return (
               <button
                 key={p.id}
@@ -206,61 +222,11 @@ export default function DecoderClient({ plan }: { plan: PlanDetails }) {
               className="w-full min-h-[150px] p-6 border-4 border-black bg-white focus:outline-none focus:ring-4 focus:ring-yellow-300 resize-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-lg font-bold placeholder:text-gray-400"
               disabled={isLoading}
             />
-
-            {/* File Upload Overlay / Button */}
-            <div className="absolute bottom-4 right-4">
-              {plan.limits.ocrEnabled ? (
-                <label className="cursor-pointer bg-white hover:bg-gray-100 text-black px-3 py-2 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-2 text-xs font-black uppercase">
-                  <Upload className="w-4 h-4" />
-                  {fileName ? "Cambia File" : "Carica PDF/Foto"}
-                  <input
-                    type="file"
-                    className="hidden"
-                    onChange={handleFileUpload}
-                    accept="image/*,.pdf"
-                  />
-                </label>
-              ) : (
-                <div className="group relative">
-                  <button
-                    type="button"
-                    disabled
-                    className="cursor-not-allowed bg-gray-200 text-gray-500 px-3 py-2 border-2 border-gray-400 flex items-center gap-2 text-xs font-black uppercase"
-                  >
-                    <Lock className="w-4 h-4" />
-                    Carica PDF/Foto
-                  </button>
-                  <div className="absolute bottom-full right-0 mb-2 w-48 bg-black text-white text-xs p-2 font-bold uppercase hidden group-hover:block border-2 border-white shadow-lg z-10">
-                    Funzione riservata ai Senatori. Paga.
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
-
-          {fileName && (
-            <div className="flex items-center justify-between bg-blue-100 text-black px-4 py-2 border-2 border-black font-bold">
-              <span className="flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                {fileName}
-              </span>
-              <button
-                type="button"
-                onClick={() => {
-                  setFileName(null);
-                  setBase64Image(undefined);
-                  // Don't clear input here, user might want to keep their text
-                }}
-                className="hover:bg-red-500 hover:text-white p-1 border-2 border-transparent hover:border-black transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-          )}
 
           <button
             type="submit"
-            disabled={isLoading || (!input.trim() && !base64Image)}
+            disabled={isLoading || !input.trim()}
             className="w-full py-4 bg-black text-white font-black text-xl uppercase tracking-widest border-4 border-black shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:bg-gray-800 hover:-translate-y-1 hover:shadow-[10px_10px_0px_0px_rgba(255,255,255,1)] active:translate-y-0 active:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
           >
             {isLoading ? (
@@ -344,17 +310,47 @@ export default function DecoderClient({ plan }: { plan: PlanDetails }) {
               </div>
             </div>
 
+            {/* Disclaimer Notice */}
+            <div className="bg-yellow-50 border-4 border-yellow-400 p-6 space-y-2">
+              <p className="font-black text-sm uppercase flex items-center gap-2">
+                <AlertTriangle className="w-5 h-5" />
+                IMPORTANTE: Questa è una TRADUZIONE AI
+              </p>
+              <p className="text-sm leading-relaxed">
+                Le informazioni fornite sono indicative e potrebbero contenere
+                errori. Per decisioni legali o fiscali importanti,{" "}
+                <strong>consulta SEMPRE un professionista qualificato</strong>.
+              </p>
+              <Link
+                href="/disclaimer"
+                className="text-sm font-bold underline hover:text-yellow-800 inline-block"
+              >
+                → Leggi il disclaimer completo
+              </Link>
+            </div>
+
             {/* Share Button */}
             <button
               onClick={handleShare}
-              className="w-full bg-white text-black py-4 font-black text-xl uppercase border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-300 hover:-translate-y-1 hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-3"
+              disabled={isGeneratingImage}
+              className="w-full bg-white text-black py-4 font-black text-xl uppercase border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-300 hover:-translate-y-1 hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {copied ? (
-                <Check className="w-6 h-6" />
+              {isGeneratingImage ? (
+                <>
+                  <Loader2 className="w-6 h-6 animate-spin" />
+                  GENERANDO IMMAGINE...
+                </>
+              ) : copied ? (
+                <>
+                  <Check className="w-6 h-6" />
+                  IMMAGINE SCARICATA!
+                </>
               ) : (
-                <Share2 className="w-6 h-6" />
+                <>
+                  <Download className="w-6 h-6" />
+                  SCARICA COME IMMAGINE
+                </>
               )}
-              {copied ? "LINK COPIATO!" : "CONDIVIDI QUESTA FOLLIA"}
             </button>
           </div>
         )}
