@@ -7,10 +7,7 @@ export async function DELETE(req: Request) {
     const user = await currentUser();
 
     if (!user) {
-      return NextResponse.json(
-        { error: "Non autorizzato" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Non autorizzato" }, { status: 401 });
     }
 
     const { searchParams } = new URL(req.url);
@@ -30,10 +27,7 @@ export async function DELETE(req: Request) {
     }
 
     if (!id) {
-      return NextResponse.json(
-        { error: "ID mancante" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "ID mancante" }, { status: 400 });
     }
 
     // Verify ownership before deleting

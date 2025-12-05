@@ -145,11 +145,11 @@ export default function DecoderClient({
   return (
     <div className="min-h-screen bg-[#f0f0f0] text-black font-mono p-4 md:p-8 pt-24 md:pt-32 relative overflow-hidden">
       {/* Background Texture */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
+      <div className="absolute inset-0 opacity-5 pointer-events-none overflow-hidden">
         <FileText
-          size={400}
-          strokeWidth={0.5}
-          className="absolute -top-20 -right-20"
+          size={600}
+          strokeWidth={0.3}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
       </div>
 
