@@ -25,8 +25,16 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Bur0 - Decodifica la Burocrazia",
-  description: "Traduci la burocrazia in verità. Incolla documenti burocratici incomprensibili e ottieni spiegazioni in italiano brutale.",
-  keywords: ["burocrazia", "documenti", "decodifica", "AI", "Italia", "semplificazione"],
+  description:
+    "Traduci la burocrazia in verità. Incolla documenti burocratici incomprensibili e ottieni spiegazioni in italiano brutale.",
+  keywords: [
+    "burocrazia",
+    "documenti",
+    "decodifica",
+    "AI",
+    "Italia",
+    "semplificazione",
+  ],
   authors: [{ name: "Bur0" }],
   icons: {
     icon: [
@@ -41,7 +49,8 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
   openGraph: {
     title: "Bur0 - Decodifica la Burocrazia",
-    description: "Traduci documenti burocratici incomprensibili in italiano brutale con l'AI.",
+    description:
+      "Traduci documenti burocratici incomprensibili in italiano brutale con l'AI.",
     url: "https://www.bur0.click",
     siteName: "Bur0",
     images: [
@@ -58,7 +67,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Bur0 - Decodifica la Burocrazia",
-    description: "Traduci documenti burocratici incomprensibili in italiano brutale con l'AI.",
+    description:
+      "Traduci documenti burocratici incomprensibili in italiano brutale con l'AI.",
     images: ["/og-image.png"], // Placeholder - add your OG image here
   },
 };
