@@ -1,12 +1,15 @@
 # 🚨 CRITICAL VERCEL ENVIRONMENT VARIABLES CHECKLIST
 
 ## The Problem
+
 Your production app is failing with 500 errors because:
+
 1. ❌ Database connection failing (Prisma configuration was wrong)
 2. ❌ Missing environment variables in Vercel
 3. ❌ Clerk authentication not properly configured
 
 ## ✅ FIXED IN CODE (Commit `6084bd3`)
+
 - ✅ Prisma v7 configuration corrected
 - ✅ Database client now uses `datasourceUrl` for Accelerate
 - ✅ Schema.prisma cleaned up (removed `url` - now in prisma.config.ts)
@@ -56,7 +59,7 @@ NEXT_PUBLIC_URL=https://www.bur0.click
 
 1. **Deployments** tab → Click your latest deployment
 2. Click **"Redeploy"** button
-3. ✅ Check "Use existing build cache" 
+3. ✅ Check "Use existing build cache"
 4. Click **"Redeploy"**
 5. Wait 1-2 minutes for deployment to complete
 
@@ -65,17 +68,20 @@ NEXT_PUBLIC_URL=https://www.bur0.click
 ## 🔍 HOW TO VERIFY IT'S WORKING:
 
 ### Test 1: Database Connection
+
 - Go to `https://www.bur0.click/dashboard`
 - If you see referral stats → ✅ Database working
 - If you see 500 error → ❌ Check PRISMA_DATABASE_URL in Vercel
 
 ### Test 2: Stripe Checkout
+
 - Go to `https://www.bur0.click/dashboard`
 - Click any "ABBONATI" button
 - Should redirect to Stripe checkout → ✅ Working
 - If 500 error → ❌ Check STRIPE_SECRET_KEY in Vercel
 
 ### Test 3: Google OAuth
+
 - Go to `https://www.bur0.click/sign-in`
 - Click "Continue with Google"
 - If it works → ✅ OAuth configured
@@ -86,6 +92,7 @@ NEXT_PUBLIC_URL=https://www.bur0.click
 ## 🆘 IF STILL BROKEN AFTER REDEPLOY:
 
 ### Check Vercel Logs:
+
 1. Go to **Deployments** → Click your deployment
 2. Click **"Functions"** tab
 3. Find the failing API route (e.g., `/api/checkout`)
