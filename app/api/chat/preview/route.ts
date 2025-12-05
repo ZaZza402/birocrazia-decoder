@@ -94,11 +94,11 @@ export async function POST(req: Request) {
 
   const selectedSystemPrompt = personas[persona] || personas.cinico;
 
-  const userContent: Array<{ type: string; text?: string; image?: string }> = [
-    { type: "text", text: prompt },
+  const userContent: Array<{ type: "text"; text: string } | { type: "image"; image: string }> = [
+    { type: "text" as const, text: prompt },
   ];
   if (image) {
-    userContent.push({ type: "image", image: image });
+    userContent.push({ type: "image" as const, image: image });
   }
 
   // 4. Call Gemini
