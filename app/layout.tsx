@@ -10,6 +10,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { Suspense } from "react";
 import TopLoader from "./components/top-loader";
 
 const geistSans = Geist({
@@ -38,7 +39,9 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
         >
-          <TopLoader />
+          <Suspense fallback={null}>
+            <TopLoader />
+          </Suspense>
           <header className="fixed top-0 right-0 p-4 z-50">
             <SignedOut>
               <div className="flex gap-2">

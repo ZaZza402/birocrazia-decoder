@@ -11,6 +11,7 @@ import {
   MessageSquareQuote,
   FileText,
 } from "lucide-react";
+import { DeleteHistoryButton } from "@/app/components/delete-history";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -78,13 +79,16 @@ export default async function HistoryDetailPage({
                 Dettaglio Decodifica
               </h1>
             </div>
-            <div
-              className={cn(
-                "px-4 py-2 font-black text-lg uppercase border-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]",
-                getRiskColor(response.livello_di_rischio)
-              )}
-            >
-              Rischio: {response.livello_di_rischio}
+            <div className="flex flex-col gap-3 items-end">
+              <div
+                className={cn(
+                  "px-4 py-2 font-black text-lg uppercase border-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]",
+                  getRiskColor(response.livello_di_rischio)
+                )}
+              >
+                Rischio: {response.livello_di_rischio}
+              </div>
+              <DeleteHistoryButton id={item.id} />
             </div>
           </div>
 

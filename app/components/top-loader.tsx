@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function TopLoader() {
   const pathname = usePathname();
@@ -10,26 +11,32 @@ export default function TopLoader() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Start loading
+    // Reset on route change start
     setIsLoading(true);
-    setProgress(10);
+    setProgress(20);
 
-    // Simulate progress
-    const timer1 = setTimeout(() => setProgress(30), 100);
-    const timer2 = setTimeout(() => setProgress(60), 300);
-    const timer3 = setTimeout(() => setProgress(90), 600);
+    // Progressive loading simulation
+    const timer1 = setTimeout(() => setProgress(40), 150);
+    const timer2 = setTimeout(() => setProgress(70), 400);
+    const timer3 = setTimeout(() => setProgress(85), 700);
 
-    // Complete loading
-    const completeTimer = setTimeout(() => {
+    // Listen for page load complete
+    const handleLoad = () => {
       setProgress(100);
-      setTimeout(() => setIsLoading(false), 200);
-    }, 800);
+      setTimeout(() => {
+        setIsLoading(false);
+        setProgress(0);
+      }, 300);
+    };
+
+    // Complete on mount (simulates page ready)
+    const readyTimer = setTimeout(handleLoad, 1000);
 
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
-      clearTimeout(completeTimer);
+      clearTimeout(readyTimer);
     };
   }, [pathname, searchParams]);
 
@@ -37,11 +44,11 @@ export default function TopLoader() {
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 z-[9999] h-1 bg-black/10"
-      style={{ opacity: isLoading ? 1 : 0, transition: "opacity 0.2s" }}
+      className="fixed top-0 left-0 right-0 z-[9999] h-1.5 bg-black/10"
+      style={{ opacity: isLoading ? 1 : 0, transition: "opacity 0.3s" }}
     >
       <div
-        className="h-full bg-yellow-400 border-r-2 border-black shadow-[2px_0px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ease-out"
+        className="h-full bg-yellow-400 border-r-2 border-black shadow-[2px_0px_0px_0px_rgba(0,0,0,1)] transition-all duration-500 ease-out"
         style={{
           width: `${progress}%`,
         }}
