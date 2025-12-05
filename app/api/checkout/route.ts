@@ -3,9 +3,14 @@ import { currentUser } from "@clerk/nextjs/server";
 import Stripe from "stripe";
 import prisma from "@/lib/db";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-11-17.clover",
-});
+function getStripe() {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error("STRIPE_SECRET_KEY non configurata");
+  }
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2025-11-17.clover",
+  });
+}
 
 export async function POST(req: Request) {
   try {
@@ -26,6 +31,8 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+
+    const stripe = getStripe();
 
     // Ensure user exists in database
     await prisma.user.upsert({

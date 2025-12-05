@@ -3,13 +3,26 @@ import Stripe from "stripe";
 import prisma from "@/lib/db";
 import { ONE_TIME_CREDITS } from "@/lib/plans";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-11-17.clover",
-});
-
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+function getStripe() {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error("STRIPE_SECRET_KEY non configurata");
+  }
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2025-11-17.clover",
+  });
+}
 
 export async function POST(req: Request) {
+  const stripe = getStripe();
+  
+  if (!process.env.STRIPE_WEBHOOK_SECRET) {
+    return NextResponse.json(
+      { error: "Webhook secret non configurato" },
+      { status: 500 }
+    );
+  }
+  
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   const body = await req.text();
   const signature = req.headers.get("stripe-signature");
 
