@@ -19,11 +19,8 @@ export default function LandingPage() {
             </span>
           </h1>
           <p className="text-xl md:text-2xl font-medium text-gray-600 max-w-2xl mx-auto mb-6 leading-relaxed">
-            <span
-              className="font-black italic text-yellow-400 tracking-widest"
-              style={{ WebkitTextStroke: "1.5px black" }}
-            >
-              Bur0
+            <span className="inline-block bg-yellow-400 text-black font-black px-3 py-1 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transform -rotate-1 uppercase tracking-wider">
+              BUR0
             </span>{" "}
             traduce il legalese in italiano brutale. Incolla il testo di quella
             lettera dell'Agenzia delle Entrate e scopri se devi scappare in

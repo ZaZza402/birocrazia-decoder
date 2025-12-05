@@ -25,10 +25,10 @@ export default async function DashboardPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#f0f0f0] p-8 pt-24 font-mono text-black">
+    <div className="min-h-screen bg-[#f0f0f0] p-4 sm:p-6 md:p-8 pt-20 md:pt-24 font-mono text-black">
       <div className="max-w-5xl mx-auto">
-        <header className="flex justify-between items-center mb-12 border-b-4 border-black pb-4">
-          <h1 className="text-4xl font-black uppercase tracking-tighter">
+        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 md:mb-12 border-b-4 border-black pb-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tighter">
             Area Riservata
           </h1>
           <div className="flex items-center gap-4">
@@ -41,14 +41,14 @@ export default async function DashboardPage() {
           </div>
         </header>
 
-        <main className="grid md:grid-cols-3 gap-8">
+        <main className="grid md:grid-cols-3 gap-4 md:gap-8">
           {/* Main Action Card */}
-          <section className="md:col-span-2 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8 flex flex-col justify-between">
+          <section className="md:col-span-2 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-4 sm:p-6 md:p-8 flex flex-col justify-between">
             <div>
-              <h2 className="text-3xl font-black mb-4 bg-yellow-300 inline-block px-2 border-2 border-black uppercase">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-black mb-4 bg-yellow-300 inline-block px-2 border-2 border-black uppercase">
                 Nuova Decodifica
               </h2>
-              <p className="text-lg mb-8">
+              <p className="text-base sm:text-lg mb-6 md:mb-8">
                 Hai ricevuto una lettera minatoria? Un modulo incomprensibile?
                 Dallo in pasto all'AI.
               </p>
@@ -63,8 +63,8 @@ export default async function DashboardPage() {
           </section>
 
           {/* User Profile & Plan */}
-          <section className="bg-[#ff90e8] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8">
-            <h2 className="text-xl font-bold mb-4 bg-white inline-block px-2 border-2 border-black uppercase">
+          <section className="bg-[#ff90e8] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-4 sm:p-6 md:p-8">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 bg-white inline-block px-2 border-2 border-black uppercase break-words max-w-full">
               Il tuo Stato
             </h2>
             <div className="space-y-4 mb-8">
@@ -114,8 +114,8 @@ export default async function DashboardPage() {
 
           {/* History */}
           <section className="md:col-span-3 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-black uppercase bg-cyan-300 px-2 border-2 border-black inline-block">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-black uppercase bg-cyan-300 px-2 border-2 border-black inline-block">
                 Cronologia Recente
               </h2>
               <div className="flex items-center gap-3">
