@@ -35,7 +35,7 @@ const schema = z.object({
 import { PLANS } from "@/lib/plans";
 
 type Persona = "cinico" | "solerte" | "avvocato";
-type PlanDetails = (typeof PLANS)["FREE"];
+type PlanDetails = (typeof PLANS)[keyof typeof PLANS];
 
 const ADMIN_USER_ID = "user_36O6XglFzqJIEcBuL9wH0Uooi1Z";
 
