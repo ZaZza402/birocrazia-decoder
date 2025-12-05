@@ -19,6 +19,7 @@ import {
   FileText,
   Upload,
   X,
+  Lock,
 } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -35,15 +36,17 @@ const schema = z.object({
   nota_del_burocrate: z.string(),
 });
 
-import { Plan } from "@/lib/plans";
+import { PLANS } from "@/lib/plans";
 
 type Persona = "cinico" | "solerte" | "avvocato";
+type PlanDetails = (typeof PLANS)["FREE"];
 
-export default function DecoderClient({ plan }: { plan: Plan }) {
+export default function DecoderClient({ plan }: { plan: PlanDetails }) {
   const [input, setInput] = useState("");
   const [copied, setCopied] = useState(false);
   const [selectedPersona, setSelectedPersona] = useState<Persona>("cinico");
   const [fileName, setFileName] = useState<string | null>(null);
+  const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
 
   const { object, submit, isLoading } = useObject({
     api: "/api/chat",
@@ -52,21 +55,22 @@ export default function DecoderClient({ plan }: { plan: Plan }) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
-    submit({ prompt: input, persona: selectedPersona });
+    if (!input.trim() && !base64Image) return;
+    submit({ prompt: input, persona: selectedPersona, image: base64Image });
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setFileName(file.name);
-      // Mock OCR: In a real app, you'd upload this file to your API
-      // and get the text back. For now, we simulate it.
-      setInput(
-        (prev) =>
-          prev +
-          `\n[FILE CARICATO: ${file.name} - Contenuto simulato del documento...]`
-      );
+
+      // Convert file to Base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setBase64Image(base64String);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -159,7 +163,7 @@ export default function DecoderClient({ plan }: { plan: Plan }) {
         {/* Persona Selector */}
         <div className="grid grid-cols-3 gap-4">
           {personas.map((p) => {
-            const isLocked = !p.requiredPlan.includes(plan);
+            const isLocked = !p.requiredPlan.includes(plan.id);
             return (
               <button
                 key={p.id}
@@ -205,16 +209,32 @@ export default function DecoderClient({ plan }: { plan: Plan }) {
 
             {/* File Upload Overlay / Button */}
             <div className="absolute bottom-4 right-4">
-              <label className="cursor-pointer bg-white hover:bg-gray-100 text-black px-3 py-2 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-2 text-xs font-black uppercase">
-                <Upload className="w-4 h-4" />
-                {fileName ? "Cambia File" : "Carica PDF/Foto"}
-                <input
-                  type="file"
-                  className="hidden"
-                  onChange={handleFileUpload}
-                  accept="image/*,.pdf"
-                />
-              </label>
+              {plan.limits.ocrEnabled ? (
+                <label className="cursor-pointer bg-white hover:bg-gray-100 text-black px-3 py-2 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-2 text-xs font-black uppercase">
+                  <Upload className="w-4 h-4" />
+                  {fileName ? "Cambia File" : "Carica PDF/Foto"}
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                    accept="image/*,.pdf"
+                  />
+                </label>
+              ) : (
+                <div className="group relative">
+                  <button
+                    type="button"
+                    disabled
+                    className="cursor-not-allowed bg-gray-200 text-gray-500 px-3 py-2 border-2 border-gray-400 flex items-center gap-2 text-xs font-black uppercase"
+                  >
+                    <Lock className="w-4 h-4" />
+                    Carica PDF/Foto
+                  </button>
+                  <div className="absolute bottom-full right-0 mb-2 w-48 bg-black text-white text-xs p-2 font-bold uppercase hidden group-hover:block border-2 border-white shadow-lg z-10">
+                    Funzione riservata ai Senatori. Paga.
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -228,7 +248,8 @@ export default function DecoderClient({ plan }: { plan: Plan }) {
                 type="button"
                 onClick={() => {
                   setFileName(null);
-                  setInput("");
+                  setBase64Image(undefined);
+                  // Don't clear input here, user might want to keep their text
                 }}
                 className="hover:bg-red-500 hover:text-white p-1 border-2 border-transparent hover:border-black transition-colors"
               >
@@ -239,7 +260,7 @@ export default function DecoderClient({ plan }: { plan: Plan }) {
 
           <button
             type="submit"
-            disabled={isLoading || !input.trim()}
+            disabled={isLoading || (!input.trim() && !base64Image)}
             className="w-full py-4 bg-black text-white font-black text-xl uppercase tracking-widest border-4 border-black shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:bg-gray-800 hover:-translate-y-1 hover:shadow-[10px_10px_0px_0px_rgba(255,255,255,1)] active:translate-y-0 active:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
           >
             {isLoading ? (
@@ -291,7 +312,7 @@ export default function DecoderClient({ plan }: { plan: Plan }) {
                       LA VERITÀ
                     </span>
                   </div>
-                  <h2 className="text-2xl md:text-3xl font-black text-black leading-tight uppercase">
+                  <h2 className="text-lg md:text-xl font-mono text-black leading-relaxed">
                     {object.la_verita}
                   </h2>
                 </div>
@@ -301,7 +322,7 @@ export default function DecoderClient({ plan }: { plan: Plan }) {
                   <div className="absolute -top-4 -left-4 bg-black text-white px-3 py-1 font-black uppercase border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                     Cosa devi fare
                   </div>
-                  <p className="text-xl font-bold text-black leading-relaxed mt-2">
+                  <p className="text-lg font-mono text-black leading-relaxed mt-2">
                     {object.cosa_devi_fare}
                   </p>
                 </div>

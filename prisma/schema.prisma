@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id // This will be the Clerk User ID (e.g., user_2p...)
+  email     String   @unique
+  plan      String   @default("FREE") // FREE, STARTER, PRO
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  decodes   DecodeHistory[]
+}
+
+model DecodeHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  prompt    String   @db.Text
+  image     String?  @db.Text // Base64 image if provided
+  persona   String
+  response  Json     // Stores the full JSON response (la_verita, cosa_devi_fare, etc.)
+  
+  createdAt DateTime @default(now())
+}

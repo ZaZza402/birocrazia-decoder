@@ -2,15 +2,23 @@ import { UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { getUserPlan, PLANS } from "@/lib/plans";
-import { ArrowRight, Lock, Zap } from "lucide-react";
+import prisma from "@/lib/db";
+import { ArrowRight, Lock, Zap, FileText, Calendar } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
   const user = await currentUser();
 
-  if (!user) return <div>Non sei autorizzato. Vattene.</div>;
+  if (!user) redirect("/sign-in");
 
   const planType = await getUserPlan(user.id);
   const plan = PLANS[planType];
+
+  const history = await prisma.decodeHistory.findMany({
+    where: { userId: user.id },
+    orderBy: { createdAt: "desc" },
+    take: 5,
+  });
 
   return (
     <div className="min-h-screen bg-[#f0f0f0] p-8 pt-24 font-mono text-black">
@@ -87,17 +95,46 @@ export default async function DashboardPage() {
             )}
           </section>
 
-          {/* History (Placeholder) */}
-          <section className="md:col-span-3 bg-gray-200 border-4 border-black/20 p-8 opacity-75">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-500 uppercase">
-                Cronologia (Presto)
+          {/* History */}
+          <section className="md:col-span-3 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-black uppercase bg-cyan-300 px-2 border-2 border-black inline-block">
+                Cronologia Recente
               </h2>
-              <Lock className="w-6 h-6 text-gray-500" />
+              <FileText className="w-6 h-6" />
             </div>
-            <div className="h-32 flex items-center justify-center border-2 border-dashed border-gray-400 text-gray-500 font-bold">
-              NESSUNA DECODIFICA SALVATA
-            </div>
+
+            {history.length === 0 ? (
+              <div className="h-32 flex items-center justify-center border-2 border-dashed border-black/20 text-gray-500 font-bold">
+                ANCORA NESSUNA VITTIMA (DECODIFICA)
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {history.map((item) => (
+                  <Link
+                    href={`/dashboard/history/${item.id}`}
+                    key={item.id}
+                    className="block border-2 border-black p-4 hover:bg-yellow-100 transition-all hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="font-bold uppercase text-sm bg-black text-white px-2 py-0.5">
+                        {item.persona}
+                      </div>
+                      <div className="text-xs font-mono text-gray-500 flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {item.createdAt.toLocaleDateString("it-IT")}
+                      </div>
+                    </div>
+                    <p className="font-mono text-sm line-clamp-2 mb-2 font-bold">
+                      {item.prompt}
+                    </p>
+                    <div className="text-xs text-gray-600 line-clamp-1 italic">
+                      &quot;{(item.response as any)?.la_verita || "..."}&quot;
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </section>
         </main>
       </div>

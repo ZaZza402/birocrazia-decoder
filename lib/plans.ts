@@ -15,18 +15,18 @@ export const PLANS = {
   STARTER: {
     id: "STARTER",
     name: "Senatore (Corrotto)",
-    price: 5.99,
+    price: 4.99,
     limits: {
       monthlyDecodes: 30,
       ocrEnabled: true,
-      historyEnabled: false,
+      historyEnabled: true,
       storageEnabled: false, // Temporary storage only
     },
   },
   PRO: {
     id: "PRO",
     name: "Imperatore (Intoccabile)",
-    price: 15.99,
+    price: 9.99,
     limits: {
       monthlyDecodes: Infinity,
       ocrEnabled: true,

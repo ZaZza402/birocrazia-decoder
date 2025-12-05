@@ -6,6 +6,7 @@ import {
   Zap,
   XCircle,
 } from "lucide-react";
+import LandingDecoder from "./components/landing-decoder";
 
 export default function LandingPage() {
   return (
@@ -27,7 +28,7 @@ export default function LandingPage() {
             legalese in italiano brutale. Carica la foto di quella lettera
             dell'Agenzia delle Entrate e scopri se devi scappare in Messico.
           </p>
-          <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-16">
             <Link
               href="/dashboard"
               className="bg-black text-white px-8 py-4 text-xl font-black uppercase tracking-wide hover:bg-gray-800 transition-all shadow-[8px_8px_0px_0px_rgba(253,224,71,1)] hover:translate-y-1 hover:shadow-none border-2 border-black flex items-center gap-2"
@@ -40,6 +41,11 @@ export default function LandingPage() {
             >
               Vedi Prezzi
             </Link>
+          </div>
+
+          {/* Live Preview Section */}
+          <div className="relative z-20">
+            <LandingDecoder />
           </div>
         </div>
 
@@ -129,7 +135,7 @@ export default function LandingPage() {
                 Senatore
               </h3>
               <div className="text-4xl font-black mb-6">
-                €5.99<span className="text-xl">/mese</span>
+                €4.99<span className="text-xl">/mese</span>
               </div>
               <ul className="space-y-4 mb-8 font-bold text-sm">
                 <li className="flex items-center gap-2">
@@ -154,7 +160,7 @@ export default function LandingPage() {
                 </li>
               </ul>
               <button className="block w-full bg-white text-black text-center py-4 font-black uppercase border-2 border-black hover:bg-gray-200 transition-colors">
-                Scegli Senatore
+                Scegli Senatore (Corrompi)
               </button>
             </div>
 
@@ -162,7 +168,7 @@ export default function LandingPage() {
             <div className="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
               <h3 className="text-2xl font-black uppercase mb-2">Imperatore</h3>
               <div className="text-4xl font-black mb-6">
-                €15.99<span className="text-xl">/mese</span>
+                €9.99<span className="text-xl">/mese</span>
               </div>
               <ul className="space-y-4 mb-8 font-bold text-sm">
                 <li className="flex items-center gap-2">
@@ -173,8 +179,8 @@ export default function LandingPage() {
                   <CheckCircle className="w-5 h-5" /> Decodifiche ILLIMITATE
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5" /> Persona: Avvocato (Analisi
-                  Legale)
+                  <CheckCircle className="w-5 h-5" /> Persona: Avvocato
+                  (Paranoia Legale)
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5" /> Upload PDF & Foto
