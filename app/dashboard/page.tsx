@@ -5,6 +5,7 @@ import { getUserPlan, PLANS } from "@/lib/plans";
 import prisma from "@/lib/db";
 import { ArrowRight, Lock, Zap, FileText, Calendar } from "lucide-react";
 import { redirect } from "next/navigation";
+import { DecodeHistory } from "@prisma/client";
 
 export default async function DashboardPage() {
   const user = await currentUser();
@@ -110,7 +111,7 @@ export default async function DashboardPage() {
               </div>
             ) : (
               <div className="space-y-4">
-                {history.map((item) => (
+                {history.map((item: DecodeHistory) => (
                   <Link
                     href={`/dashboard/history/${item.id}`}
                     key={item.id}

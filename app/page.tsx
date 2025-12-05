@@ -24,9 +24,15 @@ export default function LandingPage() {
             </span>
           </h1>
           <p className="text-xl md:text-2xl font-medium text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed">
-            <span className="font-bold text-black">Biro Dec</span> traduce il
-            legalese in italiano brutale. Carica la foto di quella lettera
-            dell'Agenzia delle Entrate e scopri se devi scappare in Messico.
+            <span
+              className="font-black italic text-yellow-400 tracking-widest"
+              style={{ WebkitTextStroke: "1.5px black" }}
+            >
+              Bur0
+            </span>{" "}
+            traduce il legalese in italiano brutale. Carica la foto di quella
+            lettera dell'Agenzia delle Entrate e scopri se devi scappare in
+            Messico.
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-16">
             <Link
@@ -202,9 +208,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="bg-black text-white py-12 text-center border-t-4 border-yellow-300">
-        <p className="font-bold uppercase tracking-widest mb-4">
-          Biro Dec © 2025
-        </p>
+        <p className="font-bold uppercase tracking-widest mb-4">Bur0 © 2025</p>
         <p className="text-gray-500 text-sm max-w-md mx-auto">
           Non siamo avvocati. Se finisci in galera è colpa tua. Questo sito usa
           AI e potrebbe dire cazzate.

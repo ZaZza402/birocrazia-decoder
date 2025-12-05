@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Biro Dec",
+  title: "Bur0",
   description: "Traduci la burocrazia in verità.",
 };
 

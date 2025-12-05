@@ -1,4 +1,4 @@
-# 💳 Stripe Integration Guide for Biro Dec
+# 💳 Stripe Integration Guide for Bur0
 
 This guide explains how to integrate Stripe payments into your Next.js application to support the "Senatore" and "Imperatore" plans.
 
