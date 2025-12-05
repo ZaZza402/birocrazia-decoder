@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import { DecodeHistory } from "@prisma/client";
 import ReferralCard from "../components/referral-card";
 import UsageCard from "../components/usage-card";
+import { DeleteAllHistoryButton } from "../components/delete-history";
 
 export default async function DashboardPage() {
   const user = await currentUser();
@@ -117,7 +118,10 @@ export default async function DashboardPage() {
               <h2 className="text-2xl font-black uppercase bg-cyan-300 px-2 border-2 border-black inline-block">
                 Cronologia Recente
               </h2>
-              <FileText className="w-6 h-6" />
+              <div className="flex items-center gap-3">
+                {history.length > 0 && <DeleteAllHistoryButton />}
+                <FileText className="w-6 h-6" />
+              </div>
             </div>
 
             {history.length === 0 ? (
