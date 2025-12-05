@@ -2,10 +2,12 @@ import Link from "next/link";
 import { ArrowRight, ShieldAlert, Zap, CheckCircle } from "lucide-react";
 import LandingDecoder from "./components/landing-decoder";
 import PricingSection from "./components/pricing-section";
+import InstallButton from "./components/install-button";
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#f0f0f0] font-sans text-black selection:bg-yellow-300">
+      <InstallButton />
       {/* Hero Section */}
       <header className="relative pt-32 pb-20 px-6 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center relative z-10">
