@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prismaClientSingleton = () => {
   return new PrismaClient({
-    accelerateUrl: process.env.PRISMA_DATABASE_URL,
+    datasourceUrl: process.env.PRISMA_DATABASE_URL,
   });
 };
 
