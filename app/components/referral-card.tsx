@@ -147,7 +147,7 @@ export default function ReferralCard() {
             <button
               type="submit"
               disabled={applyLoading || !applyCode.trim()}
-              className="bg-black text-white px-6 py-2 font-bold border-2 border-black hover:bg-gray-800 transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none disabled:opacity-50 w-full sm:w-auto min-w-[80px] flex items-center justify-center"
+              className="bg-black text-white px-4 sm:px-6 py-2 font-bold border-2 border-black hover:bg-gray-800 transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none disabled:opacity-50 w-full sm:w-auto flex items-center justify-center flex-shrink-0"
             >
               {applyLoading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
