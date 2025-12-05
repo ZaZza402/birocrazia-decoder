@@ -3,7 +3,8 @@ import { streamObject } from "ai";
 import { z } from "zod";
 import { cookies } from "next/headers";
 import { currentUser } from "@clerk/nextjs/server";
-import { getUserPlan, PLANS } from "@/lib/plans";
+import { PLANS } from "@/lib/plans";
+import { getUserPlan, getUserUsage } from "@/lib/user-utils";
 import prisma from "@/lib/db";
 
 // Allow streaming responses up to 60 seconds (OCR might take a second longer)
@@ -21,8 +22,6 @@ export async function POST(req: Request) {
   const planType = await getUserPlan(user.id);
   const plan = PLANS[planType];
 
-  // Import getUserUsage at top of file
-  const { getUserUsage } = await import("@/lib/plans");
   const usage = await getUserUsage(user.id);
 
   // Check if user can decode

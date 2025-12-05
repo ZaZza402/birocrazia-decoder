@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
-import { getUserPlan, getUserUsage, PLANS } from "@/lib/plans";
+import { PLANS } from "@/lib/plans";
+import { getUserPlan, getUserUsage } from "@/lib/user-utils";
 
 export async function GET() {
   try {
