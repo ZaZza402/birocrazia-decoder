@@ -17,19 +17,24 @@ export async function POST(req: Request) {
     });
   }
 
-  // 1. Rate Limiting based on Plan
+  // 1. Rate Limiting based on Plan (Database-based)
   const planType = await getUserPlan(user.id);
   const plan = PLANS[planType];
-  const limit = plan.limits.monthlyDecodes;
 
-  const cookieName = `usage_limit_${user.id}`;
-  const cookieStore = await cookies();
-  const usageCount = parseInt(cookieStore.get(cookieName)?.value || "0", 10);
+  // Import getUserUsage at top of file
+  const { getUserUsage } = await import("@/lib/plans");
+  const usage = await getUserUsage(user.id);
 
-  // Check limits (unless unlimited)
-  if (limit !== Infinity && usageCount >= limit) {
+  // Check if user can decode
+  if (!usage.canDecode) {
     return new Response(
-      `Hai raggiunto il limite di ${limit} decodifiche per il tuo piano (${plan.name}). Fai l'upgrade per continuare.`,
+      `Hai raggiunto il limite di ${
+        usage.limit
+      } decodifiche per il tuo piano (${plan.name}). ${
+        usage.bonusCredits > 0
+          ? `Hai usato anche i tuoi ${usage.bonusCredits} crediti bonus.`
+          : "Acquista crediti extra o fai l'upgrade per continuare."
+      }`,
       { status: 429 }
     );
   }
@@ -164,24 +169,22 @@ export async function POST(req: Request) {
             response: object,
           },
         });
+
+        // Deduct bonus credit if user exceeded monthly limit
+        if (usage.used >= usage.limit && usage.bonusCredits > 0) {
+          await prisma.user.update({
+            where: { id: user.id },
+            data: {
+              bonusCredits: { decrement: 1 },
+            },
+          });
+        }
       } catch (error) {
         console.error("Failed to save history:", error);
       }
     },
   });
 
-  // 6. Handle Cookies & Response
-  const response = result.toTextStreamResponse();
-
-  // Update cookie usage count if not unlimited
-  if (limit !== Infinity) {
-    response.headers.set(
-      "Set-Cookie",
-      `${cookieName}=${
-        usageCount + 1
-      }; Path=/; Max-Age=2592000; SameSite=Strict` // Increased Max-Age to 30 days
-    );
-  }
-
-  return response;
+  // 6. Return streaming response
+  return result.toTextStreamResponse();
 }

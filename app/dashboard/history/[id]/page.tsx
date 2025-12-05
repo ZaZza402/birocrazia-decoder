@@ -102,7 +102,7 @@ export default async function HistoryDetailPage({
 
               {item.image && (
                 <div>
-                  <h3 className="font-black uppercase text-sm mb-2 bg-gray-200 inline-block px-2 flex items-center gap-2">
+                  <h3 className="font-black uppercase text-sm mb-2 bg-gray-200 px-2 flex items-center gap-2">
                     <FileText className="w-4 h-4" /> Documento Originale
                   </h3>
                   <div className="border-2 border-black p-2 bg-white">

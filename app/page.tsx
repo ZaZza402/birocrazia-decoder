@@ -1,12 +1,7 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  CheckCircle,
-  ShieldAlert,
-  Zap,
-  XCircle,
-} from "lucide-react";
+import { ArrowRight, ShieldAlert, Zap, CheckCircle } from "lucide-react";
 import LandingDecoder from "./components/landing-decoder";
+import PricingSection from "./components/pricing-section";
 
 export default function LandingPage() {
   return (
@@ -23,17 +18,24 @@ export default function LandingPage() {
               TI UCCIDE?
             </span>
           </h1>
-          <p className="text-xl md:text-2xl font-medium text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed">
+          <p className="text-xl md:text-2xl font-medium text-gray-600 max-w-2xl mx-auto mb-6 leading-relaxed">
             <span
               className="font-black italic text-yellow-400 tracking-widest"
               style={{ WebkitTextStroke: "1.5px black" }}
             >
               Bur0
             </span>{" "}
-            traduce il legalese in italiano brutale. Carica la foto di quella
+            traduce il legalese in italiano brutale. Incolla il testo di quella
             lettera dell'Agenzia delle Entrate e scopri se devi scappare in
             Messico.
           </p>
+          <div className="bg-red-500 text-white border-4 border-black p-4 max-w-2xl mx-auto mb-12 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <p className="font-bold text-sm md:text-base">
+              ⚠️ <strong>NON È CONSULENZA LEGALE</strong> • Questo strumento
+              traduce documenti burocratici, non sostituisce avvocati o
+              commercialisti.
+            </p>
+          </div>
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-16">
             <Link
               href="/dashboard"
@@ -97,122 +99,21 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20 px-6 bg-[#ff90e8]">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-5xl font-black text-center mb-16 uppercase tracking-tighter">
-            Scegli la tua pena
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8 items-start">
-            {/* Free Plan */}
-            <div className="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative">
-              <h3 className="text-2xl font-black uppercase mb-2">Cittadino</h3>
-              <div className="text-4xl font-black mb-6">
-                €0<span className="text-xl">/sempre</span>
-              </div>
-              <ul className="space-y-4 mb-8 font-bold text-sm">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5" /> 7 Decodifiche al MESE
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5" /> Persona: Cinico (Sintesi
-                  Brutale)
-                </li>
-                <li className="flex items-center gap-2 text-gray-400">
-                  <XCircle className="w-5 h-5" /> No Upload PDF (Solo Testo)
-                </li>
-                <li className="flex items-center gap-2 text-gray-400">
-                  <XCircle className="w-5 h-5" /> No Archivio Storico
-                </li>
-              </ul>
-              <Link
-                href="/dashboard"
-                className="block w-full bg-gray-200 text-black text-center py-4 font-black uppercase border-2 border-black hover:bg-gray-300 transition-colors"
-              >
-                Resta Povero
-              </Link>
-            </div>
-
-            {/* Starter Plan */}
-            <div className="bg-black text-white border-4 border-white p-8 shadow-[8px_8px_0px_0px_rgba(253,224,71,1)] transform md:-translate-y-4 relative">
-              <div className="absolute top-0 right-0 bg-yellow-300 text-black text-xs font-black px-2 py-1 uppercase border-b-2 border-l-2 border-black">
-                Popolare
-              </div>
-              <h3 className="text-2xl font-black uppercase mb-2 text-yellow-300">
-                Senatore
-              </h3>
-              <div className="text-4xl font-black mb-6">
-                €4.99<span className="text-xl">/mese</span>
-              </div>
-              <ul className="space-y-4 mb-8 font-bold text-sm">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-yellow-300" /> Tutto
-                  incluso in Cittadino più...
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-yellow-300" /> 30
-                  Decodifiche al MESE
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-yellow-300" /> Persona:
-                  Solerte (Azione Chiara)
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-yellow-300" /> Upload PDF
-                  & Foto
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-yellow-300" /> Archivio
-                  Storico
-                </li>
-              </ul>
-              <button className="block w-full bg-white text-black text-center py-4 font-black uppercase border-2 border-black hover:bg-gray-200 transition-colors">
-                Scegli Senatore (Corrompi)
-              </button>
-            </div>
-
-            {/* Pro Plan */}
-            <div className="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-              <h3 className="text-2xl font-black uppercase mb-2">Imperatore</h3>
-              <div className="text-4xl font-black mb-6">
-                €9.99<span className="text-xl">/mese</span>
-              </div>
-              <ul className="space-y-4 mb-8 font-bold text-sm">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5" /> Tutto incluso in Senatore
-                  più...
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5" /> Decodifiche ILLIMITATE
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5" /> Persona: Avvocato
-                  (Paranoia Legale)
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5" /> Upload PDF & Foto
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5" /> Archivio Storico
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5" /> Priorità Assoluta
-                </li>
-              </ul>
-              <button className="block w-full bg-black text-white text-center py-4 font-black uppercase border-2 border-black hover:bg-gray-800 transition-colors shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
-                Diventa Intoccabile
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PricingSection />
 
       {/* Footer */}
       <footer className="bg-black text-white py-12 text-center border-t-4 border-yellow-300">
         <p className="font-bold uppercase tracking-widest mb-4">Bur0 © 2025</p>
-        <p className="text-gray-500 text-sm max-w-md mx-auto">
+        <p className="text-gray-500 text-sm max-w-md mx-auto mb-4">
           Non siamo avvocati. Se finisci in galera è colpa tua. Questo sito usa
           AI e potrebbe dire cazzate.
         </p>
+        <Link
+          href="/disclaimer"
+          className="text-yellow-300 hover:text-yellow-400 font-bold text-sm underline"
+        >
+          Leggi il Disclaimer Completo
+        </Link>
       </footer>
     </div>
   );

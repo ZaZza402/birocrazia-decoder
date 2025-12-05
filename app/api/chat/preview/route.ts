@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     if (cookieValue) {
       usageData = JSON.parse(cookieValue);
     }
-  } catch (e) {
+  } catch {
     // If cookie is malformed, reset
   }
 
@@ -94,7 +94,9 @@ export async function POST(req: Request) {
 
   const selectedSystemPrompt = personas[persona] || personas.cinico;
 
-  const userContent: any[] = [{ type: "text", text: prompt }];
+  const userContent: Array<{ type: string; text?: string; image?: string }> = [
+    { type: "text", text: prompt },
+  ];
   if (image) {
     userContent.push({ type: "image", image: image });
   }

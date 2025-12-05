@@ -10,13 +10,19 @@ datasource db {
 }
 
 model User {
-  id        String   @id // This will be the Clerk User ID (e.g., user_2p...)
-  email     String   @unique
-  plan      String   @default("FREE") // FREE, STARTER, PRO
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                String   @id // This will be the Clerk User ID (e.g., user_2p...)
+  email             String   @unique
+  plan              String   @default("FREE") // FREE, STARTER, PRO
+  stripeCustomerId  String?  @unique // Stripe customer ID for subscriptions
+  stripeSubscriptionId String? // Current active subscription ID
+  referralCode      String   @unique @default(cuid()) // User's unique referral code
+  referredBy        String? // Referral code of person who referred them
+  bonusCredits      Int      @default(0) // Extra credits from referrals or one-time purchases
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
   
-  decodes   DecodeHistory[]
+  decodes           DecodeHistory[]
+  referrals         Referral[] @relation("Referrer")
 }
 
 model DecodeHistory {
@@ -30,4 +36,15 @@ model DecodeHistory {
   response  Json     // Stores the full JSON response (la_verita, cosa_devi_fare, etc.)
   
   createdAt DateTime @default(now())
+}
+
+model Referral {
+  id          String   @id @default(cuid())
+  referrerId  String   // User who referred
+  referrer    User     @relation("Referrer", fields: [referrerId], references: [id])
+  referredEmail String // Email of person referred
+  credited    Boolean  @default(false) // Whether bonus was given
+  createdAt   DateTime @default(now())
+  
+  @@index([referrerId])
 }
