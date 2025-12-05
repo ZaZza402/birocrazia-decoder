@@ -14,14 +14,14 @@ function getStripe() {
 
 export async function POST(req: Request) {
   const stripe = getStripe();
-  
+
   if (!process.env.STRIPE_WEBHOOK_SECRET) {
     return NextResponse.json(
       { error: "Webhook secret non configurato" },
       { status: 500 }
     );
   }
-  
+
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   const body = await req.text();
   const signature = req.headers.get("stripe-signature");

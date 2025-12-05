@@ -135,19 +135,19 @@ export default function ReferralCard() {
           className="border-t-2 border-black/20 pt-4"
         >
           <p className="text-sm font-bold mb-2">Hai un codice da applicare?</p>
-          <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex flex-col gap-2">
             <input
               type="text"
               value={applyCode}
               onChange={(e) => setApplyCode(e.target.value.toUpperCase())}
               placeholder="CODICE"
               maxLength={25}
-              className="flex-1 border-2 border-black px-3 py-2 font-mono font-bold uppercase focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full border-2 border-black px-3 py-2 font-mono font-bold uppercase focus:outline-none focus:ring-2 focus:ring-yellow-400"
             />
             <button
               type="submit"
               disabled={applyLoading || !applyCode.trim()}
-              className="bg-black text-white px-4 sm:px-6 py-2 font-bold border-2 border-black hover:bg-gray-800 transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none disabled:opacity-50 w-full sm:w-auto flex items-center justify-center flex-shrink-0"
+              className="bg-black text-white px-6 py-2 font-bold border-2 border-black hover:bg-gray-800 transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none disabled:opacity-50 w-full flex items-center justify-center"
             >
               {applyLoading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

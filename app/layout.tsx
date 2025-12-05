@@ -10,6 +10,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import TopLoader from "./components/top-loader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,10 +34,11 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="it">
+      <html lang="it" className="overflow-x-hidden">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
         >
+          <TopLoader />
           <header className="fixed top-0 right-0 p-4 z-50">
             <SignedOut>
               <div className="flex gap-2">
