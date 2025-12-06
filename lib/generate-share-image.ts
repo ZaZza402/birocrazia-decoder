@@ -119,7 +119,7 @@ export async function generateShareImage(data: ShareImageData): Promise<Blob> {
       <!-- Footer Watermark -->
       <div style="background: black; color: white; text-align: center; padding: 20px; border-top: 4px solid black;">
         <p style="margin: 0; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
-          Decodificato da <span style="color: #fef08a;">BUR0.APP</span> • La Burocrazia fa schifo, noi la distruggiamo.
+          Decodificato da <span style="color: #fef08a;">BUR⓪.CLICK</span> • La Burocrazia fa schifo, noi la distruggiamo.
         </p>
       </div>
     </div>

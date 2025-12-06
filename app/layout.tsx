@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
 import "./globals.css";
-import { ClerkProvider, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Suspense } from "react";
 import TopLoader from "./components/top-loader";
+import StickyNav from "./components/sticky-nav";
+import GoogleAnalytics from "./components/google-analytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,18 +17,42 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Bur0 - Decodifica la Burocrazia",
+  metadataBase: new URL("https://www.bur0.click"),
+  title: {
+    default:
+      "BUR⓪ - Il Decodificatore di Burocrazia | Traduci Documenti Incomprensibili",
+    template: "%s | BUR⓪",
+  },
   description:
-    "Traduci la burocrazia in verità. Incolla documenti burocratici incomprensibili e ottieni spiegazioni in italiano brutale.",
+    "Decodifica gratis documenti burocratici italiani con AI. Traduci lettere dell'Agenzia delle Entrate, multe, notifiche e modulistica in italiano comprensibile. OCR automatico per immagini.",
   keywords: [
-    "burocrazia",
-    "documenti",
-    "decodifica",
-    "AI",
-    "Italia",
-    "semplificazione",
+    "burocrazia italiana",
+    "decodifica documenti",
+    "agenzia delle entrate",
+    "multa decodifica",
+    "traduttore burocratese",
+    "AI documenti",
+    "OCR italiano",
+    "semplificazione amministrativa",
+    "linguaggio burocratico",
+    "decoder burocrazia",
+    "consulenza documenti gratis",
+    "traduzione legalese",
   ],
-  authors: [{ name: "Bur0" }],
+  authors: [{ name: "BUR⓪ Team", url: "https://alecsdesign.xyz" }],
+  creator: "BUR⓪",
+  publisher: "BUR⓪",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -41,28 +65,43 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "Bur0 - Decodifica la Burocrazia",
-    description:
-      "Traduci documenti burocratici incomprensibili in italiano brutale con l'AI.",
+    type: "website",
+    locale: "it_IT",
     url: "https://www.bur0.click",
-    siteName: "Bur0",
+    title: "BUR⓪ - Il Decodificatore di Burocrazia Italiana",
+    description:
+      "Decodifica gratis documenti burocratici con AI. Traduci lettere dell'Agenzia delle Entrate, multe e modulistica in italiano comprensibile.",
+    siteName: "BUR⓪",
     images: [
       {
-        url: "/og-image.png", // Placeholder - add your OG image here
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Bur0 - Decodifica la Burocrazia",
+        alt: "BUR⓪ - Il Decodificatore di Burocrazia Italiana",
+        type: "image/png",
       },
     ],
-    locale: "it_IT",
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bur0 - Decodifica la Burocrazia",
+    site: "@bur0click",
+    creator: "@alecsdesign",
+    title: "BUR⓪ - Il Decodificatore di Burocrazia",
     description:
-      "Traduci documenti burocratici incomprensibili in italiano brutale con l'AI.",
-    images: ["/og-image.png"], // Placeholder - add your OG image here
+      "Decodifica gratis documenti burocratici con AI. Traduci in italiano comprensibile.",
+    images: ["/og-image.png"],
+  },
+  alternates: {
+    canonical: "https://www.bur0.click",
+  },
+  verification: {
+    google: "AerZfH_YyZNanrrF6a9Z_lFkzGZxr7mYxTQ0FQ5GHak",
+  },
+  category: "technology",
+  other: {
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
   },
 };
 
@@ -72,58 +111,60 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      signInUrl="/sign-in"
-      signUpUrl="/sign-up"
-      signInFallbackRedirectUrl="/dashboard"
-      signUpFallbackRedirectUrl="/dashboard"
-      appearance={{
-        layout: {
-          unsafe_disableDevelopmentModeWarnings: true,
-        },
-      }}
-    >
-      <html lang="it" className="overflow-x-hidden">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
-        >
-          <Suspense fallback={null}>
-            <TopLoader />
-          </Suspense>
-          <header className="fixed top-0 right-0 p-4 z-50">
-            <SignedOut>
-              <div className="flex gap-2">
-                <Link
-                  href="/sign-in"
-                  className="border-2 border-black bg-white text-black px-4 py-2 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-none transition-all"
-                >
-                  ACCEDI
-                </Link>
-                <Link
-                  href="/sign-up"
-                  className="border-2 border-black bg-yellow-300 text-black px-4 py-2 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-none transition-all"
-                >
-                  REGISTRATI
-                </Link>
-              </div>
-            </SignedOut>
-            <SignedIn>
-              <div className="flex items-center gap-4">
-                <Link
-                  href="/dashboard"
-                  className="border-2 border-black bg-white text-black px-4 py-2 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-none transition-all"
-                >
-                  DASHBOARD
-                </Link>
-                <div className="border-2 border-black bg-white p-1 rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                  <UserButton afterSignOutUrl="/" />
-                </div>
-              </div>
-            </SignedIn>
-          </header>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="it" className="overflow-x-hidden">
+      <head>
+        <link rel="canonical" href="https://www.bur0.click" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "BUR⓪ - Il Decodificatore di Burocrazia",
+              description:
+                "Decodifica gratis documenti burocratici italiani con intelligenza artificiale. Traduci lettere dell'Agenzia delle Entrate, multe, notifiche in italiano comprensibile.",
+              url: "https://www.bur0.click",
+              applicationCategory: "UtilityApplication",
+              operatingSystem: "Web Browser",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "EUR",
+              },
+              featureList: [
+                "Decodifica documenti burocratici",
+                "OCR automatico per immagini",
+                "Tre modalità di analisi (Cinico, Solerte, Avvocato)",
+                "Analisi del rischio",
+                "Suggerimenti pratici",
+              ],
+              inLanguage: "it-IT",
+              creator: {
+                "@type": "Person",
+                name: "Alecs Design",
+                url: "https://alecsdesign.xyz",
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "5",
+                ratingCount: "1",
+                bestRating: "5",
+                worstRating: "1",
+              },
+            }),
+          }}
+        />
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
+      >
+        <GoogleAnalytics />
+        <Suspense fallback={null}>
+          <TopLoader />
+        </Suspense>
+        <StickyNav />
+        {children}
+      </body>
+    </html>
   );
 }

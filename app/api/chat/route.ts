@@ -1,40 +1,32 @@
 import { google } from "@ai-sdk/google";
 import { streamObject } from "ai";
 import { z } from "zod";
-import { cookies } from "next/headers";
-import { currentUser } from "@clerk/nextjs/server";
-import { PLANS } from "@/lib/plans";
-import { getUserPlan, getUserUsage } from "@/lib/user-utils";
-import prisma from "@/lib/db";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limiter";
 
 // Allow streaming responses up to 60 seconds (OCR might take a second longer)
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
-  const user = await currentUser();
-  if (!user) {
-    return new Response("Devi essere loggato per usare il decoder.", {
-      status: 401,
-    });
-  }
+  // 1. Rate Limiting Check (10 requests/hour per IP)
+  const clientIp = getClientIp(req);
+  const rateLimitResult = checkRateLimit(clientIp);
 
-  // 1. Rate Limiting based on Plan (Database-based)
-  const planType = await getUserPlan(user.id);
-  const plan = PLANS[planType];
-
-  const usage = await getUserUsage(user.id);
-
-  // Check if user can decode
-  if (!usage.canDecode) {
+  if (!rateLimitResult.success) {
     return new Response(
-      `Hai raggiunto il limite di ${
-        usage.limit
-      } decodifiche per il tuo piano (${plan.name}). ${
-        usage.bonusCredits > 0
-          ? `Hai usato anche i tuoi ${usage.bonusCredits} crediti bonus.`
-          : "Acquista crediti extra o fai l'upgrade per continuare."
-      }`,
-      { status: 429 }
+      JSON.stringify({
+        error: rateLimitResult.error,
+        limit: rateLimitResult.limit,
+        resetAt: rateLimitResult.resetAt,
+      }),
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "X-RateLimit-Limit": rateLimitResult.limit.toString(),
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": new Date(rateLimitResult.resetAt).toISOString(),
+        },
+      }
     );
   }
 
@@ -140,48 +132,6 @@ export async function POST(req: Request) {
         content: userContent,
       },
     ],
-    onFinish: async ({ object }) => {
-      if (!object) return;
-
-      try {
-        // Ensure user exists in DB
-        await prisma.user.upsert({
-          where: { id: user.id },
-          create: {
-            id: user.id,
-            email:
-              user.emailAddresses[0]?.emailAddress || "no-email@example.com",
-          },
-          update: {
-            email:
-              user.emailAddresses[0]?.emailAddress || "no-email@example.com",
-          },
-        });
-
-        // Save history
-        await prisma.decodeHistory.create({
-          data: {
-            userId: user.id,
-            prompt: prompt.substring(0, 5000),
-            image: image, // Save base64 image
-            persona: persona,
-            response: object,
-          },
-        });
-
-        // Deduct bonus credit if user exceeded monthly limit
-        if (usage.used >= usage.limit && usage.bonusCredits > 0) {
-          await prisma.user.update({
-            where: { id: user.id },
-            data: {
-              bonusCredits: { decrement: 1 },
-            },
-          });
-        }
-      } catch (error) {
-        console.error("Failed to save history:", error);
-      }
-    },
   });
 
   // 6. Return streaming response
