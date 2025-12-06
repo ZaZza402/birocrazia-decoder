@@ -230,7 +230,7 @@ export default function DisclaimerPage() {
         {/* Action Buttons */}
         <div className="flex flex-col md:flex-row gap-4 mt-8">
           <Link
-            href="/dashboard"
+            href="/decoder"
             className="flex-1 bg-black text-white py-4 text-xl font-black uppercase text-center border-4 border-black shadow-[8px_8px_0px_0px_rgba(253,224,71,1)] hover:bg-gray-800 transition-all"
           >
             HO CAPITO, TORNA AL DECODER
@@ -245,7 +245,7 @@ export default function DisclaimerPage() {
 
         {/* Last Updated */}
         <p className="text-center text-sm text-black mt-8 font-bold">
-          Ultimo aggiornamento: 5 Dicembre 2025
+          Ultimo aggiornamento: Dicembre 6, 2025
         </p>
       </div>
     </div>
