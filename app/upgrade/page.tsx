@@ -2,11 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import {
-  ArrowLeft,
-  Sparkles,
-  Check,
-} from "lucide-react";
+import { ArrowLeft, Sparkles, Check, Database, Palette, LineChart } from "lucide-react";
 
 export default function UpgradePage() {
   const [email, setEmail] = useState("");
@@ -102,8 +98,8 @@ export default function UpgradePage() {
           {/* Features List */}
           <div className="space-y-6 mb-10">
             <div className="flex items-start gap-4">
-              <div className="text-5xl flex-shrink-0">
-                💾
+              <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                <Database className="w-7 h-7 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">
@@ -117,8 +113,8 @@ export default function UpgradePage() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="text-5xl flex-shrink-0">
-                🎨
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                <Palette className="w-7 h-7 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">
@@ -132,8 +128,8 @@ export default function UpgradePage() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="text-5xl flex-shrink-0">
-                📊
+              <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                <LineChart className="w-7 h-7 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">

@@ -157,7 +157,14 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => (
           </Text>
         </View>
         <View style={{ alignItems: "flex-end" }}>
-          <Text style={{ fontSize: 12, color: "#4f46e5", fontWeight: "bold", marginBottom: 3 }}>
+          <Text
+            style={{
+              fontSize: 12,
+              color: "#4f46e5",
+              fontWeight: "bold",
+              marginBottom: 3,
+            }}
+          >
             Forfettario vs Ordinario
           </Text>
           <Text style={{ fontSize: 8, color: "#64748b" }}>
@@ -391,9 +398,9 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => (
         Questo documento è una simulazione indicativa basata sui dati forniti e
         sulla normativa fiscale italiana vigente al {new Date().getFullYear()}.
         Non costituisce consulenza fiscale o contabile. Per decisioni
-        definitive, consulta sempre un Commercialista abilitato o un CAF.
-        Bur0 non si assume responsabilità per eventuali inesattezze o
-        decisioni prese sulla base di questo report. • Powered by alecsdesign.xyz
+        definitive, consulta sempre un Commercialista abilitato o un CAF. Bur0
+        non si assume responsabilità per eventuali inesattezze o decisioni prese
+        sulla base di questo report. • Powered by alecsdesign.xyz
       </Text>
     </Page>
   </Document>
