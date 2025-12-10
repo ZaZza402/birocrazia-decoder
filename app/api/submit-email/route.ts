@@ -24,20 +24,33 @@ export async function POST(request: NextRequest) {
 
     // Create transporter with your email credentials
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com", // or your SMTP server
+      host: "mail.privateemail.com", // Namecheap Private Email SMTP
       port: 587,
-      secure: false,
+      secure: false, // Use STARTTLS
       auth: {
         user: emailUser,
         pass: emailPassword,
       },
+      tls: {
+        rejectUnauthorized: false,
+      },
     });
+
+    // Verify transporter configuration
+    try {
+      await transporter.verify();
+      console.log("SMTP connection verified successfully");
+    } catch (verifyError) {
+      console.error("SMTP verification failed:", verifyError);
+      throw verifyError;
+    }
 
     // Email content
     const mailOptions = {
-      from: emailUser,
-      to: "start@alecsdesign.xyz", // Send to your business email
-      subject: "Nuovo Interesse Bur0 PRO",
+      from: `"Bur0 Notifiche" <${emailUser}>`,
+      to: "start@alecsdesign.xyz",
+      replyTo: email, // User's email as reply-to
+      subject: "🚀 Nuovo Interesse Bur0 PRO",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #4f46e5;">🚀 Nuova Richiesta Bur0 PRO</h2>
@@ -81,12 +94,25 @@ Data: ${new Date().toLocaleString("it-IT", { timeZone: "Europe/Rome" })}
     };
 
     // Send email
-    await transporter.sendMail(mailOptions);
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully:", info.messageId);
+    console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ 
+      success: true,
+      messageId: info.messageId 
+    });
   } catch (error) {
     console.error("Email submission error:", error);
-    // Fail silently for user - don't expose errors
-    return NextResponse.json({ success: true });
+    // Log detailed error info
+    if (error instanceof Error) {
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
+    // Return error for debugging (only in development)
+    return NextResponse.json({ 
+      success: false, 
+      error: process.env.NODE_ENV === 'development' ? error : 'Email failed'
+    }, { status: 500 });
   }
 }

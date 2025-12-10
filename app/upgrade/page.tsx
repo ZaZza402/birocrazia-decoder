@@ -16,6 +16,8 @@ export default function UpgradePage() {
   const [email, setEmail] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleInterest = () => {
     setShowForm(true);
@@ -23,6 +25,8 @@ export default function UpgradePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
 
     try {
       const response = await fetch("/api/submit-email", {
@@ -31,17 +35,20 @@ export default function UpgradePage() {
         body: JSON.stringify({ email }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        console.log("Email sent successfully:", data.messageId);
         setSubmitted(true);
       } else {
-        console.error("Failed to submit email");
-        // Still show success to user (fail silently)
-        setSubmitted(true);
+        console.error("Failed to submit email:", data);
+        setError("Si è verificato un errore. Riprova tra poco.");
       }
     } catch (error) {
       console.error("Error submitting email:", error);
-      // Still show success to user (fail silently)
-      setSubmitted(true);
+      setError("Impossibile inviare la richiesta. Controlla la connessione.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -174,15 +181,22 @@ export default function UpgradePage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="tua@email.it"
                   required
-                  className="flex-1 px-4 py-3 border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-slate-900 font-medium"
+                  disabled={isLoading}
+                  className="flex-1 px-4 py-3 border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-slate-900 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <button
                   type="submit"
-                  className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition-colors"
+                  disabled={isLoading}
+                  className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Invia
+                  {isLoading ? "Invio..." : "Invia"}
                 </button>
               </form>
+              {error && (
+                <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                  {error}
+                </div>
+              )}
             </div>
           )}
 
