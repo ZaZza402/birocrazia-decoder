@@ -69,6 +69,7 @@ export default function ForfettarioCalculator() {
   const [selectedAteco, setSelectedAteco] = useState(ATECO_CODES[0].code);
   const [showPdfPopup, setShowPdfPopup] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [downloadClicked, setDownloadClicked] = useState(false);
   const pdfShownRef = useRef(false);
@@ -666,13 +667,16 @@ export default function ForfettarioCalculator() {
                         // Only show popup when user clicked download AND PDF is ready
                         if (
                           !loading &&
-                          url &&
+                          blob &&
                           downloadClicked &&
                           !pdfShownRef.current
                         ) {
                           pdfShownRef.current = true;
                           setTimeout(() => {
-                            setPdfUrl(url);
+                            // Store blob and create persistent URL
+                            setPdfBlob(blob);
+                            const objectUrl = URL.createObjectURL(blob);
+                            setPdfUrl(objectUrl);
                             setShowPdfPopup(true);
                             setIsGenerating(false);
                             setDownloadClicked(false);
@@ -726,7 +730,9 @@ export default function ForfettarioCalculator() {
                 e.preventDefault();
                 e.stopPropagation();
                 setShowPdfPopup(false);
+                if (pdfUrl) URL.revokeObjectURL(pdfUrl);
                 setPdfUrl(null);
+                setPdfBlob(null);
                 pdfShownRef.current = false;
               }}
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
@@ -752,10 +758,17 @@ export default function ForfettarioCalculator() {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    if (pdfUrl) {
-                      window.open(pdfUrl, '_blank');
+                    if (pdfBlob) {
+                      // Create fresh URL from blob each time
+                      const freshUrl = URL.createObjectURL(pdfBlob);
+                      window.open(freshUrl, '_blank');
+                      // Cleanup after short delay
+                      setTimeout(() => URL.revokeObjectURL(freshUrl), 1000);
+                      
                       setShowPdfPopup(false);
+                      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
                       setPdfUrl(null);
+                      setPdfBlob(null);
                       pdfShownRef.current = false;
                     }
                   }}
@@ -770,7 +783,9 @@ export default function ForfettarioCalculator() {
                     e.preventDefault();
                     e.stopPropagation();
                     setShowPdfPopup(false);
+                    if (pdfUrl) URL.revokeObjectURL(pdfUrl);
                     setPdfUrl(null);
+                    setPdfBlob(null);
                     pdfShownRef.current = false;
                   }}
                   className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-xl transition-colors"
