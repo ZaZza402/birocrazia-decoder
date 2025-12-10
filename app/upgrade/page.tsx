@@ -164,7 +164,10 @@ export default function UpgradePage() {
                 Stiamo ultimando questa versione. Lascia la tua email per essere
                 avvisato e ricevere lo sconto Early Bird.
               </p>
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col sm:flex-row gap-3"
+              >
                 <input
                   type="email"
                   value={email}

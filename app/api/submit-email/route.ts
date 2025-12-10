@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     // Email content
     const mailOptions = {
       from: emailUser,
-      to: emailUser, // Send to yourself
+      to: "start@alecsdesign.xyz", // Send to your business email
       subject: "Nuovo Interesse Bur0 PRO",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
