@@ -84,17 +84,6 @@ export default function Navigation() {
               </span>
             </Link>
 
-            <Link
-              href="/calcolatori/ricevuta"
-              className="group flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all hover:bg-purple-50 text-slate-700 hover:text-purple-600"
-            >
-              <Receipt className="w-4 h-4" />
-              <span>Ricevute</span>
-              <span className="ml-1 px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded-full uppercase tracking-wider">
-                Soon
-              </span>
-            </Link>
-
             {isInstallable && (
               <button
                 onClick={installApp}
@@ -151,17 +140,18 @@ export default function Navigation() {
                 </span>
               </Link>
 
-              <Link
-                href="/calcolatori/ricevuta"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm hover:bg-purple-50 text-slate-700 hover:text-purple-600 transition-colors"
-              >
-                <Receipt className="w-5 h-5" />
-                <span>Generatore Ricevute</span>
-                <span className="ml-auto px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded-full">
-                  SOON
-                </span>
-              </Link>
+              {isInstallable && (
+                <button
+                  onClick={() => {
+                    installApp();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors"
+                >
+                  <Download className="w-5 h-5" />
+                  <span>Installa App</span>
+                </button>
+              )}
 
               <div className="pt-2 mt-2 border-t border-slate-100">
                 <Link

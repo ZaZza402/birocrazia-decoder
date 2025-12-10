@@ -46,7 +46,7 @@ export default function UpgradePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-12 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
       <div className="max-w-4xl mx-auto">
         <Link
           href="/"
@@ -164,7 +164,7 @@ export default function UpgradePage() {
                 Stiamo ultimando questa versione. Lascia la tua email per essere
                 avvisato e ricevere lo sconto Early Bird.
               </p>
-              <form onSubmit={handleSubmit} className="flex gap-3">
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
                   value={email}
@@ -175,7 +175,7 @@ export default function UpgradePage() {
                 />
                 <button
                   type="submit"
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition-colors"
+                  className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition-colors"
                 >
                   Invia
                 </button>

@@ -92,7 +92,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>
+      <body className="overflow-x-hidden">
         <Navigation />
         <div className="pt-20 min-h-screen">{children}</div>
         <Footer />
