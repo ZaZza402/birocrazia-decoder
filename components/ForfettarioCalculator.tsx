@@ -66,34 +66,53 @@ export default function ForfettarioCalculator() {
   const [selectedAteco, setSelectedAteco] = useState(ATECO_CODES[0].code);
 
   // 1. Calculate the Single Point Comparison (Current Input)
-  const comparison = useMemo(() => compareRegimes(inputs), [inputs]);
+  const comparison = useMemo(() => {
+    try {
+      return compareRegimes(inputs);
+    } catch (error) {
+      console.error("Comparison calculation error:", error);
+      // Return safe default
+      return {
+        forfettario: { grossRevenue: 0, taxableBase: 0, inpsContributes: 0, taxAmount: 0, netIncome: 0, effectiveTaxRate: 0, warnings: ["Errore nel calcolo"], ivaAmount: 0 },
+        ordinario: { grossRevenue: 0, taxableBase: 0, inpsContributes: 0, taxAmount: 0, netIncome: 0, effectiveTaxRate: 0, warnings: ["Errore nel calcolo"], ivaAmount: 0 },
+        difference: 0,
+        recommendation: "Verifica i dati inseriti"
+      };
+    }
+  }, [inputs]);
 
   // 2. Generate Data for the "Cliff Chart" (Simulation)
   // We simulate revenue from €30k to €120k to show the curve
   const chartData = useMemo(() => {
-    const data = [];
-    for (let rev = 30000; rev <= 120000; rev += 5000) {
-      // Create a temporary input scenario for this revenue step
-      const simInput = { ...inputs, expectedRevenue: rev };
-      const res = compareRegimes(simInput);
+    try {
+      const data = [];
+      for (let rev = 30000; rev <= 120000; rev += 5000) {
+        // Create a temporary input scenario for this revenue step
+        const simInput = { ...inputs, expectedRevenue: rev };
+        const res = compareRegimes(simInput);
 
-      data.push({
-        revenue: rev,
-        // Forfettario is only valid <= 100k - show cliff by setting to null/undefined
-        forfettarioNet:
-          rev <= 100000 && res.forfettario.netIncome > 0
-            ? res.forfettario.netIncome
-            : undefined,
-        ordinarioNet: res.ordinario.netIncome,
-        // Helper to format tooltip
-        revenueLabel: `Fatturato: ${formatCurrency(rev)}`,
-      });
+        data.push({
+          revenue: rev,
+          // Forfettario is only valid <= 100k - show cliff by setting to null/undefined
+          forfettarioNet:
+            rev <= 100000 && res.forfettario.netIncome > 0
+              ? Math.max(0, res.forfettario.netIncome)
+              : undefined,
+          ordinarioNet: Math.max(0, res.ordinario.netIncome),
+          // Helper to format tooltip
+          revenueLabel: `Fatturato: ${formatCurrency(rev)}`,
+        });
+      }
+      return data;
+    } catch (error) {
+      console.error("Chart data generation error:", error);
+      return [];
     }
-    return data;
   }, [inputs]);
 
   const handleRevenueChange = (value: number) => {
-    setInputs({ ...inputs, expectedRevenue: value });
+    const validValue = isNaN(value) ? 20000 : Math.max(20000, Math.min(120000, value));
+    setInputs({ ...inputs, expectedRevenue: validValue });
   };
 
   const handleAtecoChange = (code: string) => {
@@ -307,7 +326,7 @@ export default function ForfettarioCalculator() {
                     Fatturato Previsto
                   </label>
                   <span className="text-2xl sm:text-3xl font-black text-slate-900">
-                    {formatCurrency(inputs.expectedRevenue)}
+                    {formatCurrency(inputs.expectedRevenue || 0)}
                   </span>
                 </div>
                 <input
