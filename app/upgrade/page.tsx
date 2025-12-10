@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowLeft, Sparkles, Check, Database, Palette, LineChart } from "lucide-react";
+import {
+  ArrowLeft,
+  Sparkles,
+  Check,
+  Database,
+  Palette,
+  LineChart,
+} from "lucide-react";
 
 export default function UpgradePage() {
   const [email, setEmail] = useState("");
