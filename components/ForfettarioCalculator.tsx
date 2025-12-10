@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
 import {
   Calculator,
@@ -70,6 +70,8 @@ export default function ForfettarioCalculator() {
   const [showPdfPopup, setShowPdfPopup] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [downloadClicked, setDownloadClicked] = useState(false);
+  const pdfShownRef = useRef(false);
 
   // 1. Calculate the Single Point Comparison (Current Input)
   const comparison = useMemo(() => {
@@ -654,17 +656,21 @@ export default function ForfettarioCalculator() {
                           results={comparison}
                         />
                       }
-                      fileName={`Bur0_Simulazione_${new Date().toISOString().split('T')[0]}_${Date.now()}.pdf`}
+                      fileName={`Bur0_Simulazione_${
+                        new Date().toISOString().split("T")[0]
+                      }_${Date.now()}.pdf`}
                     >
                       {(linkProps) => {
                         const { blob, url, loading } = linkProps || {};
-                        
-                        // When PDF is ready and not generating, show popup
-                        if (!loading && url && !isGenerating) {
+
+                        // Only show popup when user clicked download AND PDF is ready
+                        if (!loading && url && downloadClicked && !pdfShownRef.current) {
+                          pdfShownRef.current = true;
                           setTimeout(() => {
                             setPdfUrl(url);
                             setShowPdfPopup(true);
                             setIsGenerating(false);
+                            setDownloadClicked(false);
                           }, 100);
                         }
 
@@ -674,6 +680,8 @@ export default function ForfettarioCalculator() {
                             onClick={() => {
                               if (!loading) {
                                 setIsGenerating(true);
+                                setDownloadClicked(true);
+                                pdfShownRef.current = false; // Reset for next download
                               }
                             }}
                             className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-full shadow-lg shadow-indigo-200 transition-all hover:scale-105 hover:shadow-xl inline-flex items-center gap-2 disabled:opacity-70 disabled:scale-100 disabled:cursor-not-allowed"
@@ -709,28 +717,32 @@ export default function ForfettarioCalculator() {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative animate-in zoom-in-95 duration-200">
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 setShowPdfPopup(false);
                 setPdfUrl(null);
+                pdfShownRef.current = false;
               }}
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
-              
+
               <h3 className="text-2xl font-black text-slate-900 mb-2">
                 Report Generato!
               </h3>
-              
+
               <p className="text-slate-600 mb-6">
-                Il tuo report PDF è pronto. Aprilo per vedere tutti i dettagli della simulazione.
+                Il tuo report PDF è pronto. Aprilo per vedere tutti i dettagli
+                della simulazione.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-3">
                 <a
                   href={pdfUrl}
@@ -741,18 +753,21 @@ export default function ForfettarioCalculator() {
                   <ExternalLink className="w-5 h-5" />
                   Apri PDF
                 </a>
-                
+
                 <button
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     setShowPdfPopup(false);
                     setPdfUrl(null);
+                    pdfShownRef.current = false;
                   }}
                   className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-xl transition-colors"
                 >
                   Chiudi
                 </button>
               </div>
-              
+
               <p className="text-xs text-slate-500 mt-4">
                 Il file è stato salvato anche nei tuoi download
               </p>
