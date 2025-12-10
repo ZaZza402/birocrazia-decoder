@@ -4,7 +4,6 @@ import "../LandingPage.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
-import PageTransition from "@/components/PageTransition";
 
 export const metadata: Metadata = {
   title: "Conviene Forfettario o Ordinario? Simulatore 2025 | Bur0",
@@ -107,9 +106,7 @@ export default function RootLayout({
       </head>
       <body className="overflow-x-hidden">
         <Navigation />
-        <PageTransition>
-          <div className="pt-20 min-h-screen">{children}</div>
-        </PageTransition>
+        <div className="pt-20 min-h-screen">{children}</div>
         <Footer />
         <CookieBanner />
       </body>

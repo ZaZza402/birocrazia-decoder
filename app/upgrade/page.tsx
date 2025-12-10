@@ -67,10 +67,7 @@ export default function UpgradePage() {
             <Sparkles className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
-            Bur
-            <span className="text-indigo-600 font-mono text-5xl md:text-6xl">
-              0
-            </span>{" "}
+            Bur<span className="text-indigo-600 font-mono text-5xl md:text-6xl">0</span>{" "}
             PRO
           </h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
