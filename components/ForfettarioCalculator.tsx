@@ -73,10 +73,28 @@ export default function ForfettarioCalculator() {
       console.error("Comparison calculation error:", error);
       // Return safe default
       return {
-        forfettario: { grossRevenue: 0, taxableBase: 0, inpsContributes: 0, taxAmount: 0, netIncome: 0, effectiveTaxRate: 0, warnings: ["Errore nel calcolo"], ivaAmount: 0 },
-        ordinario: { grossRevenue: 0, taxableBase: 0, inpsContributes: 0, taxAmount: 0, netIncome: 0, effectiveTaxRate: 0, warnings: ["Errore nel calcolo"], ivaAmount: 0 },
+        forfettario: {
+          grossRevenue: 0,
+          taxableBase: 0,
+          inpsContributes: 0,
+          taxAmount: 0,
+          netIncome: 0,
+          effectiveTaxRate: 0,
+          warnings: ["Errore nel calcolo"],
+          ivaAmount: 0,
+        },
+        ordinario: {
+          grossRevenue: 0,
+          taxableBase: 0,
+          inpsContributes: 0,
+          taxAmount: 0,
+          netIncome: 0,
+          effectiveTaxRate: 0,
+          warnings: ["Errore nel calcolo"],
+          ivaAmount: 0,
+        },
         difference: 0,
-        recommendation: "Verifica i dati inseriti"
+        recommendation: "Verifica i dati inseriti",
       };
     }
   }, [inputs]);
@@ -111,7 +129,9 @@ export default function ForfettarioCalculator() {
   }, [inputs]);
 
   const handleRevenueChange = (value: number) => {
-    const validValue = isNaN(value) ? 20000 : Math.max(20000, Math.min(120000, value));
+    const validValue = isNaN(value)
+      ? 20000
+      : Math.max(20000, Math.min(120000, value));
     setInputs({ ...inputs, expectedRevenue: validValue });
   };
 
@@ -357,11 +377,11 @@ export default function ForfettarioCalculator() {
                     ...comparison.ordinario.warnings,
                   ].map((w, i) => (
                     <div
-                      key={i}
+                      key={`warning-${i}-${w.substring(0, 20)}`}
                       className="bg-amber-50 text-amber-800 px-4 py-3 rounded-lg text-sm font-medium flex gap-2"
                     >
                       <AlertTriangle className="w-5 h-5 flex-shrink-0" />
-                      {w}
+                      <span>{w}</span>
                     </div>
                   ))}
                 </div>
@@ -620,30 +640,35 @@ export default function ForfettarioCalculator() {
                   un commercialista certificato nella tua zona.
                 </p>
                 <div className="inline-block">
-                  <PDFDownloadLink
-                    document={
-                      <ForfettarioReport inputs={inputs} results={comparison} />
-                    }
-                    fileName={`Simulazione_Fiscale_${inputs.expectedRevenue}.pdf`}
-                  >
-                    {({ blob, url, loading, error }) => (
-                      <button
-                        disabled={loading}
-                        className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-full shadow-lg shadow-indigo-200 transition-all hover:scale-105 hover:shadow-xl inline-flex items-center gap-2 disabled:opacity-70 disabled:scale-100 disabled:cursor-not-allowed"
-                      >
-                        {loading ? (
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                        ) : (
-                          <FileText className="w-5 h-5" />
-                        )}
-                        <span>
-                          {loading
-                            ? "Generazione PDF..."
-                            : "Scarica Report Completo"}
-                        </span>
-                      </button>
-                    )}
-                  </PDFDownloadLink>
+                  {typeof window !== 'undefined' && (
+                    <PDFDownloadLink
+                      document={
+                        <ForfettarioReport inputs={inputs} results={comparison} />
+                      }
+                      fileName={`Simulazione_Fiscale_${inputs.expectedRevenue}.pdf`}
+                    >
+                      {(linkProps) => {
+                        const { loading } = linkProps || {};
+                        return (
+                          <button
+                            disabled={loading}
+                            className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-full shadow-lg shadow-indigo-200 transition-all hover:scale-105 hover:shadow-xl inline-flex items-center gap-2 disabled:opacity-70 disabled:scale-100 disabled:cursor-not-allowed"
+                          >
+                            {loading ? (
+                              <Loader2 className="w-5 h-5 animate-spin" />
+                            ) : (
+                              <FileText className="w-5 h-5" />
+                            )}
+                            <span>
+                              {loading
+                                ? "Generazione PDF..."
+                                : "Scarica Report Completo"}
+                            </span>
+                          </button>
+                        );
+                      }}
+                    </PDFDownloadLink>
+                  )}
                 </div>
                 <p className="text-xs text-slate-500 mt-4">
                   *Il PDF include il dettaglio completo dei calcoli da portare
