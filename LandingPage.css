@@ -1,0 +1,242 @@
+/* Landing Page Custom Styles */
+
+/* Premium Shadow System */
+.shadow-premium-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-premium-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-premium-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-premium-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.hover\:shadow-premium-xl:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.hover\:shadow-premium-2xl:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Grid Background Pattern */
+.bg-\[url\(\'\/grid\.svg\'\)\] {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Touch Manipulation for Better Mobile Experience */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Active Scale Effect for Mobile Buttons */
+.active\:scale-100:active {
+  transform: scale(1);
+}
+
+/* Smooth Transitions */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Backdrop Blur */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+/* Custom Blue Gradient (matching brand color #2563eb) */
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+/* Responsive Font Sizes */
+@media (max-width: 640px) {
+  .text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:text-6xl {
+    font-size: 3.75rem;
+    line-height: 1;
+  }
+
+  .md\:text-7xl {
+    font-size: 4.5rem;
+    line-height: 1;
+  }
+}
+
+/* Card Hover Effects */
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.1);
+}
+
+.group:hover .group-hover\:translate-x-2 {
+  transform: translateX(0.5rem);
+}
+
+.group:hover .group-hover\:text-green-600 {
+  color: rgb(22, 163, 74);
+}
+
+.group:hover .group-hover\:text-blue-600 {
+  color: rgb(37, 99, 235);
+}
+
+/* Scale on Hover */
+.hover\:scale-\[1\.02\]:hover {
+  transform: scale(1.02);
+}
+
+.hover\:scale-\[1\.03\]:hover {
+  transform: scale(1.03);
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+/* Border Colors on Hover */
+.hover\:border-green-500:hover {
+  border-color: rgb(34, 197, 94);
+}
+
+.hover\:border-blue-500:hover {
+  border-color: rgb(59, 130, 246);
+}
+
+/* Opacity Transitions */
+.opacity-10 {
+  opacity: 0.1;
+}
+
+/* Blur Effects */
+.blur-3xl {
+  filter: blur(64px);
+}
+
+/* Color Palette (matching BUR⓪ brand) */
+:root {
+  --color-brand-blue: #2563eb;
+  --color-brand-yellow: #fbbf24;
+  --color-green: #10b981;
+  --color-purple: #7c3aed;
+}
+
+/* Minimum Height Utilities */
+.min-h-\[56px\] {
+  min-height: 56px;
+}
+
+.min-h-\[64px\] {
+  min-height: 64px;
+}
+
+/* Premium Rounded Corners */
+.rounded-2xl {
+  border-radius: 1rem;
+}
+
+.rounded-3xl {
+  border-radius: 1.5rem;
+}
+
+/* Font Weights */
+.font-black {
+  font-weight: 900;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+/* Tracking (Letter Spacing) */
+.tracking-tight {
+  letter-spacing: -0.025em;
+}
+
+.tracking-wide {
+  letter-spacing: 0.025em;
+}
+
+/* Leading (Line Height) */
+.leading-tight {
+  line-height: 1.25;
+}
+
+.leading-relaxed {
+  line-height: 1.625;
+}
+
+/* Z-Index Utilities */
+.z-10 {
+  z-index: 10;
+}
+
+/* Negative Margins for Overlapping Sections */
+.-mt-16 {
+  margin-top: -4rem;
+}
+
+.-mt-20 {
+  margin-top: -5rem;
+}
+
+@media (min-width: 768px) {
+  .md\:-mt-20 {
+    margin-top: -5rem;
+  }
+}
+
+/* Flex Utilities */
+.shrink-0 {
+  flex-shrink: 0;
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Print Styles */
+@media print {
+  .shadow-premium-xl,
+  .shadow-premium-2xl {
+    box-shadow: none;
+  }
+}

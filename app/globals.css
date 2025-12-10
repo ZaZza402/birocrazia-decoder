@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Remove focus outlines from recharts elements */
+.recharts-surface,
+.recharts-wrapper,
+.recharts-layer,
+.recharts-cartesian-grid,
+.recharts-line,
+.recharts-area,
+.recharts-reference-line,
+.recharts-curve,
+.recharts-rectangle {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.recharts-surface:focus,
+.recharts-wrapper:focus,
+.recharts-layer:focus {
+  outline: none !important;
+}
+
+/* Disable pointer events on non-interactive chart elements */
+.recharts-layer:not(.recharts-tooltip-wrapper) {
+  pointer-events: none !important;
+}
