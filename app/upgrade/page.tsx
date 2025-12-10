@@ -5,11 +5,7 @@ import { useState } from "react";
 import {
   ArrowLeft,
   Sparkles,
-  CloudUpload,
-  Palette,
-  BarChart3,
   Check,
-  X,
 } from "lucide-react";
 
 export default function UpgradePage() {
@@ -106,12 +102,12 @@ export default function UpgradePage() {
           {/* Features List */}
           <div className="space-y-6 mb-10">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                <CloudUpload className="w-6 h-6 text-indigo-600" />
+              <div className="text-5xl flex-shrink-0">
+                💾
               </div>
               <div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">
-                  💾 Salva i Clienti
+                  Salva i Clienti
                 </h3>
                 <p className="text-slate-600 leading-relaxed">
                   Salva infinite simulazioni nel cloud. Non perdere mai più i
@@ -121,12 +117,12 @@ export default function UpgradePage() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Palette className="w-6 h-6 text-purple-600" />
+              <div className="text-5xl flex-shrink-0">
+                🎨
               </div>
               <div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">
-                  🎨 White Label
+                  White Label
                 </h3>
                 <p className="text-slate-600 leading-relaxed">
                   Rimuovi il logo "Bur0" e metti il logo del tuo Studio sul PDF.
@@ -136,12 +132,12 @@ export default function UpgradePage() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                <BarChart3 className="w-6 h-6 text-green-600" />
+              <div className="text-5xl flex-shrink-0">
+                📊
               </div>
               <div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">
-                  📊 Confronta Scenari Multipli
+                  Confronta Scenari Multipli
                 </h3>
                 <p className="text-slate-600 leading-relaxed">
                   Confronta 3 fatturati diversi in una sola vista. Mostra al

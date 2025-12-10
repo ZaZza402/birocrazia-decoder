@@ -98,9 +98,9 @@ Data: ${new Date().toLocaleString("it-IT", { timeZone: "Europe/Rome" })}
     console.log("Email sent successfully:", info.messageId);
     console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       success: true,
-      messageId: info.messageId 
+      messageId: info.messageId,
     });
   } catch (error) {
     console.error("Email submission error:", error);
@@ -110,9 +110,12 @@ Data: ${new Date().toLocaleString("it-IT", { timeZone: "Europe/Rome" })}
       console.error("Error stack:", error.stack);
     }
     // Return error for debugging (only in development)
-    return NextResponse.json({ 
-      success: false, 
-      error: process.env.NODE_ENV === 'development' ? error : 'Email failed'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: process.env.NODE_ENV === "development" ? error : "Email failed",
+      },
+      { status: 500 }
+    );
   }
 }

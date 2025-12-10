@@ -151,14 +151,19 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => (
       {/* HEADER */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.title}>Simulazione Fiscale</Text>
+          <Text style={styles.title}>Bur0 - Simulazione Fiscale</Text>
           <Text style={styles.subtitle}>
             Report generato il {new Date().toLocaleDateString("it-IT")}
           </Text>
         </View>
-        <Text style={{ fontSize: 10, color: "#4f46e5", fontWeight: "bold" }}>
-          Forfettario vs Ordinario
-        </Text>
+        <View style={{ alignItems: "flex-end" }}>
+          <Text style={{ fontSize: 12, color: "#4f46e5", fontWeight: "bold", marginBottom: 3 }}>
+            Forfettario vs Ordinario
+          </Text>
+          <Text style={{ fontSize: 8, color: "#64748b" }}>
+            Powered by alecsdesign.xyz
+          </Text>
+        </View>
       </View>
 
       {/* INPUT SUMMARY */}
@@ -387,8 +392,8 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => (
         sulla normativa fiscale italiana vigente al {new Date().getFullYear()}.
         Non costituisce consulenza fiscale o contabile. Per decisioni
         definitive, consulta sempre un Commercialista abilitato o un CAF.
-        CalcolaTutto non si assume responsabilità per eventuali inesattezze o
-        decisioni prese sulla base di questo report.
+        Bur0 non si assume responsabilità per eventuali inesattezze o
+        decisioni prese sulla base di questo report. • Powered by alecsdesign.xyz
       </Text>
     </Page>
   </Document>
