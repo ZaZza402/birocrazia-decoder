@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/admin/"],
     },
-    sitemap: "https://bur0.click/sitemap.xml",
+    sitemap: "https://bur0.click/sitemap-static.xml",
   };
 }
