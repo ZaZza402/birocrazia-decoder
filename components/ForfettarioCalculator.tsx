@@ -664,7 +664,12 @@ export default function ForfettarioCalculator() {
                         const { blob, url, loading } = linkProps || {};
 
                         // Only show popup when user clicked download AND PDF is ready
-                        if (!loading && url && downloadClicked && !pdfShownRef.current) {
+                        if (
+                          !loading &&
+                          url &&
+                          downloadClicked &&
+                          !pdfShownRef.current
+                        ) {
                           pdfShownRef.current = true;
                           setTimeout(() => {
                             setPdfUrl(url);
@@ -744,15 +749,31 @@ export default function ForfettarioCalculator() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <a
-                  href={pdfUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (pdfUrl) {
+                      // Create a temporary link and trigger download
+                      const link = document.createElement('a');
+                      link.href = pdfUrl;
+                      link.download = `Bur0_Simulazione_${new Date().toISOString().split('T')[0]}_${Date.now()}.pdf`;
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                      
+                      // Close popup after triggering download
+                      setTimeout(() => {
+                        setShowPdfPopup(false);
+                        setPdfUrl(null);
+                        pdfShownRef.current = false;
+                      }, 500);
+                    }
+                  }}
                   className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 inline-flex items-center justify-center gap-2"
                 >
-                  <ExternalLink className="w-5 h-5" />
+                  <Download className="w-5 h-5" />
                   Apri PDF
-                </a>
+                </button>
 
                 <button
                   onClick={(e) => {
