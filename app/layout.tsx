@@ -28,10 +28,11 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/android-chrome-512x512.png",
-        width: 512,
-        height: 512,
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
         alt: "Bur0 - Simulatore Regime Forfettario",
+        type: "image/jpeg",
       },
     ],
   },
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     title: "Conviene Forfettario o Ordinario? Simulatore 2025 | Bur0",
     description:
       "Scopri quanto risparmi con il Regime Forfettario vs Ordinario. Simulazione reale con i tuoi numeri.",
-    images: ["/android-chrome-512x512.png"],
+    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
@@ -56,8 +57,16 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
   icons: {
     icon: [
-      { url: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
-      { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      {
+        url: "/android-chrome-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+      {
+        url: "/android-chrome-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
       { url: "/favicon.ico" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
