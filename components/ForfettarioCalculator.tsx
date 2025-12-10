@@ -17,6 +17,7 @@ import {
   X,
 } from "lucide-react";
 import { ForfettarioReport } from "@/components/ForfettarioReport";
+import LoadingScreen from "@/components/LoadingScreen";
 
 // Dynamic import to avoid SSR issues with @react-pdf/renderer
 const PDFDownloadLink = dynamic(
@@ -68,6 +69,7 @@ export default function ForfettarioCalculator() {
 
   const [selectedAteco, setSelectedAteco] = useState(ATECO_CODES[0].code);
   const [showPdfPopup, setShowPdfPopup] = useState(false);
+  const [showPdfLoading, setShowPdfLoading] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -664,12 +666,13 @@ export default function ForfettarioCalculator() {
                       {(linkProps) => {
                         const { blob, url, loading } = linkProps || {};
 
-                        // Only show popup when user clicked download AND PDF is ready
+                        // Only show popup when user clicked download AND PDF is ready AND loading screen done
                         if (
                           !loading &&
                           blob &&
                           downloadClicked &&
-                          !pdfShownRef.current
+                          !pdfShownRef.current &&
+                          !showPdfLoading
                         ) {
                           pdfShownRef.current = true;
                           setTimeout(() => {
@@ -690,6 +693,7 @@ export default function ForfettarioCalculator() {
                               if (!loading) {
                                 setIsGenerating(true);
                                 setDownloadClicked(true);
+                                setShowPdfLoading(true);
                                 pdfShownRef.current = false; // Reset for next download
                               }
                             }}
@@ -721,8 +725,19 @@ export default function ForfettarioCalculator() {
         </div>
       </div>
 
+      {/* PDF Loading Screen */}
+      {showPdfLoading && (
+        <LoadingScreen
+          type="pdf"
+          minDuration={2500}
+          onComplete={() => {
+            setShowPdfLoading(false);
+          }}
+        />
+      )}
+
       {/* PDF Download Popup */}
-      {showPdfPopup && pdfUrl && (
+      {showPdfPopup && pdfUrl && !showPdfLoading && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative animate-in zoom-in-95 duration-200">
             <button
@@ -761,10 +776,10 @@ export default function ForfettarioCalculator() {
                     if (pdfBlob) {
                       // Create fresh URL from blob each time
                       const freshUrl = URL.createObjectURL(pdfBlob);
-                      window.open(freshUrl, '_blank');
+                      window.open(freshUrl, "_blank");
                       // Cleanup after short delay
                       setTimeout(() => URL.revokeObjectURL(freshUrl), 1000);
-                      
+
                       setShowPdfPopup(false);
                       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
                       setPdfUrl(null);
