@@ -236,13 +236,13 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => (
           >
             AVVISI IMPORTANTI
           </Text>
-          {[...results.forfettario.warnings, ...results.ordinario.warnings].map(
-            (warning, idx) => (
+          {[...results.forfettario.warnings, ...results.ordinario.warnings]
+            .filter((w) => w && typeof w === "string")
+            .map((warning, idx) => (
               <Text key={idx} style={styles.warningText}>
                 • {warning}
               </Text>
-            )
-          )}
+            ))}
         </View>
       )}
 
@@ -280,7 +280,9 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => (
             <View style={styles.row}>
               <Text style={styles.label}>Aliquota Effettiva</Text>
               <Text style={styles.value}>
-                {results.forfettario.effectiveTaxRate.toFixed(1)}%
+                {isFinite(results.forfettario.effectiveTaxRate)
+                  ? `${results.forfettario.effectiveTaxRate.toFixed(1)}%`
+                  : "0.0%"}
               </Text>
             </View>
           </View>
@@ -328,7 +330,9 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => (
             <View style={styles.row}>
               <Text style={styles.label}>Aliquota Effettiva</Text>
               <Text style={styles.value}>
-                {results.ordinario.effectiveTaxRate.toFixed(1)}%
+                {isFinite(results.ordinario.effectiveTaxRate)
+                  ? `${results.ordinario.effectiveTaxRate.toFixed(1)}%`
+                  : "0.0%"}
               </Text>
             </View>
           </View>

@@ -46,11 +46,13 @@ export default function Navigation() {
                   isScrolled ? "text-gray-900" : "text-white"
                 }`}
               >
-                Bur<span
+                Bur
+                <span
                   className={`font-mono text-2xl ${
                     isScrolled ? "text-indigo-600" : "text-indigo-300"
                   }`}
-                >0
+                >
+                  0
                 </span>
               </span>
               <span

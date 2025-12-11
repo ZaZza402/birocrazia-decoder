@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
 import {
   Calculator,
@@ -138,6 +138,15 @@ export default function ForfettarioCalculator() {
       return [];
     }
   }, [inputs]);
+
+  // 3. Memoize PDF Document to prevent rendering issues on state changes
+  const pdfDocument = useMemo(() => {
+    // Only create PDF document when comparison data is valid
+    if (!comparison || comparison.forfettario.netIncome === undefined) {
+      return null;
+    }
+    return <ForfettarioReport inputs={inputs} results={comparison} />;
+  }, [inputs, comparison]);
 
   const handleRevenueChange = (value: number) => {
     const validValue = isNaN(value)
@@ -651,14 +660,10 @@ export default function ForfettarioCalculator() {
                   un commercialista certificato nella tua zona.
                 </p>
                 <div className="inline-block">
-                  {typeof window !== "undefined" && (
+                  {typeof window !== "undefined" && pdfDocument && (
                     <PDFDownloadLink
-                      document={
-                        <ForfettarioReport
-                          inputs={inputs}
-                          results={comparison}
-                        />
-                      }
+                      key={`pdf-${inputs.clientType}-${inputs.expectedRevenue}`}
+                      document={pdfDocument}
                       fileName={`Bur0_Simulazione_${
                         new Date().toISOString().split("T")[0]
                       }_${Date.now()}.pdf`}

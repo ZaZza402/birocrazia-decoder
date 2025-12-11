@@ -115,7 +115,10 @@ export default function RicevutaPageClient() {
               <div>
                 <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-green-500" />
-                  LA SOLUZIONE
+                  LA SOLUZIONE{" "}
+                  <span className="tracking-tight">
+                    BUR<span className="text-indigo-600">0</span>
+                  </span>
                 </h3>
                 <ul className="space-y-3 text-slate-800 text-sm font-bold">
                   <li className="flex items-start gap-2">

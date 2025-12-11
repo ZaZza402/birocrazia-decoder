@@ -11,7 +11,7 @@ interface LoadingScreenProps {
 
 export default function LoadingScreen({
   onComplete,
-  minDuration = 2000,
+  minDuration = 1200,
   type = "calculator",
 }: LoadingScreenProps) {
   const [progress, setProgress] = useState(0);

@@ -26,7 +26,8 @@ export default function Footer() {
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-black text-white leading-none tracking-tight">
-                  Bur<span className="text-indigo-400 font-mono text-2xl">0</span>
+                  Bur
+                  <span className="text-indigo-400 font-mono text-2xl">0</span>
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   Strumenti Fiscali
