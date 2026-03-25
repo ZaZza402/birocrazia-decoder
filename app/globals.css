@@ -20,6 +20,17 @@ body {
   .tabular {
     font-variant-numeric: tabular-nums;
   }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
 }
 
 /* Styled native select — removes browser default, adds custom arrow */

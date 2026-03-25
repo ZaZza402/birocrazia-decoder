@@ -34,7 +34,6 @@ export default function Navigation() {
       >
         {/* MAIN ROW */}
         <div className="flex items-center px-3 py-2 gap-2">
-
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
             <Image

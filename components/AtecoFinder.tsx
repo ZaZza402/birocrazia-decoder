@@ -1,12 +1,18 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Search, X, ArrowRight, ExternalLink, ChevronRight } from "lucide-react";
+import {
+  Search,
+  X,
+  ArrowRight,
+  ExternalLink,
+  ChevronRight,
+} from "lucide-react";
 import { ATECO_DATA, searchAteco, type AtecoEntry } from "@/lib/ateco-data";
 
 const COEFFICIENT_LABELS: Record<number, { label: string; color: string }> = {
-  0.40: { label: "40%", color: "text-blue-600" },
+  0.4: { label: "40%", color: "text-blue-600" },
   0.67: { label: "67%", color: "text-violet-600" },
   0.78: { label: "78%", color: "text-amber-600" },
   0.86: { label: "86%", color: "text-red-600" },
@@ -14,7 +20,6 @@ const COEFFICIENT_LABELS: Record<number, { label: string; color: string }> = {
 
 const SECTORS = Array.from(new Set(ATECO_DATA.map((e) => e.sector))).sort();
 
-// Group ATECO_DATA by sector for browse mode
 function groupBySector(entries: AtecoEntry[]) {
   const map: Record<string, AtecoEntry[]> = {};
   for (const e of entries) {
@@ -49,43 +54,113 @@ function EntryRow({
     <button
       type="button"
       onClick={() => onSelect(entry)}
-      className={`w-full flex items-start gap-4 px-5 py-4 text-left border-b border-zinc-100 last:border-0 transition-colors ${
-        selected ? "bg-zinc-950 text-white" : "hover:bg-zinc-50"
+      className={`w-full flex items-center gap-3 px-4 py-3 text-left border-b border-zinc-100 last:border-0 transition-colors ${
+        selected ? "bg-zinc-950 text-white" : "hover:bg-zinc-50 active:bg-zinc-100"
       }`}
     >
-      <span
-        className={`text-[11px] font-mono font-bold flex-shrink-0 pt-0.5 w-[5rem] ${
-          selected ? "text-zinc-400" : "text-zinc-400"
-        }`}
-      >
+      <span className="text-[10px] font-mono font-bold flex-shrink-0 w-[4.5rem] text-zinc-400">
         {entry.code}
       </span>
       <div className="flex-1 min-w-0">
-        <p
-          className={`text-sm font-semibold leading-snug ${
-            selected ? "text-white" : "text-zinc-950"
-          }`}
-        >
+        <p className={`text-sm font-semibold leading-tight ${selected ? "text-white" : "text-zinc-950"}`}>
           {entry.description}
         </p>
-        <p
-          className={`text-[11px] uppercase tracking-editorial mt-0.5 ${
-            selected ? "text-zinc-400" : "text-zinc-400"
-          }`}
-        >
-          {entry.sector}
-        </p>
       </div>
-      <div className="flex-shrink-0 pt-0.5">
-        {selected ? (
-          <span className="text-xs font-mono font-bold text-white">
-            {(entry.coefficient * 100).toFixed(0)}%
-          </span>
-        ) : (
-          <CoefficientBadge coefficient={entry.coefficient} />
-        )}
-      </div>
+      <CoefficientBadge coefficient={entry.coefficient} />
     </button>
+  );
+}
+
+/* ── Mobile bottom sheet for selected entry ── */
+function DetailSheet({
+  entry,
+  onClose,
+}: {
+  entry: AtecoEntry;
+  onClose: () => void;
+}) {
+  // Prevent body scroll while sheet is open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        onClick={onClose}
+      />
+      {/* Sheet */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-zinc-950 text-white rounded-t-2xl shadow-2xl"
+        style={{ animation: "slide-up 0.28s ease-out" }}
+      >
+        {/* Handle */}
+        <div className="flex justify-center pt-3 pb-1">
+          <div className="w-10 h-1 bg-zinc-700 rounded-full" />
+        </div>
+
+        <div className="px-5 pb-6 pt-2 max-h-[85vh] overflow-y-auto">
+          {/* Close + code */}
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-1">
+                Codice selezionato
+              </p>
+              <p className="text-3xl font-black font-mono leading-none">
+                {entry.code}
+              </p>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-1 text-zinc-500 hover:text-zinc-300 mt-1"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <p className="text-sm text-zinc-300 leading-snug mb-0.5">
+            {entry.description}
+          </p>
+          <p className="text-[10px] uppercase tracking-editorial text-zinc-500 mb-5">
+            {entry.sector}
+          </p>
+
+          {/* Stats row */}
+          <div className="grid grid-cols-3 gap-3 mb-5 pt-4 border-t border-zinc-800">
+            <div>
+              <p className="text-[10px] uppercase tracking-editorial text-zinc-500 mb-1">Coeff.</p>
+              <p className="text-2xl font-black font-mono">{(entry.coefficient * 100).toFixed(0)}%</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-editorial text-zinc-500 mb-1">Aliquota</p>
+              <p className="text-2xl font-black font-mono">15%</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-editorial text-zinc-500 mb-1">Su €50k</p>
+              <p className="text-2xl font-black font-mono">
+                €{(50000 * entry.coefficient * 0.15 / 1000).toFixed(1)}k
+              </p>
+            </div>
+          </div>
+
+          <p className="text-[11px] text-zinc-500 mb-5">
+            = €50.000 × {(entry.coefficient * 100).toFixed(0)}% × 15% solo imposta sostitutiva, escluso INPS
+          </p>
+
+          <Link
+            href="/calcolatori/forfettario"
+            onClick={onClose}
+            className="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold text-sm uppercase tracking-editorial py-3.5 transition-colors group w-full"
+          >
+            Simula il netto completo
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -100,11 +175,9 @@ export default function AtecoFinder() {
 
   const isSearching = query.trim().length > 0;
 
-  // What to show in the list
   const displayEntries = useMemo(() => {
     if (isSearching) return searchResults;
     if (activeSector) return grouped[activeSector] ?? [];
-    // default: show first 12 most-used
     return ATECO_DATA.slice(0, 12);
   }, [isSearching, searchResults, activeSector, grouped]);
 
@@ -113,66 +186,39 @@ export default function AtecoFinder() {
     inputRef.current?.focus();
   }
 
-  const taxRate = selected
-    ? selected.coefficient * (selected ? 15 : 0) // 15% flat tax on taxable base
-    : null;
-
   return (
     <div className="min-h-screen bg-stone-50 pt-20 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
 
-        {/* ── HEADER ── */}
-        <div className="mb-10 border-b border-zinc-200 pb-6">
-          <div className="flex items-center gap-2 mb-3">
-            <Link
-              href="/"
-              className="text-[11px] uppercase tracking-editorial font-semibold text-zinc-400 hover:text-zinc-700 transition-colors"
-            >
-              Bur0
-            </Link>
-            <ChevronRight className="w-3 h-3 text-zinc-300" />
-            <Link
-              href="/calcolatori/forfettario"
-              className="text-[11px] uppercase tracking-editorial font-semibold text-zinc-400 hover:text-zinc-700 transition-colors"
-            >
-              Calcolatori
-            </Link>
-            <ChevronRight className="w-3 h-3 text-zinc-300" />
-            <span className="text-[11px] uppercase tracking-editorial font-semibold text-zinc-700">
-              ATECO
-            </span>
+        {/* ── HEADER — compact on mobile ── */}
+        <div className="mb-6 border-b border-zinc-200 pb-5">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-1.5 mb-3">
+            <Link href="/" className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 hover:text-zinc-700 transition-colors">Bur0</Link>
+            <ChevronRight className="w-2.5 h-2.5 text-zinc-300" />
+            <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-700">ATECO 2025</span>
           </div>
-          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
-            ATECO 2025 — Classificazione aggiornata
-          </p>
-          <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
-            Trova il tuo
-            <br />
-            Codice ATECO
+          <h1 className="text-3xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
+            Trova il tuo Codice ATECO
           </h1>
-          <p className="mt-3 text-base text-zinc-500 max-w-xl">
-            Cerca per attività o professione. Ottieni il codice ufficiale e il
-            coefficiente di redditività per il Regime Forfettario.
+          <p className="mt-2 text-sm text-zinc-500 max-w-xl">
+            Cerca per professione — ottieni codice + coefficiente forfettario.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-
-          {/* ── LEFT PANEL: search + list ── */}
-          <div className="lg:col-span-7 space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8">
+          {/* ── LEFT PANEL ── */}
+          <div className="lg:col-span-7 space-y-3">
 
             {/* Search bar */}
-            <div className="bg-white border border-zinc-200 flex items-center gap-3 px-4 py-3.5">
+            <div className="bg-white border border-zinc-200 flex items-center gap-3 px-4 py-3">
               <Search className="w-4 h-4 text-zinc-400 flex-shrink-0" />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  setActiveSector(null);
-                }}
-                placeholder="Scrivi la tua attività (es. sviluppatore, fisioterapista, fotografo…)"
+                onChange={(e) => { setQuery(e.target.value); setActiveSector(null); }}
+                placeholder="es. sviluppatore, fisioterapista, fotografo…"
                 className="flex-1 text-sm text-zinc-950 placeholder:text-zinc-400 outline-none bg-transparent"
                 autoFocus
               />
@@ -183,12 +229,12 @@ export default function AtecoFinder() {
               )}
             </div>
 
-            {/* Sector filter pills — shown only when not searching */}
+            {/* Sector filter pills — horizontal scroll on mobile, no wrapping */}
             {!isSearching && (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none -mx-4 px-4 lg:mx-0 lg:px-0 lg:flex-wrap">
                 <button
                   onClick={() => setActiveSector(null)}
-                  className={`text-[11px] font-bold uppercase tracking-editorial px-3 py-1.5 border transition-colors ${
+                  className={`text-[10px] font-bold uppercase tracking-editorial px-3 py-1.5 border flex-shrink-0 transition-colors ${
                     activeSector === null
                       ? "bg-zinc-950 text-white border-zinc-950"
                       : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900"
@@ -200,7 +246,7 @@ export default function AtecoFinder() {
                   <button
                     key={sector}
                     onClick={() => setActiveSector(sector)}
-                    className={`text-[11px] font-bold uppercase tracking-editorial px-3 py-1.5 border transition-colors ${
+                    className={`text-[10px] font-bold uppercase tracking-editorial px-3 py-1.5 border flex-shrink-0 transition-colors ${
                       activeSector === sector
                         ? "bg-zinc-950 text-white border-zinc-950"
                         : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900"
@@ -215,29 +261,18 @@ export default function AtecoFinder() {
             {/* Results list */}
             <div className="bg-white border border-zinc-200 overflow-hidden">
               {/* Header row */}
-              <div className="flex items-center gap-4 px-5 py-2 border-b border-zinc-100 bg-zinc-50">
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 w-[5rem] flex-shrink-0">
-                  Codice
-                </span>
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 flex-1">
-                  Descrizione attività
-                </span>
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 flex-shrink-0">
-                  Coeff.
-                </span>
+              <div className="flex items-center gap-3 px-4 py-2 border-b border-zinc-100 bg-zinc-50">
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 w-[4.5rem] flex-shrink-0">Codice</span>
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 flex-1">Attività</span>
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 flex-shrink-0">Coeff.</span>
               </div>
 
               {/* Entries */}
-              <div className="max-h-[480px] overflow-y-auto">
+              <div className="max-h-[420px] lg:max-h-[520px] overflow-y-auto">
                 {displayEntries.length === 0 ? (
                   <div className="px-5 py-10 text-center">
-                    <p className="text-sm text-zinc-500">
-                      Nessun risultato per &ldquo;{query}&rdquo;
-                    </p>
-                    <p className="text-xs text-zinc-400 mt-1">
-                      Prova con sinonimi — es. &ldquo;commercio&rdquo; invece di
-                      &ldquo;vendita&rdquo;
-                    </p>
+                    <p className="text-sm text-zinc-500">Nessun risultato per &ldquo;{query}&rdquo;</p>
+                    <p className="text-xs text-zinc-400 mt-1">Prova con sinonimi — es. &ldquo;commercio&rdquo; invece di &ldquo;vendita&rdquo;</p>
                   </div>
                 ) : (
                   displayEntries.map((entry) => (
@@ -252,13 +287,13 @@ export default function AtecoFinder() {
               </div>
 
               {/* Footer */}
-              <div className="border-t border-zinc-100 px-5 py-2.5 flex items-center justify-between">
+              <div className="border-t border-zinc-100 px-4 py-2 flex items-center justify-between">
                 <p className="text-[10px] text-zinc-400">
                   {isSearching
                     ? `${displayEntries.length} risultati`
                     : activeSector
-                      ? `${displayEntries.length} codici in ${activeSector}`
-                      : `${ATECO_DATA.length} codici totali — filtra per settore o cerca`}
+                      ? `${displayEntries.length} codici`
+                      : `${ATECO_DATA.length} codici totali`}
                 </p>
                 <a
                   href="https://www.istat.it/it/archivio/17888"
@@ -266,16 +301,14 @@ export default function AtecoFinder() {
                   rel="noopener noreferrer"
                   className="text-[10px] text-zinc-400 hover:text-zinc-700 inline-flex items-center gap-1 transition-colors"
                 >
-                  Fonte ISTAT ATECO 2025
-                  <ExternalLink className="w-2.5 h-2.5" />
+                  Fonte ISTAT <ExternalLink className="w-2.5 h-2.5" />
                 </a>
               </div>
             </div>
           </div>
 
-          {/* ── RIGHT PANEL: detail card ── */}
-          <div className="lg:col-span-5 space-y-4">
-
+          {/* ── RIGHT PANEL: desktop only ── */}
+          <div className="hidden lg:block lg:col-span-5 space-y-4">
             {selected ? (
               <>
                 {/* Main card */}
@@ -325,14 +358,10 @@ export default function AtecoFinder() {
                     </p>
                     <p className="text-2xl font-black font-mono leading-none">
                       €
-                      {(
-                        50000 *
-                        selected.coefficient *
-                        0.15
-                      ).toLocaleString("it-IT", {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0,
-                      })}
+                      {(50000 * selected.coefficient * 0.15).toLocaleString(
+                        "it-IT",
+                        { minimumFractionDigits: 0, maximumFractionDigits: 0 },
+                      )}
                     </p>
                     <p className="text-[11px] text-zinc-500 mt-1">
                       = €50.000 × {(selected.coefficient * 100).toFixed(0)}% ×
@@ -351,7 +380,7 @@ export default function AtecoFinder() {
                     Regime Ordinario con questo coefficiente.
                   </p>
                   <Link
-                    href={`/calcolatori/forfettario`}
+                    href="/calcolatori/forfettario"
                     className="inline-flex items-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-editorial px-5 py-2.5 transition-colors group w-full justify-center"
                   >
                     Apri il Simulatore
@@ -386,23 +415,12 @@ export default function AtecoFinder() {
                 </p>
                 <div className="space-y-5">
                   {[
-                    {
-                      step: "01",
-                      text: "Cerca la tua professione nella lista a sinistra",
-                    },
-                    {
-                      step: "02",
-                      text: "Clicca sul codice per vedere coefficiente e calcolo",
-                    },
-                    {
-                      step: "03",
-                      text: "Usa il codice nel Simulatore Forfettario per il netto completo",
-                    },
+                    { step: "01", text: "Cerca la tua professione nella lista a sinistra" },
+                    { step: "02", text: "Clicca sul codice per vedere coefficiente e calcolo" },
+                    { step: "03", text: "Usa il codice nel Simulatore Forfettario per il netto completo" },
                   ].map(({ step, text }) => (
                     <div key={step} className="flex items-start gap-3">
-                      <span className="text-xs font-mono font-black text-zinc-300 flex-shrink-0 pt-0.5 w-6">
-                        {step}
-                      </span>
+                      <span className="text-xs font-mono font-black text-zinc-300 flex-shrink-0 pt-0.5 w-6">{step}</span>
                       <p className="text-sm text-zinc-600">{text}</p>
                     </div>
                   ))}
@@ -415,15 +433,8 @@ export default function AtecoFinder() {
                   <div className="space-y-2">
                     {Object.entries(COEFFICIENT_LABELS).map(
                       ([coeff, { label, color }]) => (
-                        <div
-                          key={coeff}
-                          className="flex items-center justify-between"
-                        >
-                          <span
-                            className={`text-sm font-mono font-black ${color}`}
-                          >
-                            {label}
-                          </span>
+                        <div key={coeff} className="flex items-center justify-between">
+                          <span className={`text-sm font-mono font-black ${color}`}>{label}</span>
                           <span className="text-xs text-zinc-500">
                             {coeff === "0.4"
                               ? "Commercio, ristorazione, ospitalità"
@@ -473,6 +484,11 @@ export default function AtecoFinder() {
           </div>
         </div>
       </div>
+
+      {/* ── Mobile bottom sheet ── */}
+      {selected && (
+        <DetailSheet entry={selected} onClose={() => setSelected(null)} />
+      )}
     </div>
   );
 }
