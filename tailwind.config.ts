@@ -12,6 +12,12 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        mono: ["'Courier New'", "Courier", "monospace"],
+      },
+      letterSpacing: {
+        editorial: "0.08em",
+      },
     },
   },
   plugins: [],

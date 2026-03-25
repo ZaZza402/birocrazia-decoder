@@ -2,19 +2,14 @@
 
 import React, { useState, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
+import * as SliderPrimitive from "@radix-ui/react-slider";
 import {
-  Calculator,
-  TrendingUp,
-  TrendingDown,
   AlertTriangle,
-  Info,
-  CheckCircle,
-  XCircle,
-  FileText,
   Loader2,
   Download,
   ExternalLink,
   X,
+  FileText,
 } from "lucide-react";
 import { ForfettarioReport } from "@/components/ForfettarioReport";
 import LoadingScreen from "@/components/LoadingScreen";
@@ -27,9 +22,9 @@ const PDFDownloadLink = dynamic(
     loading: () => (
       <button
         disabled
-        className="bg-slate-400 text-white font-bold py-4 px-8 rounded-full opacity-70"
+        className="bg-zinc-400 text-white font-bold py-3 px-8 uppercase tracking-editorial text-sm opacity-70"
       >
-        <Loader2 className="w-5 h-5 inline mr-2 animate-spin" />
+        <Loader2 className="w-4 h-4 inline mr-2 animate-spin" />
         Caricamento PDF...
       </button>
     ),
@@ -44,7 +39,6 @@ import {
   Tooltip,
   ResponsiveContainer,
   ReferenceLine,
-  Area,
   ComposedChart,
 } from "recharts";
 import {
@@ -53,7 +47,6 @@ import {
   type CassaType,
   compareRegimes,
   formatCurrency,
-  formatPercentage,
 } from "@/lib/forfettario-utils";
 
 export default function ForfettarioCalculator() {
@@ -76,33 +69,21 @@ export default function ForfettarioCalculator() {
   const [downloadClicked, setDownloadClicked] = useState(false);
   const pdfShownRef = useRef(false);
 
-  // 1. Calculate the Single Point Comparison (Current Input)
   const comparison = useMemo(() => {
     try {
       return compareRegimes(inputs);
     } catch (error) {
       console.error("Comparison calculation error:", error);
-      // Return safe default
       return {
         forfettario: {
-          grossRevenue: 0,
-          taxableBase: 0,
-          inpsContributes: 0,
-          taxAmount: 0,
-          netIncome: 0,
-          effectiveTaxRate: 0,
-          warnings: ["Errore nel calcolo"],
-          ivaAmount: 0,
+          grossRevenue: 0, taxableBase: 0, inpsContributes: 0,
+          taxAmount: 0, netIncome: 0, effectiveTaxRate: 0,
+          warnings: ["Errore nel calcolo"], ivaAmount: 0,
         },
         ordinario: {
-          grossRevenue: 0,
-          taxableBase: 0,
-          inpsContributes: 0,
-          taxAmount: 0,
-          netIncome: 0,
-          effectiveTaxRate: 0,
-          warnings: ["Errore nel calcolo"],
-          ivaAmount: 0,
+          grossRevenue: 0, taxableBase: 0, inpsContributes: 0,
+          taxAmount: 0, netIncome: 0, effectiveTaxRate: 0,
+          warnings: ["Errore nel calcolo"], ivaAmount: 0,
         },
         difference: 0,
         recommendation: "Verifica i dati inseriti",
@@ -110,717 +91,599 @@ export default function ForfettarioCalculator() {
     }
   }, [inputs]);
 
-  // 2. Generate Data for the "Cliff Chart" (Simulation)
-  // We simulate revenue from €30k to €120k to show the curve
   const chartData = useMemo(() => {
     try {
       const data = [];
       for (let rev = 30000; rev <= 120000; rev += 5000) {
-        // Create a temporary input scenario for this revenue step
         const simInput = { ...inputs, expectedRevenue: rev };
         const res = compareRegimes(simInput);
-
         data.push({
           revenue: rev,
-          // Forfettario is only valid <= 100k - show cliff by setting to null/undefined
           forfettarioNet:
             rev <= 100000 && res.forfettario.netIncome > 0
               ? Math.max(0, res.forfettario.netIncome)
               : undefined,
           ordinarioNet: Math.max(0, res.ordinario.netIncome),
-          // Helper to format tooltip
-          revenueLabel: `Fatturato: ${formatCurrency(rev)}`,
         });
       }
       return data;
-    } catch (error) {
-      console.error("Chart data generation error:", error);
+    } catch {
       return [];
     }
   }, [inputs]);
 
-  // 3. Memoize PDF Document to prevent rendering issues on state changes
   const pdfDocument = useMemo(() => {
-    // Only create PDF document when comparison data is valid
-    if (!comparison || comparison.forfettario.netIncome === undefined) {
-      return null;
-    }
+    if (!comparison || comparison.forfettario.netIncome === undefined) return null;
     return <ForfettarioReport inputs={inputs} results={comparison} />;
   }, [inputs, comparison]);
 
   const handleRevenueChange = (value: number) => {
-    const validValue = isNaN(value)
-      ? 20000
-      : Math.max(20000, Math.min(120000, value));
+    const validValue = isNaN(value) ? 20000 : Math.max(20000, Math.min(120000, value));
     setInputs({ ...inputs, expectedRevenue: validValue });
   };
 
   const handleAtecoChange = (code: string) => {
     setSelectedAteco(code);
     const ateco = ATECO_CODES.find((a) => a.code === code);
-    if (ateco) {
-      setInputs({ ...inputs, atecoCoefficient: ateco.coefficient });
-    }
+    if (ateco) setInputs({ ...inputs, atecoCoefficient: ateco.coefficient });
   };
 
+  const forfettarioWins = comparison.difference > 0;
+  const isOverCliff = inputs.expectedRevenue > 100000;
+  const allWarnings = [
+    ...comparison.forfettario.warnings,
+    ...comparison.ordinario.warnings,
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 font-sans text-slate-900">
+    <div className="min-h-screen bg-stone-50 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8 md:mb-12">
-          <div className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-indigo-600 rounded-2xl mb-4 md:mb-6 shadow-lg shadow-indigo-200">
-            <Calculator className="w-7 h-7 md:w-8 md:h-8 text-white" />
-          </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 mb-3 md:mb-4 tracking-tight px-4">
-            Simulatore{" "}
-            <span className="text-indigo-600">Regime Forfettario</span>
+
+        {/* ── HEADER ── */}
+        <div className="mb-10 border-b border-zinc-200 pb-6">
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+            Simulatore Fiscale 2026
+          </p>
+          <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
+            Forfettario vs Ordinario
           </h1>
-          <p className="text-base md:text-xl text-slate-500 max-w-2xl mx-auto px-4">
-            Visualizza la "Trappola Fiscale". Scopri esattamente quando ti
-            conviene smettere di fatturare.
+          <p className="mt-3 text-base text-zinc-500 max-w-xl">
+            Inserisci i tuoi dati per scoprire quale regime ti lascia più soldi in tasca.
           </p>
         </div>
 
-        {/* Main Grid */}
+        {/* ── MAIN GRID ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-          {/* LEFT COLUMN: Inputs (Smaller) */}
-          <div className="lg:col-span-4 space-y-4 lg:space-y-6">
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-              <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <Info className="w-5 h-5 text-indigo-500" />
+
+          {/* ── LEFT: INPUTS ── */}
+          <div className="lg:col-span-4 space-y-5">
+            <div className="bg-white border border-zinc-200 p-6">
+
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-5">
                 Configurazione Fiscale
-              </h2>
+              </p>
 
               <div className="space-y-5">
+
                 {/* ATECO */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                  <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                     Codice ATECO
                   </label>
                   <select
                     value={selectedAteco}
                     onChange={(e) => handleAtecoChange(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm md:text-base focus:ring-2 focus:ring-indigo-500 outline-none text-slate-900 font-medium"
+                    className="select-styled w-full px-3 py-2.5 bg-white border border-zinc-300 text-sm text-zinc-900 font-medium focus:outline-none focus:border-zinc-700"
                   >
                     {ATECO_CODES.map((ateco) => (
                       <option key={ateco.code} value={ateco.code}>
-                        {ateco.code} - {ateco.description} (
-                        {ateco.coefficient * 100}%)
+                        {ateco.code} — {ateco.description} ({ateco.coefficient * 100}%)
                       </option>
                     ))}
                   </select>
                 </div>
 
-                {/* Cassa Type */}
+                {/* Cassa */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                  <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                     Cassa Previdenziale
                   </label>
                   <select
                     value={inputs.cassaType}
                     onChange={(e) =>
-                      setInputs({
-                        ...inputs,
-                        cassaType: e.target.value as CassaType,
-                      })
+                      setInputs({ ...inputs, cassaType: e.target.value as CassaType })
                     }
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm md:text-base focus:ring-2 focus:ring-indigo-500 outline-none text-slate-900 font-medium"
+                    className="select-styled w-full px-3 py-2.5 bg-white border border-zinc-300 text-sm text-zinc-900 font-medium focus:outline-none focus:border-zinc-700"
                   >
-                    <option value="gestione_separata">
-                      Gestione Separata INPS (26.07%)
-                    </option>
-                    <option value="artigiani_commercianti">
-                      Artigiani/Commercianti
-                    </option>
+                    <option value="gestione_separata">Gestione Separata INPS (26.07%)</option>
+                    <option value="artigiani_commercianti">Artigiani / Commercianti</option>
                     <option value="custom">Cassa Professionale</option>
                   </select>
                 </div>
 
-                {/* Custom Rate */}
+                {/* Custom cassa rate */}
                 {inputs.cassaType === "custom" && (
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                    <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                       % Cassa
                     </label>
                     <input
                       type="number"
                       value={inputs.customCassaRate || 0}
                       onChange={(e) =>
-                        setInputs({
-                          ...inputs,
-                          customCassaRate: parseFloat(e.target.value),
-                        })
+                        setInputs({ ...inputs, customCassaRate: parseFloat(e.target.value) })
                       }
-                      className="w-full px-4 py-2 border border-slate-200 rounded-lg text-slate-900 font-medium"
+                      className="w-full px-3 py-2.5 border border-zinc-300 text-sm text-zinc-900 font-medium focus:outline-none focus:border-zinc-700"
                     />
                   </div>
                 )}
 
-                {/* Toggles Row */}
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-sm font-medium text-slate-700">
-                    Start-up (5 anni)
-                  </span>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={inputs.isNewBusiness}
-                      onChange={(e) =>
-                        setInputs({
-                          ...inputs,
-                          isNewBusiness: e.target.checked,
-                        })
-                      }
-                      className="sr-only peer"
+                {/* Start-up toggle */}
+                <div className="flex items-center justify-between py-1 border-t border-zinc-100 pt-4">
+                  <div>
+                    <span className="text-sm font-semibold text-zinc-800">Start-up</span>
+                    <span className="ml-2 text-xs text-zinc-400">Aliquota 5% (primi 5 anni)</span>
+                  </div>
+                  <button
+                    role="switch"
+                    aria-checked={inputs.isNewBusiness}
+                    onClick={() => setInputs({ ...inputs, isNewBusiness: !inputs.isNewBusiness })}
+                    className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none ${
+                      inputs.isNewBusiness ? "bg-zinc-950" : "bg-zinc-200"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform ${
+                        inputs.isNewBusiness ? "translate-x-4" : "translate-x-1"
+                      }`}
                     />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
-                  </label>
+                  </button>
                 </div>
 
-                {/* Expenses Inputs */}
-                <div className="pt-4 border-t border-slate-100">
+                {/* Expenses */}
+                <div className="pt-4 border-t border-zinc-100">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-500 mb-1">
+                      <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                         Spese Reali
                       </label>
                       <input
                         type="number"
                         value={inputs.realExpenses}
                         onChange={(e) =>
-                          setInputs({
-                            ...inputs,
-                            realExpenses: parseFloat(e.target.value) || 0,
-                          })
+                          setInputs({ ...inputs, realExpenses: parseFloat(e.target.value) || 0 })
                         }
-                        className="w-full px-3 py-3 text-sm md:text-base border border-slate-200 rounded-lg text-slate-900 font-medium"
+                        className="w-full px-3 py-2.5 border-b border-zinc-300 bg-transparent text-sm text-zinc-900 font-mono tabular focus:outline-none focus:border-zinc-700"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-slate-500 mb-1">
-                        INPS Anno Prec.
+                      <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
+                        INPS Prec.
                       </label>
                       <input
                         type="number"
                         value={inputs.previousYearINPS}
                         onChange={(e) =>
-                          setInputs({
-                            ...inputs,
-                            previousYearINPS: parseFloat(e.target.value) || 0,
-                          })
+                          setInputs({ ...inputs, previousYearINPS: parseFloat(e.target.value) || 0 })
                         }
-                        className="w-full px-3 py-3 text-sm md:text-base border border-slate-200 rounded-lg text-slate-900 font-medium"
+                        className="w-full px-3 py-2.5 border-b border-zinc-300 bg-transparent text-sm text-zinc-900 font-mono tabular focus:outline-none focus:border-zinc-700"
                       />
                     </div>
                   </div>
                 </div>
 
-                {/* Client Type */}
+                {/* B2B / B2C */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-                    Clientela Principale
+                  <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-2">
+                    Tipo Clientela
                   </label>
-                  <div className="flex bg-slate-100 p-1 rounded-lg">
+                  <div className="flex border border-zinc-300">
                     <button
-                      onClick={() =>
-                        setInputs({ ...inputs, clientType: "b2b" })
-                      }
-                      className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${
+                      onClick={() => setInputs({ ...inputs, clientType: "b2b" })}
+                      className={`flex-1 py-2 text-xs font-bold uppercase tracking-editorial transition-colors ${
                         inputs.clientType === "b2b"
-                          ? "bg-white shadow-sm text-indigo-600"
-                          : "text-slate-500"
+                          ? "bg-zinc-950 text-white"
+                          : "bg-white text-zinc-500 hover:text-zinc-900"
                       }`}
                     >
-                      B2B (Aziende)
+                      B2B — Aziende
                     </button>
                     <button
-                      onClick={() =>
-                        setInputs({ ...inputs, clientType: "b2c" })
-                      }
-                      className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${
+                      onClick={() => setInputs({ ...inputs, clientType: "b2c" })}
+                      className={`flex-1 py-2 text-xs font-bold uppercase tracking-editorial transition-colors ${
                         inputs.clientType === "b2c"
-                          ? "bg-white shadow-sm text-pink-600"
-                          : "text-slate-500"
+                          ? "bg-zinc-950 text-white"
+                          : "bg-white text-zinc-500 hover:text-zinc-900"
                       }`}
                     >
-                      B2C (Privati)
+                      B2C — Privati
                     </button>
                   </div>
                   {inputs.clientType === "b2c" && (
-                    <p className="text-xs text-pink-600 mt-2 font-medium">
-                      *Attenzione: In Ordinario perderai il 22% di IVA
+                    <p className="text-xs text-red-600 mt-1.5 font-medium">
+                      In Ordinario perderai il 22% di IVA sui privati
                     </p>
                   )}
                 </div>
+
               </div>
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Results & Chart (Larger) */}
-          <div className="lg:col-span-8 space-y-4 lg:space-y-6">
-            {/* 1. SLIDER & WARNINGS */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-              <div className="mb-6">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-4 gap-2">
-                  <label className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">
-                    Fatturato Previsto
-                  </label>
-                  <span className="text-2xl sm:text-3xl font-black text-slate-900">
-                    {formatCurrency(inputs.expectedRevenue || 0)}
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="20000"
-                  max="120000"
-                  step="1000"
-                  value={inputs.expectedRevenue}
-                  onChange={(e) =>
-                    handleRevenueChange(parseFloat(e.target.value))
-                  }
-                  className="w-full h-4 md:h-3 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
-                />
-                <div className="flex justify-between text-xs font-semibold text-slate-400 mt-2">
-                  <span>€20k</span>
-                  <span className="text-amber-500">€85k (Limite)</span>
-                  <span className="text-red-500">€100k (Cliff)</span>
-                  <span>€120k</span>
-                </div>
+          {/* ── RIGHT: RESULTS ── */}
+          <div className="lg:col-span-8 space-y-5">
+
+            {/* SLIDER */}
+            <div className="bg-white border border-zinc-200 p-6">
+              <div className="flex justify-between items-baseline mb-6">
+                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400">
+                  Fatturato Annuo Previsto
+                </p>
+                <span className="text-5xl font-black font-mono tabular text-zinc-950 leading-none">
+                  {formatCurrency(inputs.expectedRevenue || 0)}
+                </span>
               </div>
 
-              {/* Dynamic Warnings */}
-              {(comparison.forfettario.warnings.length > 0 ||
-                comparison.ordinario.warnings.length > 0) && (
-                <div className="space-y-2">
-                  {[
-                    ...comparison.forfettario.warnings,
-                    ...comparison.ordinario.warnings,
-                  ].map((w, i) => (
+              <SliderPrimitive.Root
+                className="slider-root"
+                min={20000}
+                max={120000}
+                step={1000}
+                value={[inputs.expectedRevenue]}
+                onValueChange={([val]) => handleRevenueChange(val)}
+              >
+                <SliderPrimitive.Track className="slider-track">
+                  <SliderPrimitive.Range className="slider-range" />
+                </SliderPrimitive.Track>
+                <SliderPrimitive.Thumb className="slider-thumb" aria-label="Fatturato" />
+              </SliderPrimitive.Root>
+
+              <div className="flex justify-between text-xs font-semibold text-zinc-400 mt-3">
+                <span>€20k</span>
+                <span className="text-amber-600">€85k limite</span>
+                <span className="text-red-600">€100k cliff</span>
+                <span>€120k</span>
+              </div>
+
+              {/* Warnings */}
+              {allWarnings.length > 0 && (
+                <div className="mt-4 space-y-2">
+                  {allWarnings.map((w, i) => (
                     <div
-                      key={`warning-${i}-${w.substring(0, 20)}`}
-                      className="bg-amber-50 text-amber-800 px-4 py-3 rounded-lg text-sm font-medium flex gap-2"
+                      key={`w-${i}`}
+                      className="flex items-start gap-2 border-l-2 border-red-500 pl-3 py-1"
                     >
-                      <AlertTriangle className="w-5 h-5 flex-shrink-0" />
-                      <span>{w}</span>
+                      <AlertTriangle className="w-3.5 h-3.5 text-red-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-xs text-zinc-700">{w}</span>
                     </div>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* 2. THE CHART (The Visual Hook) */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-              <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">
-                Proiezione Netto (Forfettario vs Ordinario)
-              </h3>
-              <div
-                className="w-full"
-                style={{ height: "320px", minHeight: "320px" }}
-              >
-                <ResponsiveContainer width="100%" height="100%" minHeight={320}>
+            {/* CHART */}
+            <div className="bg-white border border-zinc-200 p-6">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
+                Netto Disponibile — Proiezione €30k → €120k
+              </p>
+              <div className="w-full" style={{ height: "280px" }}>
+                <ResponsiveContainer width="100%" height="100%">
                   <ComposedChart
                     data={chartData}
-                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                    style={{ cursor: "default", outline: "none" }}
+                    margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+                    style={{ outline: "none" }}
                   >
-                    <defs>
-                      <linearGradient
-                        id="colorForf"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                      >
-                        <stop
-                          offset="5%"
-                          stopColor="#10b981"
-                          stopOpacity={0.3}
-                        />
-                        <stop
-                          offset="95%"
-                          stopColor="#10b981"
-                          stopOpacity={0.05}
-                        />
-                      </linearGradient>
-                    </defs>
                     <CartesianGrid
-                      strokeDasharray="3 3"
+                      strokeDasharray="0"
                       vertical={false}
-                      stroke="#e2e8f0"
+                      stroke="#f0f0f0"
+                      strokeWidth={1}
                     />
                     <XAxis
                       dataKey="revenue"
                       tickFormatter={(v) => `€${v / 1000}k`}
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fill: "#64748b", fontSize: 12 }}
+                      tick={{ fill: "#a1a1aa", fontSize: 11, fontFamily: "Courier New" }}
                     />
                     <YAxis
                       tickFormatter={(v) => `€${v / 1000}k`}
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fill: "#64748b", fontSize: 12 }}
+                      tick={{ fill: "#a1a1aa", fontSize: 11, fontFamily: "Courier New" }}
+                      width={52}
                     />
                     <Tooltip
-                      formatter={(value: number) => formatCurrency(value)}
-                      labelFormatter={(label) =>
-                        `Fatturato: ${formatCurrency(label as number)}`
-                      }
+                      formatter={(value: number, name: string) => [
+                        formatCurrency(value),
+                        name === "forfettarioNet" ? "Forfettario" : "Ordinario",
+                      ]}
+                      labelFormatter={(label) => `Fatturato: ${formatCurrency(label as number)}`}
                       contentStyle={{
-                        borderRadius: "8px",
-                        border: "none",
-                        boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                        background: "#ffffff",
+                        border: "1px solid #e4e4e7",
+                        borderRadius: 0,
+                        fontSize: 12,
+                        fontFamily: "Courier New",
+                        boxShadow: "none",
                       }}
                     />
                     <ReferenceLine
                       x={85000}
-                      stroke="#f59e0b"
+                      stroke="#d97706"
+                      strokeWidth={1}
                       strokeDasharray="3 3"
+                    />
+                    <ReferenceLine
+                      x={inputs.expectedRevenue}
+                      stroke="#dc2626"
+                      strokeWidth={2}
+                      strokeDasharray="4 4"
                       label={{
-                        position: "insideTopRight",
-                        value: "Limite 85k",
-                        fill: "#d97706",
-                        fontSize: 12,
+                        position: "top",
+                        value: "↑ qui",
+                        fill: "#dc2626",
+                        fontSize: 11,
+                        fontFamily: "Courier New",
                       }}
                     />
-
-                    {/* Area for Forfettario (Green) - More Opaque */}
-                    <Area
+                    {/* Forfettario — solid black */}
+                    <Line
                       type="monotone"
                       dataKey="forfettarioNet"
-                      stroke="#10b981"
-                      strokeWidth={4}
-                      fillOpacity={0.2}
-                      fill="#10b981"
-                      name="Netto Forfettario"
-                      animationDuration={800}
-                      animationEasing="ease-in-out"
-                      isAnimationActive={true}
+                      stroke="#09090b"
+                      strokeWidth={2}
+                      dot={false}
+                      name="forfettarioNet"
+                      connectNulls={false}
+                      animationDuration={600}
                     />
-
-                    {/* Line for Ordinario (Red) - Thicker for Danger */}
+                    {/* Ordinario — red dashed */}
                     <Line
                       type="monotone"
                       dataKey="ordinarioNet"
-                      stroke="#ef4444"
-                      strokeWidth={4}
+                      stroke="#dc2626"
+                      strokeWidth={2}
+                      strokeDasharray="5 3"
                       dot={false}
-                      name="Netto Ordinario"
-                      animationDuration={800}
-                      animationEasing="ease-in-out"
-                      isAnimationActive={true}
-                    />
-
-                    {/* Current Position - Distinct Vertical Line */}
-                    <ReferenceLine
-                      x={inputs.expectedRevenue}
-                      stroke="#8b5cf6"
-                      strokeWidth={3}
-                      strokeDasharray="5 5"
-                      label={{
-                        position: "top",
-                        value: "Tu sei qui",
-                        fill: "#8b5cf6",
-                        fontSize: 14,
-                        fontWeight: "bold",
-                      }}
+                      name="ordinarioNet"
+                      animationDuration={600}
                     />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
+              {/* Legend */}
+              <div className="flex gap-6 mt-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-[2px] bg-zinc-950"></div>
+                  <span className="text-xs text-zinc-400 font-semibold uppercase tracking-editorial">Forfettario</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-[2px] bg-red-600" style={{ backgroundImage: "repeating-linear-gradient(to right, #dc2626 0, #dc2626 5px, transparent 5px, transparent 8px)" }}></div>
+                  <span className="text-xs text-zinc-400 font-semibold uppercase tracking-editorial">Ordinario</span>
+                </div>
+              </div>
             </div>
 
-            {/* 3. FINAL COMPARISON CARDS */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Forfettario Card */}
-              <div
-                className={`p-6 rounded-2xl border-2 transition-all ${
-                  inputs.expectedRevenue > 100000
-                    ? "border-red-500 bg-red-50/30 opacity-50 relative"
-                    : comparison.difference > 0
-                    ? "border-green-500 bg-green-50/50"
-                    : "border-slate-100 bg-slate-50 opacity-60"
-                }`}
-              >
-                {inputs.expectedRevenue > 100000 && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-red-500/10 backdrop-blur-sm rounded-2xl">
-                    <div className="bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-lg">
-                      <AlertTriangle className="w-4 h-4 inline mr-2" />
-                      NON DISPONIBILE
-                    </div>
+            {/* ── VERDICT — THE ANCHOR ── */}
+            <div className={`border-l-4 ${forfettarioWins ? "border-l-zinc-950 bg-white" : isOverCliff ? "border-l-red-600 bg-red-50" : "border-l-red-600 bg-white"} border border-zinc-200 p-6`}>
+
+              {isOverCliff ? (
+                <div>
+                  <p className="text-xs uppercase tracking-editorial font-semibold text-red-600 mb-1">
+                    Regime Forfettario — Non disponibile
+                  </p>
+                  <p className="text-sm text-zinc-600">
+                    Sopra €100.000 si esce dal forfettario con effetto retroattivo.
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                  <div>
+                    <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                      {forfettarioWins ? "Forfettario — Regime Consigliato" : "Ordinario — Regime Consigliato"}
+                    </p>
+                    <p className="text-5xl font-black font-mono tabular text-zinc-950 leading-none">
+                      {formatCurrency(forfettarioWins
+                        ? comparison.forfettario.netIncome
+                        : comparison.ordinario.netIncome)}
+                    </p>
+                    <p className="text-sm text-zinc-500 mt-1">Netto annuale in tasca</p>
                   </div>
-                )}
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-bold text-slate-700">
+                  <div className="text-right">
+                    <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                      Risparmio vs alternativa
+                    </p>
+                    <p className={`text-3xl font-black font-mono tabular ${Math.abs(comparison.difference) > 0 ? "text-red-600" : "text-zinc-950"}`}>
+                      {comparison.difference > 0 ? "+" : ""}
+                      {formatCurrency(comparison.difference)}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ── BREAKDOWN TABLE ── */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+              {/* FORFETTARIO */}
+              {!isOverCliff && (
+                <div className={`bg-white border ${forfettarioWins ? "border-zinc-950" : "border-zinc-200"} p-5`}>
+                  <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
                     Regime Forfettario
-                  </span>
-                  {inputs.expectedRevenue > 100000 ? (
-                    <XCircle className="w-6 h-6 text-red-500" />
-                  ) : (
-                    <CheckCircle
-                      className={`w-6 h-6 ${
-                        comparison.difference > 0
-                          ? "text-green-500"
-                          : "text-slate-300"
-                      }`}
-                    />
-                  )}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm text-slate-500">Netto Annuale</p>
-                  <p className="text-3xl font-black text-slate-900">
-                    {inputs.expectedRevenue > 100000
-                      ? "€0"
-                      : formatCurrency(comparison.forfettario.netIncome)}
                   </p>
+                  <div className="space-y-2.5">
+                    {[
+                      { label: "Netto in Tasca", value: formatCurrency(comparison.forfettario.netIncome), bold: true },
+                      { label: `Imposta (${inputs.isNewBusiness ? "5%" : "15%"})`, value: `−${formatCurrency(comparison.forfettario.taxAmount)}` },
+                      { label: "INPS", value: `−${formatCurrency(comparison.forfettario.inpsContributes)}` },
+                      { label: "Aliquota Eff.", value: isFinite(comparison.forfettario.effectiveTaxRate) ? `${comparison.forfettario.effectiveTaxRate.toFixed(1)}%` : "—" },
+                    ].map((row) => (
+                      <div key={row.label} className="flex justify-between items-baseline border-b border-zinc-100 pb-2">
+                        <span className="text-xs text-zinc-500">{row.label}</span>
+                        <span className={`text-sm font-mono tabular ${row.bold ? "font-black text-zinc-950" : "font-semibold text-zinc-700"}`}>
+                          {row.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="mt-4 pt-4 border-t border-slate-200/60 flex justify-between text-sm">
-                  <span className="text-slate-500">Tasse Totali</span>
-                  <span className="font-semibold text-slate-700">
-                    {formatCurrency(
-                      comparison.forfettario.taxAmount +
-                        comparison.forfettario.inpsContributes
-                    )}
-                  </span>
-                </div>
-              </div>
+              )}
 
-              {/* Ordinario Card */}
-              <div
-                className={`p-6 rounded-2xl border-2 transition-all ${
-                  comparison.difference < 0
-                    ? "border-blue-500 bg-blue-50/50"
-                    : "border-slate-100 bg-white"
-                }`}
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-bold text-slate-700">
-                    Regime Ordinario
-                  </span>
-                  <XCircle
-                    className={`w-6 h-6 ${
-                      comparison.difference < 0
-                        ? "text-blue-500"
-                        : "text-slate-300"
-                    }`}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm text-slate-500">Netto Annuale</p>
-                  <p className="text-3xl font-black text-slate-900">
-                    {formatCurrency(comparison.ordinario.netIncome)}
-                  </p>
-                </div>
-                <div className="mt-4 pt-4 border-t border-slate-200/60 flex justify-between text-sm">
-                  <span className="text-slate-500">Tasse Totali</span>
-                  <span className="font-semibold text-slate-700">
-                    {formatCurrency(
-                      comparison.ordinario.taxAmount +
-                        comparison.ordinario.inpsContributes +
-                        (comparison.ordinario.addizionali || 0)
-                    )}
-                  </span>
+              {/* ORDINARIO */}
+              <div className={`bg-white border ${!forfettarioWins && !isOverCliff ? "border-zinc-950" : "border-zinc-200"} p-5 ${isOverCliff ? "sm:col-span-2" : ""}`}>
+                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
+                  Regime Ordinario
+                </p>
+                <div className="space-y-2.5">
+                  {[
+                    { label: "Netto in Tasca", value: formatCurrency(comparison.ordinario.netIncome), bold: true },
+                    { label: "IRPEF", value: `−${formatCurrency(comparison.ordinario.taxAmount)}` },
+                    { label: "Add. Reg./Com.", value: `−${formatCurrency(comparison.ordinario.addizionali || 0)}` },
+                    { label: "INPS", value: `−${formatCurrency(comparison.ordinario.inpsContributes)}` },
+                    ...(comparison.ordinario.ivaAmount > 0
+                      ? [{ label: "IVA Persa (B2C)", value: `−${formatCurrency(comparison.ordinario.ivaAmount)}` }]
+                      : []),
+                    { label: "Aliquota Eff.", value: isFinite(comparison.ordinario.effectiveTaxRate) ? `${comparison.ordinario.effectiveTaxRate.toFixed(1)}%` : "—" },
+                  ].map((row) => (
+                    <div key={row.label} className="flex justify-between items-baseline border-b border-zinc-100 pb-2">
+                      <span className="text-xs text-zinc-500">{row.label}</span>
+                      <span className={`text-sm font-mono tabular ${row.bold ? "font-black text-zinc-950" : "font-semibold text-zinc-700"}`}>
+                        {row.value}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
 
-            {/* VERDICT BANNER */}
-            <div
-              className={`rounded-xl p-4 flex items-center justify-between ${
-                comparison.difference > 0
-                  ? "bg-slate-900 text-white"
-                  : "bg-red-600 text-white"
-              }`}
-            >
+            {/* ── PDF CTA ── */}
+            <div className="bg-white border border-zinc-200 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <p className="text-xs font-bold uppercase opacity-70 mb-1">
-                  Il Verdetto
-                </p>
-                <p className="text-lg font-bold">{comparison.recommendation}</p>
-              </div>
-              <div className="text-right">
-                <p className="text-xs font-bold uppercase opacity-70 mb-1">
-                  Differenza
-                </p>
-                <p className="text-2xl font-black">
-                  {comparison.difference > 0 ? "+" : ""}
-                  {formatCurrency(comparison.difference)}
+                <p className="text-sm font-bold text-zinc-900">Report PDF Completo</p>
+                <p className="text-xs text-zinc-500 mt-0.5">
+                  Tutti i calcoli in un documento da portare al commercialista.
                 </p>
               </div>
-            </div>
-
-            {/* CONVERSION CTA */}
-            <div className="mt-8 text-center bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 border border-indigo-100">
-              <div className="max-w-xl mx-auto">
-                <h3 className="text-xl font-black text-slate-900 mb-2">
-                  Hai dubbi sul risultato?
-                </h3>
-                <p className="text-slate-600 text-sm mb-6">
-                  Non rischiare sanzioni. Scarica il report dettagliato e trova
-                  un commercialista certificato nella tua zona.
-                </p>
-                <div className="inline-block">
-                  {typeof window !== "undefined" && pdfDocument && (
-                    <PDFDownloadLink
-                      key={`pdf-${inputs.clientType}-${inputs.expectedRevenue}`}
-                      document={pdfDocument}
-                      fileName={`Bur0_Simulazione_${
-                        new Date().toISOString().split("T")[0]
-                      }_${Date.now()}.pdf`}
-                    >
-                      {(linkProps) => {
-                        const { blob, url, loading } = linkProps || {};
-
-                        // Only show popup when user clicked download AND PDF is ready AND loading screen done
-                        if (
-                          !loading &&
-                          blob &&
-                          downloadClicked &&
-                          !pdfShownRef.current &&
-                          !showPdfLoading
-                        ) {
-                          pdfShownRef.current = true;
-                          setTimeout(() => {
-                            // Store blob and create persistent URL
-                            setPdfBlob(blob);
-                            const objectUrl = URL.createObjectURL(blob);
-                            setPdfUrl(objectUrl);
-                            setShowPdfPopup(true);
-                            setIsGenerating(false);
-                            setDownloadClicked(false);
-                          }, 100);
-                        }
-
-                        return (
-                          <button
-                            disabled={loading}
-                            onClick={() => {
-                              if (!loading) {
-                                setIsGenerating(true);
-                                setDownloadClicked(true);
-                                setShowPdfLoading(true);
-                                pdfShownRef.current = false; // Reset for next download
-                              }
-                            }}
-                            className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-full shadow-lg shadow-indigo-200 transition-all hover:scale-105 hover:shadow-xl inline-flex items-center gap-2 disabled:opacity-70 disabled:scale-100 disabled:cursor-not-allowed"
-                          >
-                            {loading || isGenerating ? (
-                              <Loader2 className="w-5 h-5 animate-spin" />
-                            ) : (
-                              <Download className="w-5 h-5" />
-                            )}
-                            <span>
-                              {loading || isGenerating
-                                ? "Generazione PDF..."
-                                : "Scarica Report Completo"}
-                            </span>
-                          </button>
-                        );
-                      }}
-                    </PDFDownloadLink>
-                  )}
-                </div>
-                <p className="text-xs text-slate-500 mt-4">
-                  *Il PDF include il dettaglio completo dei calcoli da portare
-                  al commercialista
-                </p>
+              <div className="flex-shrink-0">
+                {typeof window !== "undefined" && pdfDocument && (
+                  <PDFDownloadLink
+                    key={`pdf-${inputs.clientType}-${inputs.expectedRevenue}`}
+                    document={pdfDocument}
+                    fileName={`Bur0_Simulazione_${new Date().toISOString().split("T")[0]}_${Date.now()}.pdf`}
+                  >
+                    {(linkProps) => {
+                      const { blob, url, loading } = linkProps || {};
+                      if (
+                        !loading && blob && downloadClicked &&
+                        !pdfShownRef.current && !showPdfLoading
+                      ) {
+                        pdfShownRef.current = true;
+                        setTimeout(() => {
+                          setPdfBlob(blob);
+                          const objectUrl = URL.createObjectURL(blob);
+                          setPdfUrl(objectUrl);
+                          setShowPdfPopup(true);
+                          setIsGenerating(false);
+                          setDownloadClicked(false);
+                        }, 100);
+                      }
+                      return (
+                        <button
+                          disabled={loading}
+                          onClick={() => {
+                            if (!loading) {
+                              setIsGenerating(true);
+                              setDownloadClicked(true);
+                              setShowPdfLoading(true);
+                              pdfShownRef.current = false;
+                            }
+                          }}
+                          className="inline-flex items-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-editorial py-3 px-6 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {loading || isGenerating ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <FileText className="w-4 h-4" />
+                          )}
+                          {loading || isGenerating ? "Generazione..." : "Scarica Report"}
+                        </button>
+                      );
+                    }}
+                  </PDFDownloadLink>
+                )}
               </div>
             </div>
+
           </div>
         </div>
       </div>
 
-      {/* PDF Loading Screen */}
+      {/* Loading screen */}
       {showPdfLoading && (
         <LoadingScreen
           type="pdf"
           minDuration={2500}
-          onComplete={() => {
-            setShowPdfLoading(false);
-          }}
+          onComplete={() => setShowPdfLoading(false)}
         />
       )}
 
-      {/* PDF Download Popup */}
+      {/* PDF Popup */}
       {showPdfPopup && pdfUrl && !showPdfLoading && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-zinc-200 max-w-sm w-full p-8 relative shadow-xl">
             <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
+              onClick={() => {
                 setShowPdfPopup(false);
                 if (pdfUrl) URL.revokeObjectURL(pdfUrl);
                 setPdfUrl(null);
                 setPdfBlob(null);
                 pdfShownRef.current = false;
               }}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-700"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8 text-green-600" />
-              </div>
-
-              <h3 className="text-2xl font-black text-slate-900 mb-2">
-                Report Generato!
-              </h3>
-
-              <p className="text-slate-600 mb-6">
-                Il tuo report PDF è pronto. Aprilo per vedere tutti i dettagli
-                della simulazione.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-3">
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (pdfBlob) {
-                      // Create fresh URL from blob each time
-                      const freshUrl = URL.createObjectURL(pdfBlob);
-                      window.open(freshUrl, "_blank");
-                      // Cleanup after short delay
-                      setTimeout(() => URL.revokeObjectURL(freshUrl), 1000);
-
-                      setShowPdfPopup(false);
-                      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
-                      setPdfUrl(null);
-                      setPdfBlob(null);
-                      pdfShownRef.current = false;
-                    }
-                  }}
-                  className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 inline-flex items-center justify-center gap-2"
-                >
-                  <ExternalLink className="w-5 h-5" />
-                  Apri PDF
-                </button>
-
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">Report Pronto</p>
+            <p className="text-2xl font-black text-zinc-950 mb-1">PDF Generato</p>
+            <p className="text-sm text-zinc-500 mb-6">
+              Il report è pronto. Aprilo per vedere i dettagli completi della simulazione.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  if (pdfBlob) {
+                    const freshUrl = URL.createObjectURL(pdfBlob);
+                    window.open(freshUrl, "_blank");
+                    setTimeout(() => URL.revokeObjectURL(freshUrl), 1000);
                     setShowPdfPopup(false);
                     if (pdfUrl) URL.revokeObjectURL(pdfUrl);
                     setPdfUrl(null);
                     setPdfBlob(null);
                     pdfShownRef.current = false;
-                  }}
-                  className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-xl transition-colors"
-                >
-                  Chiudi
-                </button>
-              </div>
-
-              <p className="text-xs text-slate-500 mt-4">
-                Il file è stato salvato anche nei tuoi download
-              </p>
+                  }
+                }}
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-editorial py-3 px-4 transition-colors"
+              >
+                <ExternalLink className="w-4 h-4" />
+                Apri PDF
+              </button>
+              <button
+                onClick={() => {
+                  setShowPdfPopup(false);
+                  if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+                  setPdfUrl(null);
+                  setPdfBlob(null);
+                  pdfShownRef.current = false;
+                }}
+                className="flex-1 border border-zinc-300 text-zinc-700 hover:border-zinc-500 font-bold text-sm uppercase tracking-editorial py-3 px-4 transition-colors"
+              >
+                Chiudi
+              </button>
             </div>
           </div>
         </div>
       )}
     </div>
   );
-}
+}

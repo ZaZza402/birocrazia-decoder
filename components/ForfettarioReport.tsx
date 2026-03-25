@@ -8,130 +8,152 @@ import {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 30,
+    padding: 40,
     fontFamily: "Helvetica",
     backgroundColor: "#ffffff",
   },
   header: {
-    marginBottom: 20,
-    borderBottomWidth: 2,
-    borderBottomColor: "#4f46e5",
-    paddingBottom: 10,
+    marginBottom: 28,
+    borderBottomWidth: 3,
+    borderBottomColor: "#09090b",
+    paddingBottom: 14,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "flex-end",
   },
   title: {
-    fontSize: 24,
-    color: "#1e293b",
+    fontSize: 26,
+    color: "#09090b",
     fontWeight: "bold",
+    letterSpacing: 0.5,
   },
   subtitle: {
-    fontSize: 10,
-    color: "#64748b",
+    fontSize: 9,
+    color: "#71717a",
+    marginTop: 3,
+    letterSpacing: 1,
+    textTransform: "uppercase",
   },
   section: {
-    marginBottom: 15,
-    padding: 10,
-    backgroundColor: "#f8fafc",
-    borderRadius: 5,
+    marginBottom: 18,
+    padding: 12,
+    backgroundColor: "#fafaf9",
+    borderLeftWidth: 2,
+    borderLeftColor: "#09090b",
   },
   sectionTitle: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: "bold",
-    marginBottom: 5,
-    color: "#334155",
+    marginBottom: 8,
+    color: "#71717a",
+    letterSpacing: 1.5,
     textTransform: "uppercase",
   },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 4,
+    marginBottom: 5,
     borderBottomWidth: 1,
-    borderBottomColor: "#e2e8f0",
-    paddingBottom: 2,
+    borderBottomColor: "#f0f0f0",
+    paddingBottom: 4,
   },
   label: {
     fontSize: 10,
-    color: "#475569",
+    color: "#52525b",
   },
   value: {
     fontSize: 10,
-    color: "#0f172a",
+    color: "#09090b",
     fontWeight: "bold",
   },
   comparisonContainer: {
     flexDirection: "row",
-    gap: 10,
-    marginTop: 10,
+    gap: 12,
+    marginTop: 12,
   },
   card: {
     flex: 1,
-    padding: 10,
-    borderRadius: 5,
+    padding: 14,
     borderWidth: 1,
+    borderColor: "#e4e4e7",
+    backgroundColor: "#ffffff",
   },
-  cardForf: {
-    borderColor: "#10b981",
-    backgroundColor: "#ecfdf5",
-  },
-  cardOrd: {
-    borderColor: "#ef4444",
-    backgroundColor: "#fef2f2",
+  cardWinner: {
+    borderLeftWidth: 3,
+    borderLeftColor: "#09090b",
   },
   cardTitle: {
-    fontSize: 14,
+    fontSize: 9,
     fontWeight: "bold",
-    marginBottom: 10,
-    textAlign: "center",
+    marginBottom: 8,
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+    color: "#71717a",
   },
   bigNumber: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 5,
+    marginBottom: 8,
+    color: "#09090b",
   },
   verdict: {
     marginTop: 20,
-    padding: 15,
-    backgroundColor: "#1e293b",
-    color: "white",
-    borderRadius: 8,
-    textAlign: "center",
+    padding: 18,
+    backgroundColor: "#09090b",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
   },
-  verdictTitle: {
-    fontSize: 10,
-    opacity: 0.8,
-    marginBottom: 5,
+  verdictLabel: {
+    fontSize: 9,
+    color: "#a1a1aa",
+    letterSpacing: 1.5,
     textTransform: "uppercase",
+    marginBottom: 4,
   },
   verdictText: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: "bold",
+    color: "#ffffff",
+    maxWidth: 280,
+  },
+  verdictDiff: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#ffffff",
+    textAlign: "right",
   },
   disclaimer: {
     position: "absolute",
-    bottom: 30,
-    left: 30,
-    right: 30,
-    fontSize: 8,
-    color: "#94a3b8",
+    bottom: 28,
+    left: 40,
+    right: 40,
+    fontSize: 7.5,
+    color: "#a1a1aa",
     textAlign: "center",
     borderTopWidth: 1,
-    borderTopColor: "#e2e8f0",
-    paddingTop: 10,
+    borderTopColor: "#e4e4e7",
+    paddingTop: 8,
   },
   warningBox: {
     marginTop: 10,
-    padding: 8,
-    backgroundColor: "#fef3c7",
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "#f59e0b",
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: "#ffffff",
+    borderLeftWidth: 2,
+    borderLeftColor: "#dc2626",
   },
   warningText: {
     fontSize: 9,
-    color: "#92400e",
+    color: "#3f3f46",
+    marginTop: 2,
+  },
+  insightsBox: {
+    marginTop: 16,
+    padding: 12,
+    backgroundColor: "#fafaf9",
+    borderTopWidth: 1,
+    borderTopColor: "#e4e4e7",
   },
 });
 
@@ -145,267 +167,160 @@ interface ReportProps {
   };
 }
 
-export const ForfettarioReport = ({ inputs, results }: ReportProps) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.title}>Bur0 - Simulazione Fiscale</Text>
-          <Text style={styles.subtitle}>
-            Report generato il {new Date().toLocaleDateString("it-IT")}
-          </Text>
-        </View>
-        <View style={{ alignItems: "flex-end" }}>
-          <Text
-            style={{
-              fontSize: 12,
-              color: "#4f46e5",
-              fontWeight: "bold",
-              marginBottom: 3,
-            }}
-          >
-            Forfettario vs Ordinario
-          </Text>
-          <Text style={{ fontSize: 8, color: "#64748b" }}>
-            Powered by alecsdesign.xyz
-          </Text>
-        </View>
-      </View>
+export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
+  const forfettarioWins = results.difference > 0;
+  const isOverCliff = inputs.expectedRevenue > 100000;
 
-      {/* INPUT SUMMARY */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Dati Inseriti</Text>
-        <View style={styles.row}>
-          <Text style={styles.label}>Fatturato Previsto</Text>
-          <Text style={styles.value}>
-            {formatCurrency(inputs.expectedRevenue)}
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Coefficiente ATECO</Text>
-          <Text style={styles.value}>{inputs.atecoCoefficient * 100}%</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Spese Reali</Text>
-          <Text style={styles.value}>
-            {formatCurrency(inputs.realExpenses)}
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>INPS Anno Precedente</Text>
-          <Text style={styles.value}>
-            {formatCurrency(inputs.previousYearINPS)}
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Tipo Clientela</Text>
-          <Text style={styles.value}>
-            {inputs.clientType === "b2c" ? "Privati (B2C)" : "Aziende (B2B)"}
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Cassa Previdenziale</Text>
-          <Text style={styles.value}>
-            {inputs.cassaType === "gestione_separata"
-              ? "Gestione Separata INPS"
-              : inputs.cassaType === "artigiani_commercianti"
-              ? "Artigiani/Commercianti"
-              : "Cassa Professionale"}
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Start-up (Primi 5 anni)</Text>
-          <Text style={styles.value}>
-            {inputs.isNewBusiness ? "Sì (5%)" : "No (15%)"}
-          </Text>
-        </View>
-      </View>
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
 
-      {/* WARNINGS */}
-      {(results.forfettario.warnings.length > 0 ||
-        results.ordinario.warnings.length > 0) && (
-        <View style={styles.warningBox}>
-          <Text
-            style={{
-              fontSize: 10,
-              fontWeight: "bold",
-              color: "#92400e",
-              marginBottom: 4,
-            }}
-          >
-            AVVISI IMPORTANTI
-          </Text>
-          {[...results.forfettario.warnings, ...results.ordinario.warnings]
-            .filter((w) => w && typeof w === "string")
-            .map((warning, idx) => (
-              <Text key={idx} style={styles.warningText}>
-                • {warning}
-              </Text>
-            ))}
-        </View>
-      )}
-
-      {/* COMPARISON */}
-      <View style={styles.comparisonContainer}>
-        {/* Forfettario Column */}
-        <View style={[styles.card, styles.cardForf]}>
-          <Text style={[styles.cardTitle, { color: "#047857" }]}>
-            REGIME FORFETTARIO
-          </Text>
-          <Text style={{ fontSize: 10, textAlign: "center", color: "#047857" }}>
-            Netto in Tasca
-          </Text>
-          <Text style={[styles.bigNumber, { color: "#047857" }]}>
-            {inputs.expectedRevenue > 100000
-              ? "€0 (NON DISPONIBILE)"
-              : formatCurrency(results.forfettario.netIncome)}
-          </Text>
-
-          <View style={{ marginTop: 10 }}>
-            <View style={styles.row}>
-              <Text style={styles.label}>
-                Imposta Sostitutiva ({inputs.isNewBusiness ? "5%" : "15%"})
-              </Text>
-              <Text style={styles.value}>
-                -{formatCurrency(results.forfettario.taxAmount)}
-              </Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.label}>INPS Contributi</Text>
-              <Text style={styles.value}>
-                -{formatCurrency(results.forfettario.inpsContributes)}
-              </Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.label}>Aliquota Effettiva</Text>
-              <Text style={styles.value}>
-                {isFinite(results.forfettario.effectiveTaxRate)
-                  ? `${results.forfettario.effectiveTaxRate.toFixed(1)}%`
-                  : "0.0%"}
-              </Text>
-            </View>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <View>
+            <Text style={styles.title}>Bur0</Text>
+            <Text style={styles.subtitle}>Simulazione Fiscale — Forfettario vs Ordinario</Text>
+          </View>
+          <View style={{ alignItems: "flex-end" }}>
+            <Text style={{ fontSize: 9, color: "#71717a", letterSpacing: 0.5 }}>
+              {new Date().toLocaleDateString("it-IT", { day: "2-digit", month: "long", year: "numeric" })}
+            </Text>
+            <Text style={{ fontSize: 9, color: "#a1a1aa", marginTop: 2 }}>
+              bur0.click
+            </Text>
           </View>
         </View>
 
-        {/* Ordinario Column */}
-        <View style={[styles.card, styles.cardOrd]}>
-          <Text style={[styles.cardTitle, { color: "#b91c1c" }]}>
-            REGIME ORDINARIO
-          </Text>
-          <Text style={{ fontSize: 10, textAlign: "center", color: "#b91c1c" }}>
-            Netto in Tasca
-          </Text>
-          <Text style={[styles.bigNumber, { color: "#b91c1c" }]}>
-            {formatCurrency(results.ordinario.netIncome)}
-          </Text>
+        {/* INPUT SUMMARY */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Dati Inseriti</Text>
+          {[
+            ["Fatturato Previsto", formatCurrency(inputs.expectedRevenue)],
+            ["Coefficiente ATECO", `${inputs.atecoCoefficient * 100}%`],
+            ["Spese Reali Deducibili", formatCurrency(inputs.realExpenses)],
+            ["INPS Anno Precedente", formatCurrency(inputs.previousYearINPS)],
+            ["Tipo Clientela", inputs.clientType === "b2c" ? "Privati (B2C)" : "Aziende (B2B)"],
+            ["Cassa Previdenziale", inputs.cassaType === "gestione_separata" ? "Gestione Separata INPS (26.07%)" : inputs.cassaType === "artigiani_commercianti" ? "Artigiani / Commercianti" : "Cassa Professionale"],
+            ["Regime Start-up", inputs.isNewBusiness ? "Sì — Aliquota 5% (primi 5 anni)" : "No — Aliquota 15%"],
+          ].map(([label, value]) => (
+            <View key={label} style={styles.row}>
+              <Text style={styles.label}>{label}</Text>
+              <Text style={styles.value}>{value}</Text>
+            </View>
+          ))}
+        </View>
 
-          <View style={{ marginTop: 10 }}>
-            <View style={styles.row}>
-              <Text style={styles.label}>IRPEF</Text>
-              <Text style={styles.value}>
-                -{formatCurrency(results.ordinario.taxAmount)}
-              </Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.label}>Addizionali Regionali/Comunali</Text>
-              <Text style={styles.value}>
-                -{formatCurrency(results.ordinario.addizionali || 0)}
-              </Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.label}>INPS Contributi</Text>
-              <Text style={styles.value}>
-                -{formatCurrency(results.ordinario.inpsContributes)}
-              </Text>
-            </View>
-            {results.ordinario.ivaAmount > 0 && (
-              <View style={styles.row}>
-                <Text style={styles.label}>IVA Persa (B2C)</Text>
-                <Text style={styles.value}>
-                  -{formatCurrency(results.ordinario.ivaAmount)}
-                </Text>
+        {/* WARNINGS */}
+        {(results.forfettario.warnings.length > 0 || results.ordinario.warnings.length > 0) && (
+          <View style={styles.warningBox}>
+            <Text style={{ fontSize: 9, fontWeight: "bold", color: "#dc2626", marginBottom: 4, letterSpacing: 1, textTransform: "uppercase" }}>
+              Avvisi
+            </Text>
+            {[...results.forfettario.warnings, ...results.ordinario.warnings]
+              .filter((w) => w && typeof w === "string")
+              .map((warning, idx) => (
+                <Text key={idx} style={styles.warningText}>— {warning}</Text>
+              ))}
+          </View>
+        )}
+
+        {/* COMPARISON CARDS */}
+        <View style={styles.comparisonContainer}>
+
+          {/* FORFETTARIO */}
+          <View style={[styles.card, forfettarioWins && !isOverCliff ? styles.cardWinner : {}]}>
+            <Text style={styles.cardTitle}>Regime Forfettario</Text>
+            <Text style={{ fontSize: 9, color: "#71717a", marginBottom: 4 }}>Netto Annuale</Text>
+            <Text style={[styles.bigNumber, isOverCliff ? { color: "#a1a1aa" } : {}]}>
+              {isOverCliff ? "Non disponibile" : formatCurrency(results.forfettario.netIncome)}
+            </Text>
+            {!isOverCliff && (
+              <View>
+                {[
+                  [`Imposta (${inputs.isNewBusiness ? "5%" : "15%"})`, `−${formatCurrency(results.forfettario.taxAmount)}`],
+                  ["INPS Contributi", `−${formatCurrency(results.forfettario.inpsContributes)}`],
+                  ["Aliquota Effettiva", isFinite(results.forfettario.effectiveTaxRate) ? `${results.forfettario.effectiveTaxRate.toFixed(1)}%` : "—"],
+                ].map(([label, value]) => (
+                  <View key={label} style={styles.row}>
+                    <Text style={styles.label}>{label}</Text>
+                    <Text style={styles.value}>{value}</Text>
+                  </View>
+                ))}
               </View>
             )}
-            <View style={styles.row}>
-              <Text style={styles.label}>Aliquota Effettiva</Text>
-              <Text style={styles.value}>
-                {isFinite(results.ordinario.effectiveTaxRate)
-                  ? `${results.ordinario.effectiveTaxRate.toFixed(1)}%`
-                  : "0.0%"}
+            {isOverCliff && (
+              <Text style={{ fontSize: 9, color: "#dc2626" }}>
+                Sopra €100k si esce dal forfettario con effetto retroattivo.
               </Text>
+            )}
+          </View>
+
+          {/* ORDINARIO */}
+          <View style={[styles.card, !forfettarioWins && !isOverCliff ? styles.cardWinner : isOverCliff ? styles.cardWinner : {}]}>
+            <Text style={styles.cardTitle}>Regime Ordinario</Text>
+            <Text style={{ fontSize: 9, color: "#71717a", marginBottom: 4 }}>Netto Annuale</Text>
+            <Text style={styles.bigNumber}>
+              {formatCurrency(results.ordinario.netIncome)}
+            </Text>
+            <View>
+              {[
+                ["IRPEF", `−${formatCurrency(results.ordinario.taxAmount)}`],
+                ["Addizionali Reg./Com.", `−${formatCurrency(results.ordinario.addizionali || 0)}`],
+                ["INPS Contributi", `−${formatCurrency(results.ordinario.inpsContributes)}`],
+                ...(results.ordinario.ivaAmount > 0 ? [["IVA Persa (B2C)", `−${formatCurrency(results.ordinario.ivaAmount)}`]] : []),
+                ["Aliquota Effettiva", isFinite(results.ordinario.effectiveTaxRate) ? `${results.ordinario.effectiveTaxRate.toFixed(1)}%` : "—"],
+              ].map(([label, value]) => (
+                <View key={label} style={styles.row}>
+                  <Text style={styles.label}>{label}</Text>
+                  <Text style={styles.value}>{value}</Text>
+                </View>
+              ))}
             </View>
           </View>
         </View>
-      </View>
 
-      {/* VERDICT */}
-      <View style={styles.verdict}>
-        <Text style={styles.verdictTitle}>IL TUO RISULTATO</Text>
-        <Text style={styles.verdictText}>{results.recommendation}</Text>
-        <Text style={{ fontSize: 12, marginTop: 8, color: "#94a3b8" }}>
-          Differenza Netta: {results.difference > 0 ? "+" : ""}
-          {formatCurrency(results.difference)}
-        </Text>
-        <Text
-          style={{
-            fontSize: 9,
-            marginTop: 8,
-            color: "#cbd5e1",
-            fontStyle: "italic",
-          }}
-        >
-          {results.difference > 0
-            ? "Il Regime Forfettario ti fa risparmiare rispetto all'Ordinario"
-            : "Il Regime Ordinario potrebbe essere più conveniente nel tuo caso"}
-        </Text>
-      </View>
+        {/* VERDICT */}
+        <View style={styles.verdict}>
+          <View>
+            <Text style={styles.verdictLabel}>Risultato</Text>
+            <Text style={styles.verdictText}>{results.recommendation}</Text>
+          </View>
+          <View style={{ alignItems: "flex-end" }}>
+            <Text style={styles.verdictLabel}>Differenza Annuale</Text>
+            <Text style={styles.verdictDiff}>
+              {results.difference > 0 ? "+" : ""}
+              {formatCurrency(results.difference)}
+            </Text>
+          </View>
+        </View>
 
-      {/* KEY INSIGHTS */}
-      <View
-        style={{
-          marginTop: 15,
-          padding: 10,
-          backgroundColor: "#f1f5f9",
-          borderRadius: 5,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 11,
-            fontWeight: "bold",
-            color: "#334155",
-            marginBottom: 5,
-          }}
-        >
-          ANALISI CHIAVE
-        </Text>
-        <Text style={{ fontSize: 9, color: "#475569", marginBottom: 3 }}>
-          • Base Imponibile Forfettario:{" "}
-          {formatCurrency(results.forfettario.taxableBase)} (Coeff.{" "}
-          {inputs.atecoCoefficient * 100}%)
-        </Text>
-        <Text style={{ fontSize: 9, color: "#475569", marginBottom: 3 }}>
-          • Base Imponibile IRPEF:{" "}
-          {formatCurrency(results.ordinario.taxableBase)}
-        </Text>
-        {inputs.clientType === "b2c" && (
-          <Text style={{ fontSize: 9, color: "#dc2626", fontWeight: "bold" }}>
-            • ATTENZIONE B2C: In regime ordinario perdi il 22% in IVA sui
-            privati
+        {/* INSIGHTS */}
+        <View style={styles.insightsBox}>
+          <Text style={{ fontSize: 9, color: "#71717a", letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>
+            Analisi
           </Text>
-        )}
-      </View>
+          <Text style={{ fontSize: 9, color: "#52525b", marginBottom: 3 }}>
+            Base imponibile forfettario: {formatCurrency(results.forfettario.taxableBase)} (coeff. {inputs.atecoCoefficient * 100}%)
+          </Text>
+          <Text style={{ fontSize: 9, color: "#52525b", marginBottom: 3 }}>
+            Base imponibile IRPEF: {formatCurrency(results.ordinario.taxableBase)}
+          </Text>
+          {inputs.clientType === "b2c" && (
+            <Text style={{ fontSize: 9, color: "#dc2626", marginTop: 2 }}>
+              Attenzione B2C: in regime ordinario si perde il 22% di IVA sulle vendite a privati.
+            </Text>
+          )}
+        </View>
 
-      {/* DISCLAIMER */}
-      <Text style={styles.disclaimer}>
-        Questo documento è una simulazione indicativa basata sui dati forniti e
-        sulla normativa fiscale italiana vigente al {new Date().getFullYear()}.
-        Non costituisce consulenza fiscale o contabile. Per decisioni
-        definitive, consulta sempre un Commercialista abilitato o un CAF. Bur0
-        non si assume responsabilità per eventuali inesattezze o decisioni prese
-        sulla base di questo report. • Powered by alecsdesign.xyz
-      </Text>
-    </Page>
-  </Document>
-);
+        {/* DISCLAIMER */}
+        <Text style={styles.disclaimer}>
+          Simulazione indicativa basata sui dati forniti e sulla normativa fiscale italiana vigente al {new Date().getFullYear()}.
+          Non costituisce consulenza fiscale o contabile. Per decisioni definitive, consulta un Commercialista abilitato.
+          bur0.click · Bur0 non si assume responsabilità per decisioni prese sulla base di questo report.
+        </Text>
+
+      </Page>
+    </Document>
+  );
+};
+

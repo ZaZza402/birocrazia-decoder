@@ -18,7 +18,9 @@ export default function BrandedEmbedPage() {
           >
             Bur<span className="font-mono text-lg">0</span>
           </a>
-          <span className="text-indigo-200 text-xs">• Strumenti Fiscali Gratuiti</span>
+          <span className="text-indigo-200 text-xs">
+            • Strumenti Fiscali Gratuiti
+          </span>
         </div>
       </div>
     </div>

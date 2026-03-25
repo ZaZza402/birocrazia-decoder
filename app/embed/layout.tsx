@@ -13,9 +13,5 @@ export default function EmbedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="min-h-screen bg-transparent">
-      {children}
-    </div>
-  );
+  return <div className="min-h-screen bg-transparent">{children}</div>;
 }
