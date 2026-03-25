@@ -108,7 +108,7 @@ export default function RootLayout({
       <body className="overflow-x-hidden">
         <Navigation />
         <PageTransition>
-          <div className="pt-20 min-h-screen">{children}</div>
+          <div className="min-h-screen">{children}</div>
         </PageTransition>
         <Footer />
         <CookieBanner />

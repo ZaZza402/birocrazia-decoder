@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -11,66 +11,76 @@ export default function Navigation() {
   const { isInstallable, installApp } = usePWAInstall();
 
   return (
-    <nav className="bg-white border-b border-zinc-200 sticky top-0 z-50">
-      <div className="max-w-5xl mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
+    /* Outer positioner: full-width on mobile, centered auto-width on desktop */
+    <div className="fixed top-3 z-50 left-3 right-3 md:left-1/2 md:right-auto md:-translate-x-1/2">
+      <nav
+        className={`bg-white border border-zinc-200 shadow-sm transition-all duration-200 ${
+          isMobileMenuOpen ? "rounded-2xl" : "rounded-full"
+        }`}
+      >
+        {/* MAIN ROW */}
+        <div className="flex items-center px-3 py-2 gap-2">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
             <Image
               src="/android-chrome-512x512.png"
               alt="Bur0"
-              width={28}
-              height={28}
-              className="w-7 h-7"
+              width={24}
+              height={24}
+              className="w-6 h-6"
             />
-            <span className="text-lg font-black text-zinc-950 tracking-tight leading-none">
+            <span className="text-sm font-black text-zinc-950 tracking-tight leading-none">
               Bur<span className="font-mono">0</span>
-            </span>
-            <span className="hidden sm:block text-xs uppercase tracking-editorial font-semibold text-zinc-400 border-l border-zinc-200 pl-3 ml-1">
-              Strumenti Fiscali
             </span>
           </Link>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-2">
+          {/* Divider */}
+          <span className="hidden md:block w-px h-3.5 bg-zinc-200 mx-1 flex-shrink-0" />
+
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-0.5">
             <Link
               href="/calcolatori/forfettario"
-              className="text-xs font-bold uppercase tracking-editorial text-zinc-600 hover:text-zinc-950 px-4 py-2 transition-colors"
+              className="text-[11px] font-bold uppercase tracking-editorial text-zinc-500 hover:text-zinc-950 px-3 py-1.5 transition-colors whitespace-nowrap"
             >
-              Simulatore Forfettario
+              Forfettario
             </Link>
-
             {isInstallable && (
               <button
                 onClick={installApp}
-                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-editorial border border-zinc-300 text-zinc-600 hover:border-zinc-700 hover:text-zinc-950 px-4 py-2 transition-colors"
+                className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-editorial border border-zinc-200 text-zinc-500 hover:border-zinc-400 hover:text-zinc-950 rounded-full px-3 py-1 transition-colors"
               >
-                <Download className="w-3.5 h-3.5" />
-                Installa
+                <Download className="w-3 h-3" />
+                App
               </button>
             )}
-
-            <Link
-              href="/upgrade"
-              className="text-xs font-bold uppercase tracking-editorial border border-zinc-950 bg-zinc-950 text-white hover:bg-zinc-800 px-4 py-2 transition-colors"
-            >
-              Pro
-            </Link>
           </div>
 
-          {/* Mobile button */}
+          {/* Spacer */}
+          <div className="hidden md:block flex-1 min-w-3" />
+
+          {/* Pro button */}
+          <Link
+            href="/upgrade"
+            className="hidden md:block text-[11px] font-bold uppercase tracking-editorial bg-zinc-950 text-white hover:bg-zinc-800 rounded-full px-4 py-1.5 transition-colors whitespace-nowrap flex-shrink-0"
+          >
+            Pro
+          </Link>
+
+          {/* Mobile spacer + hamburger */}
+          <div className="flex-1 md:hidden" />
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-zinc-700 hover:text-zinc-950"
+            className="md:hidden p-1 text-zinc-700 hover:text-zinc-950 flex-shrink-0"
           >
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* MOBILE EXPANDED MENU */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-zinc-200 py-4 space-y-1">
+          <div className="md:hidden border-t border-zinc-100 px-4 pb-3 pt-2 space-y-0.5">
             <Link
               href="/calcolatori/forfettario"
               onClick={() => setIsMobileMenuOpen(false)}
@@ -80,7 +90,10 @@ export default function Navigation() {
             </Link>
             {isInstallable && (
               <button
-                onClick={() => { installApp(); setIsMobileMenuOpen(false); }}
+                onClick={() => {
+                  installApp();
+                  setIsMobileMenuOpen(false);
+                }}
                 className="flex items-center gap-2 text-xs font-bold uppercase tracking-editorial text-zinc-700 py-2"
               >
                 <Download className="w-3.5 h-3.5" />
@@ -96,7 +109,7 @@ export default function Navigation() {
             </Link>
           </div>
         )}
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }

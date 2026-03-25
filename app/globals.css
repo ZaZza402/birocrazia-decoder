@@ -62,7 +62,7 @@ body {
   background-color: #09090b;
   border-radius: 9999px;
   border: 2px solid white;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: transform 0.1s;
 }
@@ -71,7 +71,7 @@ body {
 }
 .slider-thumb:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(9,9,11,0.15);
+  box-shadow: 0 0 0 3px rgba(9, 9, 11, 0.15);
 }
 
 /* Remove focus outlines from recharts elements */

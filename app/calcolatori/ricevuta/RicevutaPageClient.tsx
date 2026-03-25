@@ -44,7 +44,7 @@ export default function RicevutaPageClient() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans text-slate-900">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center pt-20 px-4 pb-4 font-sans text-slate-900">
       <div className="max-w-4xl w-full">
         {/* Back Button */}
         <Link

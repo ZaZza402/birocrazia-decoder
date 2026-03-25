@@ -1,8 +1,5 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  AlertTriangle,
-} from "lucide-react";
+import { ArrowRight, AlertTriangle } from "lucide-react";
 
 export default function LandingPage() {
   const jsonLd = {
@@ -69,11 +66,9 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <div className="min-h-screen bg-stone-50">
-
         {/* ── HERO ── */}
         <section className="bg-zinc-950 text-white">
           <div className="max-w-5xl mx-auto px-6 py-20 md:py-28">
-
             {/* Kicker */}
             <div className="flex items-center gap-2 mb-6">
               <AlertTriangle className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
@@ -90,8 +85,8 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-lg text-zinc-400 max-w-xl mb-10 leading-relaxed">
-              Scopri esattamente quanto stai regalando allo stato.
-              Simulazione con i tuoi numeri reali, report PDF pronto per il commercialista.
+              Scopri esattamente quanto stai regalando allo stato. Simulazione
+              con i tuoi numeri reali, report PDF pronto per il commercialista.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 items-start">
@@ -116,13 +111,11 @@ export default function LandingPage() {
         {/* ── NUMBERS — THE EVIDENCE ── */}
         <section className="bg-white border-b border-zinc-200">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
-
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-10">
               Esempio reale — Fatturato €50.000, ATECO 67%
             </p>
 
             <div className="grid md:grid-cols-3 gap-0 border border-zinc-200">
-
               {/* Forfettario */}
               <div className="p-8 border-r border-zinc-200">
                 <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
@@ -132,7 +125,10 @@ export default function LandingPage() {
                   €36.242
                 </p>
                 <p className="text-sm text-zinc-500">Netto in tasca</p>
-                <p className="text-xs text-zinc-400 mt-3">Aliquota effettiva: <strong className="text-zinc-700">27.5%</strong></p>
+                <p className="text-xs text-zinc-400 mt-3">
+                  Aliquota effettiva:{" "}
+                  <strong className="text-zinc-700">27.5%</strong>
+                </p>
               </div>
 
               {/* Ordinario */}
@@ -144,7 +140,10 @@ export default function LandingPage() {
                   €29.153
                 </p>
                 <p className="text-sm text-zinc-500">Netto in tasca</p>
-                <p className="text-xs text-zinc-400 mt-3">Aliquota effettiva: <strong className="text-zinc-700">41.7%</strong></p>
+                <p className="text-xs text-zinc-400 mt-3">
+                  Aliquota effettiva:{" "}
+                  <strong className="text-zinc-700">41.7%</strong>
+                </p>
               </div>
 
               {/* Difference */}
@@ -155,10 +154,13 @@ export default function LandingPage() {
                 <p className="text-5xl font-black font-mono tabular text-white leading-none mb-2">
                   €7.089
                 </p>
-                <p className="text-sm text-zinc-400">Regalati allo stato ogni anno</p>
-                <p className="text-xs text-red-400 mt-3 font-semibold">In 5 anni: oltre €35.000</p>
+                <p className="text-sm text-zinc-400">
+                  Regalati allo stato ogni anno
+                </p>
+                <p className="text-xs text-red-400 mt-3 font-semibold">
+                  In 5 anni: oltre €35.000
+                </p>
               </div>
-
             </div>
           </div>
         </section>
@@ -166,7 +168,6 @@ export default function LandingPage() {
         {/* ── EXPLANATION ── */}
         <section className="max-w-5xl mx-auto px-6 py-16 md:py-20">
           <div className="grid md:grid-cols-2 gap-12">
-
             <div>
               <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
                 Perché succede
@@ -175,14 +176,18 @@ export default function LandingPage() {
                 Il problema che nessuno calcola prima
               </h2>
               <p className="text-zinc-600 leading-relaxed mb-4">
-                Quando superi gli <strong className="text-zinc-900">€85.000 di fatturato</strong>, perdi
-                automaticamente il regime forfettario l'anno successivo. Se superi
-                <strong className="text-zinc-900"> €100.000</strong>, esci con effetto retroattivo sull'intero anno.
+                Quando superi gli{" "}
+                <strong className="text-zinc-900">€85.000 di fatturato</strong>,
+                perdi automaticamente il regime forfettario l'anno successivo.
+                Se superi
+                <strong className="text-zinc-900"> €100.000</strong>, esci con
+                effetto retroattivo sull'intero anno.
               </p>
               <p className="text-zinc-600 leading-relaxed">
                 Nel regime ordinario l'IRPEF progressiva (23%, 35%, 43%) e le
                 addizionali regionali ti mangiano quasi il doppio rispetto al
-                forfettario. Pochissimi lo calcolano <em>prima</em> di trovarsi nella trappola.
+                forfettario. Pochissimi lo calcolano <em>prima</em> di trovarsi
+                nella trappola.
               </p>
             </div>
 
@@ -200,12 +205,12 @@ export default function LandingPage() {
                   l'IVA non si applica.
                 </p>
                 <p className="text-zinc-600 leading-relaxed">
-                  Su €50.000 di fatturato B2C, questa differenza aggiunte alle tasse
-                  porta la perdita annuale oltre <strong className="text-zinc-900">€10.000</strong>.
+                  Su €50.000 di fatturato B2C, questa differenza aggiunte alle
+                  tasse porta la perdita annuale oltre{" "}
+                  <strong className="text-zinc-900">€10.000</strong>.
                 </p>
               </div>
             </div>
-
           </div>
         </section>
 
@@ -222,7 +227,8 @@ export default function LandingPage() {
                 Calcola.
               </h2>
               <p className="text-zinc-400 max-w-sm">
-                Inserisci i tuoi numeri reali e scarica il report PDF per il tuo commercialista.
+                Inserisci i tuoi numeri reali e scarica il report PDF per il tuo
+                commercialista.
               </p>
             </div>
             <div className="flex-shrink-0">
@@ -236,8 +242,7 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
-
       </div>
     </>
   );
-}
+}

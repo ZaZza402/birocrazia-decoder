@@ -18,7 +18,8 @@ export default function Footer() {
               Strumenti Fiscali Gratuiti
             </p>
             <p className="text-sm text-zinc-500 leading-relaxed max-w-xs">
-              Calcola tasse, simula scenari fiscali e genera documenti. Aggiornato per il {currentYear}.
+              Calcola tasse, simula scenari fiscali e genera documenti.
+              Aggiornato per il {currentYear}.
             </p>
           </div>
 
@@ -100,13 +101,20 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-zinc-800 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <p className="text-xs text-zinc-600">
-            © {currentYear} Bur0 — I calcoli sono indicativi. Per consulenze specifiche, rivolgiti a un commercialista.
+            © {currentYear} Bur0 — I calcoli sono indicativi. Per consulenze
+            specifiche, rivolgiti a un commercialista.
           </p>
           <div className="flex gap-5 text-xs text-zinc-600">
-            <Link href="/privacy" className="hover:text-zinc-400 transition-colors">
+            <Link
+              href="/privacy"
+              className="hover:text-zinc-400 transition-colors"
+            >
               Privacy
             </Link>
-            <Link href="/termini" className="hover:text-zinc-400 transition-colors">
+            <Link
+              href="/termini"
+              className="hover:text-zinc-400 transition-colors"
+            >
               Termini
             </Link>
           </div>
