@@ -41,12 +41,15 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <span className="text-sm text-zinc-600 flex items-center gap-2">
-                  Generatore Ricevute{" "}
-                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600">
-                    Presto
+                <Link
+                  href="/calcolatori/ateco"
+                  className="text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  Codice ATECO 2025{" "}
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500">
+                    Live
                   </span>
-                </span>
+                </Link>
               </li>
             </ul>
           </div>
@@ -77,14 +80,6 @@ export default function Footer() {
                 >
                   INPS <ExternalLink className="w-3 h-3 text-zinc-600" />
                 </a>
-              </li>
-              <li>
-                <Link
-                  href="/upgrade"
-                  className="text-sm text-zinc-400 hover:text-white transition-colors"
-                >
-                  Sei un Commercialista?
-                </Link>
               </li>
               <li>
                 <a

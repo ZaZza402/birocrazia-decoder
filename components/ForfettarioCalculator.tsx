@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useRef } from "react";
-import dynamic from "next/dynamic";
+import React, { useState, useMemo, useEffect } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import {
   AlertTriangle,
@@ -15,22 +14,6 @@ import { ForfettarioReport } from "@/components/ForfettarioReport";
 import LoadingScreen from "@/components/LoadingScreen";
 import AtecoCombobox from "@/components/AtecoCombobox";
 
-// Dynamic import to avoid SSR issues with @react-pdf/renderer
-const PDFDownloadLink = dynamic(
-  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
-  {
-    ssr: false,
-    loading: () => (
-      <button
-        disabled
-        className="bg-zinc-400 text-white font-bold py-3 px-8 uppercase tracking-editorial text-sm opacity-70"
-      >
-        <Loader2 className="w-4 h-4 inline mr-2 animate-spin" />
-        Caricamento PDF...
-      </button>
-    ),
-  },
-);
 import {
   LineChart,
   Line,
@@ -67,8 +50,16 @@ export default function ForfettarioCalculator() {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [downloadClicked, setDownloadClicked] = useState(false);
-  const pdfShownRef = useRef(false);
+  const [pendingPdf, setPendingPdf] = useState<{
+    blob: Blob;
+    url: string;
+  } | null>(null);
+  const [realExpensesStr, setRealExpensesStr] = useState(
+    String(inputs.realExpenses),
+  );
+  const [prevINPSStr, setPrevINPSStr] = useState(
+    String(inputs.previousYearINPS),
+  );
 
   const comparison = useMemo(() => {
     try {
@@ -123,11 +114,33 @@ export default function ForfettarioCalculator() {
     }
   }, [inputs]);
 
-  const pdfDocument = useMemo(() => {
-    if (!comparison || comparison.forfettario.netIncome === undefined)
-      return null;
-    return <ForfettarioReport inputs={inputs} results={comparison} />;
-  }, [inputs, comparison]);
+  useEffect(() => {
+    if (pendingPdf && !showPdfLoading) {
+      setPdfBlob(pendingPdf.blob);
+      setPdfUrl(pendingPdf.url);
+      setShowPdfPopup(true);
+      setIsGenerating(false);
+      setPendingPdf(null);
+    }
+  }, [pendingPdf, showPdfLoading]);
+
+  const generatePdf = async () => {
+    if (isGenerating) return;
+    setIsGenerating(true);
+    setShowPdfLoading(true);
+    try {
+      const { pdf } = await import("@react-pdf/renderer");
+      const blob = await pdf(
+        <ForfettarioReport inputs={inputs} results={comparison} />,
+      ).toBlob();
+      const url = URL.createObjectURL(blob);
+      setPendingPdf({ blob, url });
+    } catch (e) {
+      console.error("PDF generation failed:", e);
+      setIsGenerating(false);
+      setShowPdfLoading(false);
+    }
+  };
 
   const handleRevenueChange = (value: number) => {
     const validValue = isNaN(value)
@@ -276,14 +289,16 @@ export default function ForfettarioCalculator() {
                         Spese Reali
                       </label>
                       <input
-                        type="number"
-                        value={inputs.realExpenses}
-                        onChange={(e) =>
-                          setInputs({
-                            ...inputs,
-                            realExpenses: parseFloat(e.target.value) || 0,
-                          })
-                        }
+                        type="text"
+                        inputMode="numeric"
+                        value={realExpensesStr}
+                        onChange={(e) => setRealExpensesStr(e.target.value)}
+                        onBlur={() => {
+                          const v = parseFloat(realExpensesStr) || 0;
+                          setRealExpensesStr(String(v));
+                          setInputs((prev) => ({ ...prev, realExpenses: v }));
+                        }}
+                        onFocus={(e) => e.target.select()}
                         className="w-full px-3 py-2.5 border-b border-zinc-300 bg-transparent text-sm text-zinc-900 font-mono tabular focus:outline-none focus:border-zinc-700"
                       />
                     </div>
@@ -292,14 +307,19 @@ export default function ForfettarioCalculator() {
                         INPS Prec.
                       </label>
                       <input
-                        type="number"
-                        value={inputs.previousYearINPS}
-                        onChange={(e) =>
-                          setInputs({
-                            ...inputs,
-                            previousYearINPS: parseFloat(e.target.value) || 0,
-                          })
-                        }
+                        type="text"
+                        inputMode="numeric"
+                        value={prevINPSStr}
+                        onChange={(e) => setPrevINPSStr(e.target.value)}
+                        onBlur={() => {
+                          const v = parseFloat(prevINPSStr) || 0;
+                          setPrevINPSStr(String(v));
+                          setInputs((prev) => ({
+                            ...prev,
+                            previousYearINPS: v,
+                          }));
+                        }}
+                        onFocus={(e) => e.target.select()}
                         className="w-full px-3 py-2.5 border-b border-zinc-300 bg-transparent text-sm text-zinc-900 font-mono tabular focus:outline-none focus:border-zinc-700"
                       />
                     </div>
@@ -690,57 +710,18 @@ export default function ForfettarioCalculator() {
                 </p>
               </div>
               <div className="flex-shrink-0">
-                {typeof window !== "undefined" && pdfDocument && (
-                  <PDFDownloadLink
-                    key={`pdf-${inputs.clientType}-${inputs.expectedRevenue}`}
-                    document={pdfDocument}
-                    fileName={`Bur0_Simulazione_${new Date().toISOString().split("T")[0]}_${Date.now()}.pdf`}
-                  >
-                    {(linkProps) => {
-                      const { blob, url, loading } = linkProps || {};
-                      if (
-                        !loading &&
-                        blob &&
-                        downloadClicked &&
-                        !pdfShownRef.current &&
-                        !showPdfLoading
-                      ) {
-                        pdfShownRef.current = true;
-                        setTimeout(() => {
-                          setPdfBlob(blob);
-                          const objectUrl = URL.createObjectURL(blob);
-                          setPdfUrl(objectUrl);
-                          setShowPdfPopup(true);
-                          setIsGenerating(false);
-                          setDownloadClicked(false);
-                        }, 100);
-                      }
-                      return (
-                        <button
-                          disabled={loading}
-                          onClick={() => {
-                            if (!loading) {
-                              setIsGenerating(true);
-                              setDownloadClicked(true);
-                              setShowPdfLoading(true);
-                              pdfShownRef.current = false;
-                            }
-                          }}
-                          className="inline-flex items-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-editorial py-3 px-6 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {loading || isGenerating ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                          ) : (
-                            <FileText className="w-4 h-4" />
-                          )}
-                          {loading || isGenerating
-                            ? "Generazione..."
-                            : "Scarica Report"}
-                        </button>
-                      );
-                    }}
-                  </PDFDownloadLink>
-                )}
+                <button
+                  disabled={isGenerating}
+                  onClick={generatePdf}
+                  className="inline-flex items-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-editorial py-3 px-6 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isGenerating ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <FileText className="w-4 h-4" />
+                  )}
+                  {isGenerating ? "Generazione..." : "Scarica Report"}
+                </button>
               </div>
             </div>
           </div>
@@ -766,7 +747,6 @@ export default function ForfettarioCalculator() {
                 if (pdfUrl) URL.revokeObjectURL(pdfUrl);
                 setPdfUrl(null);
                 setPdfBlob(null);
-                pdfShownRef.current = false;
               }}
               className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-700"
             >
@@ -793,7 +773,6 @@ export default function ForfettarioCalculator() {
                     if (pdfUrl) URL.revokeObjectURL(pdfUrl);
                     setPdfUrl(null);
                     setPdfBlob(null);
-                    pdfShownRef.current = false;
                   }
                 }}
                 className="flex-1 inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-editorial py-3 px-4 transition-colors"
@@ -807,7 +786,6 @@ export default function ForfettarioCalculator() {
                   if (pdfUrl) URL.revokeObjectURL(pdfUrl);
                   setPdfUrl(null);
                   setPdfBlob(null);
-                  pdfShownRef.current = false;
                 }}
                 className="flex-1 border border-zinc-300 text-zinc-700 hover:border-zinc-500 font-bold text-sm uppercase tracking-editorial py-3 px-4 transition-colors"
               >

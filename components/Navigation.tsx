@@ -60,6 +60,12 @@ export default function Navigation() {
             >
               Forfettario
             </Link>
+            <Link
+              href="/calcolatori/ateco"
+              className="text-[11px] font-bold uppercase tracking-editorial text-zinc-500 hover:text-zinc-950 px-3 py-1.5 transition-colors whitespace-nowrap"
+            >
+              Codice ATECO
+            </Link>
             {isInstallable && (
               <button
                 onClick={installApp}
@@ -73,14 +79,6 @@ export default function Navigation() {
 
           {/* Spacer */}
           <div className="hidden md:block flex-1 min-w-3" />
-
-          {/* Pro button */}
-          <Link
-            href="/upgrade"
-            className="hidden md:block text-[11px] font-bold uppercase tracking-editorial bg-zinc-950 text-white hover:bg-zinc-800 rounded-full px-4 py-1.5 transition-colors whitespace-nowrap flex-shrink-0"
-          >
-            Pro
-          </Link>
 
           {/* Mobile spacer + hamburger */}
           <div className="flex-1 md:hidden" />
@@ -122,6 +120,13 @@ export default function Navigation() {
               >
                 Simulatore Forfettario
               </Link>
+              <Link
+                href="/calcolatori/ateco"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block text-xs font-bold uppercase tracking-editorial text-zinc-700 hover:text-zinc-950 py-2"
+              >
+                Codice ATECO
+              </Link>
               {isInstallable && (
                 <button
                   onClick={() => {
@@ -134,13 +139,6 @@ export default function Navigation() {
                   Installa App
                 </button>
               )}
-              <Link
-                href="/upgrade"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block text-xs font-bold uppercase tracking-editorial text-zinc-700 hover:text-zinc-950 py-2"
-              >
-                Pro
-              </Link>
             </div>
           </div>
         </div>

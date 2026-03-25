@@ -14,13 +14,18 @@ export default function AtecoCombobox({ value, onChange }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const [opensUpward, setOpensUpward] = useState(false);
 
   const results = useMemo(() => searchAteco(query), [query]);
 
   // Close on click outside
   useEffect(() => {
     function handler(e: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
         setIsOpen(false);
       }
     }
@@ -29,6 +34,10 @@ export default function AtecoCombobox({ value, onChange }: Props) {
   }, []);
 
   function open() {
+    if (triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      setOpensUpward(window.innerHeight - rect.bottom < 320);
+    }
     setIsOpen(true);
     setQuery("");
     setTimeout(() => inputRef.current?.focus(), 0);
@@ -45,23 +54,30 @@ export default function AtecoCombobox({ value, onChange }: Props) {
       {/* Trigger button */}
       <button
         type="button"
+        ref={triggerRef}
         onClick={open}
         className="w-full flex items-center justify-between border border-zinc-300 rounded-sm px-3 py-2.5 bg-white hover:border-zinc-400 text-left transition-colors"
       >
         {value ? (
           <span className="text-sm text-zinc-950 truncate">
-            <span className="font-mono font-bold text-zinc-500 mr-2">{value.code}</span>
+            <span className="font-mono font-bold text-zinc-500 mr-2">
+              {value.code}
+            </span>
             {value.description}
           </span>
         ) : (
-          <span className="text-sm text-zinc-400">Cerca per descrizione o codice…</span>
+          <span className="text-sm text-zinc-400">
+            Cerca per descrizione o codice…
+          </span>
         )}
         <ChevronDown className="w-4 h-4 text-zinc-400 flex-shrink-0 ml-2" />
       </button>
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute z-30 top-full left-0 right-0 mt-1 bg-white border border-zinc-200 shadow-lg rounded-sm overflow-hidden">
+        <div
+          className={`absolute z-30 left-0 right-0 bg-white border border-zinc-200 shadow-lg rounded-sm overflow-hidden ${opensUpward ? "bottom-full mb-1" : "top-full mt-1"}`}
+        >
           {/* Search input */}
           <div className="flex items-center gap-2 border-b border-zinc-100 px-3">
             <Search className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
@@ -83,7 +99,9 @@ export default function AtecoCombobox({ value, onChange }: Props) {
           {/* Results list */}
           <div className="max-h-64 overflow-y-auto">
             {results.length === 0 ? (
-              <p className="px-4 py-4 text-xs text-zinc-400 text-center">Nessun risultato per "{query}"</p>
+              <p className="px-4 py-4 text-xs text-zinc-400 text-center">
+                Nessun risultato per "{query}"
+              </p>
             ) : (
               <>
                 {!query && (
@@ -102,8 +120,12 @@ export default function AtecoCombobox({ value, onChange }: Props) {
                       {entry.code}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-zinc-950 leading-snug">{entry.description}</p>
-                      <p className="text-[10px] uppercase tracking-editorial text-zinc-400 mt-0.5">{entry.sector}</p>
+                      <p className="text-xs font-medium text-zinc-950 leading-snug">
+                        {entry.description}
+                      </p>
+                      <p className="text-[10px] uppercase tracking-editorial text-zinc-400 mt-0.5">
+                        {entry.sector}
+                      </p>
                     </div>
                     <span className="text-xs font-mono font-bold text-zinc-700 flex-shrink-0 pt-0.5">
                       {(entry.coefficient * 100).toFixed(0)}%
