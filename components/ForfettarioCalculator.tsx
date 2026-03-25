@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { ForfettarioReport } from "@/components/ForfettarioReport";
 import LoadingScreen from "@/components/LoadingScreen";
+import AtecoCombobox from "@/components/AtecoCombobox";
 
 // Dynamic import to avoid SSR issues with @react-pdf/renderer
 const PDFDownloadLink = dynamic(
@@ -42,12 +43,12 @@ import {
   ComposedChart,
 } from "recharts";
 import {
-  ATECO_CODES,
   type ForfettarioInputs,
   type CassaType,
   compareRegimes,
   formatCurrency,
 } from "@/lib/forfettario-utils";
+import { ATECO_DATA, type AtecoEntry } from "@/lib/ateco-data";
 
 export default function ForfettarioCalculator() {
   const [inputs, setInputs] = useState<ForfettarioInputs>({
@@ -60,7 +61,7 @@ export default function ForfettarioCalculator() {
     clientType: "b2b",
   });
 
-  const [selectedAteco, setSelectedAteco] = useState(ATECO_CODES[0].code);
+  const [selectedAteco, setSelectedAteco] = useState<AtecoEntry>(ATECO_DATA[0]);
   const [showPdfPopup, setShowPdfPopup] = useState(false);
   const [showPdfLoading, setShowPdfLoading] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
@@ -135,10 +136,9 @@ export default function ForfettarioCalculator() {
     setInputs({ ...inputs, expectedRevenue: validValue });
   };
 
-  const handleAtecoChange = (code: string) => {
-    setSelectedAteco(code);
-    const ateco = ATECO_CODES.find((a) => a.code === code);
-    if (ateco) setInputs({ ...inputs, atecoCoefficient: ateco.coefficient });
+  const handleAtecoChange = (entry: AtecoEntry) => {
+    setSelectedAteco(entry);
+    setInputs({ ...inputs, atecoCoefficient: entry.coefficient });
   };
 
   const forfettarioWins = comparison.difference > 0;
@@ -180,18 +180,16 @@ export default function ForfettarioCalculator() {
                   <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                     Codice ATECO
                   </label>
-                  <select
+                  <AtecoCombobox
                     value={selectedAteco}
-                    onChange={(e) => handleAtecoChange(e.target.value)}
-                    className="select-styled w-full px-3 py-2.5 bg-white border border-zinc-300 text-sm text-zinc-900 font-medium focus:outline-none focus:border-zinc-700"
-                  >
-                    {ATECO_CODES.map((ateco) => (
-                      <option key={ateco.code} value={ateco.code}>
-                        {ateco.code} — {ateco.description} (
-                        {ateco.coefficient * 100}%)
-                      </option>
-                    ))}
-                  </select>
+                    onChange={handleAtecoChange}
+                  />
+                  <p className="mt-1.5 text-[11px] text-zinc-400">
+                    Coefficiente di redditività:{" "}
+                    <span className="font-mono font-bold text-zinc-700">
+                      {(selectedAteco.coefficient * 100).toFixed(0)}%
+                    </span>
+                  </p>
                 </div>
 
                 {/* Cassa */}

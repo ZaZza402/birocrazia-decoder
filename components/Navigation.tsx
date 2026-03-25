@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, Download } from "lucide-react";
@@ -9,12 +9,26 @@ import { usePWAInstall } from "@/hooks/usePWAInstall";
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isInstallable, installApp } = usePWAInstall();
+  const navRef = useRef<HTMLDivElement>(null);
+
+  // Close on click outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    /* Outer positioner: full-width on mobile, centered auto-width on desktop */
-    <div className="fixed top-3 z-50 left-3 right-3 md:left-1/2 md:right-auto md:-translate-x-1/2">
+    <div
+      ref={navRef}
+      className="fixed top-3 z-50 left-3 right-3 md:left-1/2 md:right-auto md:-translate-x-1/2"
+    >
       <nav
-        className={`bg-white border border-zinc-200 shadow-sm transition-all duration-200 ${
+        className={`bg-white border border-zinc-200 shadow-sm transition-[border-radius] duration-300 ease-in-out ${
           isMobileMenuOpen ? "rounded-2xl" : "rounded-full"
         }`}
       >
@@ -71,44 +85,65 @@ export default function Navigation() {
           {/* Mobile spacer + hamburger */}
           <div className="flex-1 md:hidden" />
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={() => setIsMobileMenuOpen((v) => !v)}
             className="md:hidden p-1 text-zinc-700 hover:text-zinc-950 flex-shrink-0"
           >
-            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            <span
+              className={`block transition-opacity duration-150 ${
+                isMobileMenuOpen ? "opacity-0 absolute" : "opacity-100"
+              }`}
+            >
+              <Menu className="w-5 h-5" />
+            </span>
+            <span
+              className={`block transition-opacity duration-150 ${
+                isMobileMenuOpen ? "opacity-100" : "opacity-0 absolute"
+              }`}
+            >
+              <X className="w-5 h-5" />
+            </span>
           </button>
         </div>
 
-        {/* MOBILE EXPANDED MENU */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-zinc-100 px-4 pb-3 pt-2 space-y-0.5">
-            <Link
-              href="/calcolatori/forfettario"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block text-xs font-bold uppercase tracking-editorial text-zinc-700 hover:text-zinc-950 py-2"
-            >
-              Simulatore Forfettario
-            </Link>
-            {isInstallable && (
-              <button
-                onClick={() => {
-                  installApp();
-                  setIsMobileMenuOpen(false);
-                }}
-                className="flex items-center gap-2 text-xs font-bold uppercase tracking-editorial text-zinc-700 py-2"
+        {/* MOBILE EXPANDED MENU — CSS grid height animation */}
+        <div
+          className={`md:hidden grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+            isMobileMenuOpen
+              ? "grid-rows-[1fr] opacity-100"
+              : "grid-rows-[0fr] opacity-0"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div className="border-t border-zinc-100 px-4 pb-3 pt-2 space-y-0.5">
+              <Link
+                href="/calcolatori/forfettario"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block text-xs font-bold uppercase tracking-editorial text-zinc-700 hover:text-zinc-950 py-2"
               >
-                <Download className="w-3.5 h-3.5" />
-                Installa App
-              </button>
-            )}
-            <Link
-              href="/upgrade"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block text-xs font-bold uppercase tracking-editorial text-zinc-700 hover:text-zinc-950 py-2"
-            >
-              Pro
-            </Link>
+                Simulatore Forfettario
+              </Link>
+              {isInstallable && (
+                <button
+                  onClick={() => {
+                    installApp();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 text-xs font-bold uppercase tracking-editorial text-zinc-700 py-2"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  Installa App
+                </button>
+              )}
+              <Link
+                href="/upgrade"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block text-xs font-bold uppercase tracking-editorial text-zinc-700 hover:text-zinc-950 py-2"
+              >
+                Pro
+              </Link>
+            </div>
           </div>
-        )}
+        </div>
       </nav>
     </div>
   );
