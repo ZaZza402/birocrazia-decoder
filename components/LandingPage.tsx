@@ -79,7 +79,7 @@ export default function LandingPage() {
             <div className="flex items-center gap-2 mb-6">
               <AlertTriangle className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
               <span className="text-xs uppercase tracking-editorial font-semibold text-red-400">
-                La Trappola degli €85.000 — Regime Forfettario 2026
+                Il Salto degli €85.000 — Regime Forfettario 2026
               </span>
             </div>
 
@@ -91,8 +91,9 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-lg text-zinc-400 max-w-xl mb-10 leading-relaxed">
-              Scopri esattamente quanto stai regalando allo stato. Simulazione
-              con i tuoi numeri reali, report PDF pronto per il commercialista.
+              Simula il passaggio di regime con i tuoi numeri reali. Pianifica
+              la crescita senza sorprese fiscali — report PDF pronto per il
+              commercialista.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 items-start">
@@ -118,7 +119,7 @@ export default function LandingPage() {
         <section className="bg-white border-b border-zinc-200">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-10">
-              Esempio reale — Fatturato €50.000, ATECO 67%
+              Esempio reale — Fatturato €50.000, ATECO 67%, senza spese aziendali
             </p>
 
             <div className="grid md:grid-cols-3 gap-0 border border-zinc-200">
@@ -175,42 +176,17 @@ export default function LandingPage() {
         <section className="bg-zinc-950 text-white">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-500 mb-10">
-              Strumenti disponibili
+              Quattro passi — dal profilo alla pianificazione
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-800">
-              {/* Tool 1 — Forfettario */}
-              <Link
-                href="/calcolatori/forfettario"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
-              >
-                <div>
-                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
-                    Live
-                  </span>
-                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
-                    Simulatore
-                    <br />
-                    Forfettario vs Ordinario
-                  </h2>
-                  <p className="text-sm text-zinc-400 leading-relaxed">
-                    Calcola il netto con i tuoi numeri reali. Tax cliff a €100k.
-                    Report PDF per il commercialista.
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
-                  Avvia simulazione
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-
-              {/* Tool 2 — ATECO */}
+              {/* Step 1 — ATECO */}
               <Link
                 href="/calcolatori/ateco"
                 className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
-                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
-                    Live
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
+                    01 — Identifica
                   </span>
                   <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Trova il tuo
@@ -229,14 +205,39 @@ export default function LandingPage() {
                 </div>
               </Link>
 
-              {/* Tool 3 — Tax Cliff Monitor */}
+              {/* Step 2 — Simulatore */}
+              <Link
+                href="/calcolatori/forfettario"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
+              >
+                <div>
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
+                    02 — Simula
+                  </span>
+                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
+                    Simulatore
+                    <br />
+                    Forfettario vs Ordinario
+                  </h2>
+                  <p className="text-sm text-zinc-400 leading-relaxed">
+                    Calcola il netto con i tuoi numeri reali. Tax cliff a €100k.
+                    Report PDF per il commercialista.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
+                  Avvia simulazione
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Step 3 — Tax Cliff Monitor */}
               <Link
                 href="/calcolatori/cliff"
                 className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
-                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
-                    Live
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
+                    03 — Monitora
                   </span>
                   <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Tax Cliff
@@ -255,14 +256,14 @@ export default function LandingPage() {
                 </div>
               </Link>
 
-              {/* Tool 4 — Acconto */}
+              {/* Step 4 — Acconto */}
               <Link
                 href="/calcolatori/acconto"
                 className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
-                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
-                    Live
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
+                    04 — Pianifica
                   </span>
                   <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Acconto
@@ -328,6 +329,18 @@ export default function LandingPage() {
                   tasse porta la perdita annuale oltre{" "}
                   <strong className="text-zinc-900">€10.000</strong>.
                 </p>
+                <p className="text-xs text-zinc-500 leading-relaxed mt-3 pt-3 border-t border-zinc-100">
+                  Il regime ordinario apre però la deducibilità dei costi
+                  aziendali e la detrazione IVA sugli acquisti — variabili che
+                  il simulatore include nel campo <em>Spese Reali</em>.
+                </p>
+                <Link
+                  href="/calcolatori/forfettario"
+                  className="inline-flex items-center gap-2 mt-4 text-xs font-bold uppercase tracking-editorial text-zinc-950 hover:text-red-600 transition-colors"
+                >
+                  Calcola con i tuoi costi reali
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
               </div>
             </div>
           </div>
