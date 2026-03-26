@@ -10,11 +10,27 @@ export function GET() {
 
   const urls = [
     { loc: `${BASE}/`, priority: "1.0", changefreq: "weekly" },
-    { loc: `${BASE}/calcolatori/forfettario`, priority: "0.9", changefreq: "weekly" },
+    {
+      loc: `${BASE}/calcolatori/forfettario`,
+      priority: "0.9",
+      changefreq: "weekly",
+    },
     { loc: `${BASE}/calcolatori/ateco`, priority: "0.9", changefreq: "weekly" },
-    { loc: `${BASE}/calcolatori/cliff`, priority: "0.85", changefreq: "weekly" },
-    { loc: `${BASE}/calcolatori/acconto`, priority: "0.85", changefreq: "monthly" },
-    { loc: `${BASE}/calcolatori/ricevuta`, priority: "0.7", changefreq: "monthly" },
+    {
+      loc: `${BASE}/calcolatori/cliff`,
+      priority: "0.85",
+      changefreq: "weekly",
+    },
+    {
+      loc: `${BASE}/calcolatori/acconto`,
+      priority: "0.85",
+      changefreq: "monthly",
+    },
+    {
+      loc: `${BASE}/calcolatori/ricevuta`,
+      priority: "0.7",
+      changefreq: "monthly",
+    },
     ...SCENARIOS.map((s) => ({
       loc: `${BASE}/calcolatori/forfettario/${s.slug}`,
       priority: "0.8",

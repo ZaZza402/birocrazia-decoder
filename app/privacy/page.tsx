@@ -1,151 +1,142 @@
-import Link from "next/link";
-import { ArrowLeft, Shield } from "lucide-react";
+﻿import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
   title: "Privacy Policy | Bur0",
-  description: "Informativa Privacy - Local-First, Zero Tracking",
+  description: "Informativa Privacy â€” Local-First, Zero Tracking",
 };
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-slate-50 pt-20 pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-bold mb-8 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Torna alla Home
-        </Link>
+    <div className="min-h-screen bg-stone-50 pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto">
+        {/* â”€â”€ HEADER â”€â”€ */}
+        <div className="mb-10 border-b border-zinc-200 pb-6">
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+            Privacy Policy â€” bur0.click
+          </p>
+          <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
+            I tuoi dati restano tuoi
+          </h1>
+          <p className="mt-3 text-base text-zinc-500 max-w-xl">
+            Bur0 non raccoglie, non trasmette e non conserva alcun dato fiscale.
+            Tutto viene elaborato localmente nel tuo browser.
+          </p>
+        </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 md:p-12">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-              <Shield className="w-6 h-6 text-green-600" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-black text-slate-900">
-              Informativa Privacy
-            </h1>
-          </div>
+        {/* â”€â”€ HIGHLIGHT â”€â”€ */}
+        <div className="bg-white border border-zinc-200 border-l-4 border-l-zinc-950 p-5 mb-10">
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+            In breve
+          </p>
+          <p className="text-sm text-zinc-700 leading-relaxed">
+            I tuoi dati fiscali (fatturato, spese, ATECO, ecc.) non escono mai
+            dal tuo dispositivo. Non abbiamo server che li archiviano. Non
+            esistono account, registrazioni o profilazioni.
+          </p>
+        </div>
 
-          <div className="prose prose-slate max-w-none">
-            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg mb-8">
-              <p className="text-sm font-bold text-green-900 mb-2">
-                In Breve: Non Spiamo Nessuno
-              </p>
-              <p className="text-sm text-green-800">
-                I tuoi dati fiscali non escono mai dal tuo browser. Non abbiamo
-                server che conservano le tue informazioni. Tutto resta sul tuo
-                dispositivo.
-              </p>
-            </div>
+        <div className="space-y-8">
+          {/* 1 */}
+          <section className="border-b border-zinc-100 pb-8">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">01</p>
+            <h2 className="text-xl font-black text-zinc-950 mb-3">Titolare del Trattamento</h2>
+            <p className="text-sm text-zinc-600 leading-relaxed">
+              <strong className="text-zinc-900">Bur0</strong> â€” per qualsiasi
+              richiesta:{" "}
+              <a
+                href="mailto:info@alecsdesign.xyz?subject=Privacy%20Bur0"
+                className="underline underline-offset-2 hover:text-zinc-900 transition-colors"
+              >
+                info@alecsdesign.xyz
+              </a>
+            </p>
+          </section>
 
-            <section className="mb-8">
-              <h2 className="text-2xl font-black text-slate-900 mb-4">
-                1. Titolare del Trattamento
-              </h2>
-              <p className="text-slate-700 leading-relaxed">
-                <strong>Bur0</strong>
-                <br />
-                Per qualsiasi richiesta:{" "}
-                <a
-                  href="mailto:info@alecsdesign.xyz?subject=Supporto%20Bur0"
-                  className="text-indigo-600 hover:underline"
-                >
-                  Scrivici qui
-                </a>
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-black text-slate-900 mb-4">
-                2. Dati Trattati e Modalità
-              </h2>
-              <p className="text-slate-700 leading-relaxed mb-4">
-                Bur0 opera secondo un approccio <strong>"Local-First"</strong>.
-              </p>
-
-              <div className="bg-slate-50 rounded-lg p-6 mb-4">
-                <h3 className="font-bold text-slate-900 mb-3">
-                  Dati inseriti dall'utente
-                </h3>
-                <p className="text-slate-700 leading-relaxed">
-                  I dati fiscali (fatturato, spese, codice ATECO, ecc.) vengono
-                  elaborati <strong>esclusivamente dal browser</strong> del
-                  dispositivo dell'utente. Nessun dato viene inviato, salvato o
-                  archiviato sui nostri server.
+          {/* 2 */}
+          <section className="border-b border-zinc-100 pb-8">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">02</p>
+            <h2 className="text-xl font-black text-zinc-950 mb-3">Dati Trattati</h2>
+            <div className="space-y-4">
+              <div className="bg-white border border-zinc-200 p-4">
+                <p className="text-xs font-semibold uppercase tracking-editorial text-zinc-400 mb-1">Dati inseriti dall&apos;utente</p>
+                <p className="text-sm text-zinc-600 leading-relaxed">
+                  Tutti i dati fiscali (fatturato, spese, codice ATECO, ecc.)
+                  vengono elaborati <strong className="text-zinc-900">esclusivamente nel browser</strong>.
+                  Non vengono mai inviati a server esterni.
                 </p>
               </div>
-
-              <div className="bg-slate-50 rounded-lg p-6">
-                <h3 className="font-bold text-slate-900 mb-3">Dati tecnici</h3>
-                <p className="text-slate-700 leading-relaxed">
-                  Il sistema di hosting (Vercel) potrebbe raccogliere log
-                  tecnici anonimi (indirizzi IP) per fini di sicurezza e
-                  diagnostica. Questi dati non contengono alcuna informazione
-                  personale identificabile.
+              <div className="bg-white border border-zinc-200 p-4">
+                <p className="text-xs font-semibold uppercase tracking-editorial text-zinc-400 mb-1">Dati tecnici</p>
+                <p className="text-sm text-zinc-600 leading-relaxed">
+                  Il provider di hosting (Vercel) raccoglie log tecnici anonimi
+                  (indirizzi IP) per fini di sicurezza e diagnostica. Questi
+                  dati non includono informazioni personali identificabili.
                 </p>
               </div>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-black text-slate-900 mb-4">
-                3. Cookie e Local Storage
-              </h2>
-              <p className="text-slate-700 leading-relaxed mb-4">
-                Utilizziamo il <strong>"Local Storage"</strong> del browser per
-                salvare le tue preferenze (es. input salvati, consenso cookie)
-                esclusivamente sul tuo dispositivo.
-              </p>
-              <p className="text-slate-700 leading-relaxed">
-                Questi dati <strong>non sono accessibili a noi</strong>. Sono
-                salvati solo nel tuo browser e puoi eliminarli cancellando la
-                cache.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-black text-slate-900 mb-4">
-                4. Diritti dell'Interessato
-              </h2>
-              <p className="text-slate-700 leading-relaxed">
-                Poiché non conserviamo i tuoi dati personali, non possiamo
-                cancellarli o modificarli: sono{" "}
-                <strong>solo sul tuo dispositivo</strong>. Puoi eliminarli in
-                qualsiasi momento cancellando i dati del sito nelle impostazioni
-                del browser.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-black text-slate-900 mb-4">
-                5. Sicurezza
-              </h2>
-              <p className="text-slate-700 leading-relaxed">
-                Tutto il codice viene eseguito in modalità client-side
-                (JavaScript nel browser). Non memorizziamo password, dati di
-                pagamento o informazioni sensibili perché non esiste un sistema
-                di account o registrazione.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-black text-slate-900 mb-4">
-                6. Modifiche
-              </h2>
-              <p className="text-slate-700 leading-relaxed">
-                Ci riserviamo il diritto di aggiornare questa informativa per
-                riflettere modifiche alle pratiche o alla normativa. L'ultima
-                revisione sarà sempre disponibile su questa pagina.
-              </p>
-            </section>
-
-            <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-6 mt-8">
-              <p className="text-sm text-indigo-900 font-medium">
-                <strong>Data ultima revisione:</strong> 10 Dicembre 2025
-              </p>
             </div>
-          </div>
+          </section>
+
+          {/* 3 */}
+          <section className="border-b border-zinc-100 pb-8">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">03</p>
+            <h2 className="text-xl font-black text-zinc-950 mb-3">Cookie e Local Storage</h2>
+            <p className="text-sm text-zinc-600 leading-relaxed">
+              Usiamo il <strong className="text-zinc-900">Local Storage</strong> del
+              browser esclusivamente per salvare preferenze locali (es. dati del
+              Tax Cliff Monitor, consenso cookie banner). Questi dati non ci
+              sono accessibili e puoi eliminarli cancellando la cache del
+              browser in qualsiasi momento.
+            </p>
+          </section>
+
+          {/* 4 */}
+          <section className="border-b border-zinc-100 pb-8">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">04</p>
+            <h2 className="text-xl font-black text-zinc-950 mb-3">I Tuoi Diritti</h2>
+            <p className="text-sm text-zinc-600 leading-relaxed">
+              Non conserviamo i tuoi dati personali sui nostri server, quindi
+              non possiamo modificarli o cancellarli a richiesta â€” semplicemente
+              non esistono da noi. Puoi eliminarli in autonomia cancellando
+              i dati del sito nelle impostazioni del browser.
+            </p>
+          </section>
+
+          {/* 5 */}
+          <section className="border-b border-zinc-100 pb-8">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">05</p>
+            <h2 className="text-xl font-black text-zinc-950 mb-3">Sicurezza</h2>
+            <p className="text-sm text-zinc-600 leading-relaxed">
+              Tutto il codice viene eseguito in modalit&agrave; client-side
+              (JavaScript nel browser). Non esistono sistemi di account,
+              autenticazione o archiviazione di dati di pagamento.
+            </p>
+          </section>
+
+          {/* 6 */}
+          <section className="pb-8">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">06</p>
+            <h2 className="text-xl font-black text-zinc-950 mb-3">Modifiche</h2>
+            <p className="text-sm text-zinc-600 leading-relaxed">
+              Ci riserviamo il diritto di aggiornare questa informativa per
+              riflettere modifiche alle pratiche o alla normativa. L&apos;ultima
+              revisione sar&agrave; sempre disponibile su questa pagina.
+            </p>
+          </section>
+        </div>
+
+        {/* â”€â”€ FOOTER ROW â”€â”€ */}
+        <div className="mt-8 pt-6 border-t border-zinc-200 flex items-center justify-between gap-4">
+          <p className="text-xs text-zinc-400">
+            Ultima revisione: Marzo 2026
+          </p>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-editorial text-zinc-500 hover:text-zinc-950 transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            Home
+          </Link>
         </div>
       </div>
     </div>
