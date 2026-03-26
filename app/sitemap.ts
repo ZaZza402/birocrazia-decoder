@@ -42,18 +42,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
-    {
-      url: `${BASE}/privacy`,
-      lastModified: NOW,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${BASE}/termini`,
-      lastModified: NOW,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
   ];
 
   const scenarioRoutes: MetadataRoute.Sitemap = SCENARIOS.map((s) => ({

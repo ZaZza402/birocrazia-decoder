@@ -232,8 +232,8 @@ export default function ForfettarioCalculator({
             Forfettario vs Ordinario
           </h1>
           <p className="mt-3 text-base text-zinc-500 max-w-xl">
-            Inserisci i tuoi dati per scoprire quale regime ti lascia più
-            soldi in tasca.
+            Inserisci i tuoi dati per scoprire quale regime ti lascia più soldi
+            in tasca.
           </p>
           <button
             onClick={handleShare}
