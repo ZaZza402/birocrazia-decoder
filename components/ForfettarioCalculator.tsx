@@ -14,6 +14,7 @@ import {
 import { ForfettarioReport } from "@/components/ForfettarioReport";
 import LoadingScreen from "@/components/LoadingScreen";
 import AtecoCombobox from "@/components/AtecoCombobox";
+import InfoTooltip from "@/components/InfoTooltip";
 
 import {
   LineChart,
@@ -263,18 +264,20 @@ export default function ForfettarioCalculator({
                     value={selectedAteco}
                     onChange={handleAtecoChange}
                   />
-                  <p className="mt-1.5 text-[11px] text-zinc-400">
+                  <p className="mt-1.5 text-[11px] text-zinc-400 flex items-center">
                     Coefficiente di redditività:{" "}
-                    <span className="font-mono font-bold text-zinc-700">
+                    <span className="font-mono font-bold text-zinc-700 ml-1">
                       {(selectedAteco.coefficient * 100).toFixed(0)}%
                     </span>
+                    <InfoTooltip content="Solo questa percentuale del tuo fatturato è considerata reddito tassabile. Es: coefficiente 67% su €50.000 → base imponibile €33.500. Un coefficiente più basso significa meno tasse." />
                   </p>
                 </div>
 
                 {/* Cassa */}
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
+                  <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                     Cassa Previdenziale
+                    <InfoTooltip content="Gestione Separata INPS: la maggior parte dei freelance (sviluppatori, consulenti, ecc.) senza un albo professionale. Artigiani/Commercianti: attività con partita IVA in commercio o artigianato. Cassa Professionale: ordini con cassa propria (medici, avvocati, ingegneri, ecc.) — inserisci la % indicata dal tuo ordine." />
                   </label>
                   <select
                     value={inputs.cassaType}
@@ -351,8 +354,9 @@ export default function ForfettarioCalculator({
                 <div className="pt-4 border-t border-zinc-100">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
+                      <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                         Spese Reali
+                        <InfoTooltip content="Solo in Regime Ordinario: le spese aziendali documentate (hardware, software, abbonamenti, affitto ufficio, formazione) riducono il reddito imponibile. Nel forfettario non contano — si usa solo il coefficiente ATECO. Inserisci la stima annuale." />
                       </label>
                       <input
                         type="text"
@@ -369,8 +373,12 @@ export default function ForfettarioCalculator({
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
+                      <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                         INPS Prec.
+                        <InfoTooltip
+                          content="Contributi INPS versati nell'anno precedente, deducibili dal reddito imponibile nel Regime Ordinario. Li trovi nel modello Redditi dell'anno scorso. Lascia 0 se è il primo anno di attività."
+                          side="top"
+                        />
                       </label>
                       <input
                         type="text"
@@ -394,8 +402,12 @@ export default function ForfettarioCalculator({
 
                 {/* B2B / B2C */}
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-2">
+                  <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-2">
                     Tipo Clientela
+                    <InfoTooltip
+                      content="B2B (aziende): il cliente recupera l'IVA, quindi il prezzo netto non cambia. B2C (privati): il cliente non può recuperare l'IVA — in Regime Ordinario devi applicare il 22% e versarlo allo Stato, il che erode il tuo margine se non riesci ad alzare i prezzi."
+                      side="top"
+                    />
                   </label>
                   <div className="flex border border-zinc-300">
                     <button
@@ -473,7 +485,13 @@ export default function ForfettarioCalculator({
               <div className="flex justify-between text-xs font-semibold text-zinc-400 mt-3">
                 <span>€20k</span>
                 <span className="text-amber-600">€85k limite</span>
-                <span className="text-red-600">€100k cliff</span>
+                <span className="text-red-600 flex items-center">
+                  €100k cliff
+                  <InfoTooltip
+                    content="€85k: se superi questo importo nell'anno N, perdi il forfettario dall'anno N+1. €100k (cliff): se superi questo importo nell'anno corrente, esci dal forfettario con effetto retroattivo — tutte le tasse dell'anno vengono ricalcolate in Regime Ordinario."
+                    side="top"
+                  />
+                </span>
                 <span>€120k</span>
               </div>
 

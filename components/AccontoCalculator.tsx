@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { AlertTriangle, Clock } from "lucide-react";
 import { formatCurrency } from "@/lib/forfettario-utils";
+import InfoTooltip from "@/components/InfoTooltip";
 import {
   calcolaAcconto,
   SOGLIA_ESENZIONE,
@@ -118,8 +119,11 @@ export default function AccontoCalculator({
 
             {/* Previous year tax input */}
             <div className="bg-white border border-zinc-200 p-6">
-              <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
+              <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                 Imposta Sostitutiva {YEAR - 1}
+                <InfoTooltip
+                  content={`Trovata nel modello Redditi PF ${YEAR - 1}, quadro LM, riga LM42. Se usi il 730 precompilato, cerca la sezione Forfettario. È l'imposta flat (15% o 5%) applicata al tuo reddito imponibile dell'anno scorso.`}
+                />
               </label>
               <p className="text-[11px] text-zinc-400 mb-3">
                 Trovata nella tua dichiarazione dei redditi {YEAR - 1} — riga
@@ -141,8 +145,12 @@ export default function AccontoCalculator({
               </div>
               {metodo === "previsionale" && (
                 <div className="mt-4 pt-4 border-t border-zinc-100">
-                  <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
+                  <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                     Imposta Sostitutiva Stimata {YEAR}
+                    <InfoTooltip
+                      content={`La stima dell'imposta che pagherai quest'anno. Usa il Simulatore Forfettario con il fatturato previsto per il ${YEAR} — il valore nella riga "Imposta" del riepilogo. Se prevedi un reddito più basso dell'anno scorso, il metodo previsionale può ridurre l'acconto da versare.`}
+                      side="top"
+                    />
                   </label>
                   <p className="text-[11px] text-zinc-400 mb-3">
                     La tua stima dell&apos;imposta sostitutiva per l&apos;anno

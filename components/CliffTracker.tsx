@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Lock } from "lucide-react";
 import { formatCurrency } from "@/lib/forfettario-utils";
+import InfoTooltip from "@/components/InfoTooltip";
 
 const MONTHS_IT = [
   "Gennaio",
@@ -182,8 +183,12 @@ export default function CliffTracker() {
                 <p className="text-2xl font-black font-mono tabular text-zinc-950">
                   {formatCurrency(Math.max(0, CLIFF - total))}
                 </p>
-                <p className="text-xs text-zinc-400 mt-0.5">
+                <p className="text-xs text-zinc-400 mt-0.5 flex items-center">
                   rimangono alla cliff
+                  <InfoTooltip
+                    content="La \u201ccliff\u201d è il precipizio fiscale a €100.000. Se superi questa soglia nell'anno corrente, esci dal Regime Forfettario con effetto retroattivo — tutte le tasse dell'intero anno vengono ricalcolate in Regime Ordinario, non solo il surplus."
+                    side="top"
+                  />
                 </p>
               </div>
             </div>
