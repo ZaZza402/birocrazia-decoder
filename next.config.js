@@ -66,7 +66,7 @@ const nextConfig = {
         ],
       },
       {
-        source: "/:path((?!embed).*)*",
+        source: "/:path((?!embed|sitemap.xml|robots.txt).*)*",
         headers: [
           {
             key: "X-DNS-Prefetch-Control",
