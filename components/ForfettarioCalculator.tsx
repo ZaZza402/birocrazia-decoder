@@ -220,32 +220,28 @@ export default function ForfettarioCalculator({
       <div className="max-w-7xl mx-auto">
         {/* ── HEADER ── */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
-                Simulatore Fiscale 2026
-              </p>
-              {scenarioLabel && (
-                <p className="text-xs font-mono text-zinc-400 mb-2 tracking-tight">
-                  {scenarioLabel}
-                </p>
-              )}
-              <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
-                Forfettario vs Ordinario
-              </h1>
-              <p className="mt-3 text-base text-zinc-500 max-w-xl">
-                Inserisci i tuoi dati per scoprire quale regime ti lascia più soldi
-                in tasca.
-              </p>
-            </div>
-            <button
-              onClick={handleShare}
-              className="flex-shrink-0 inline-flex items-center gap-2 border border-zinc-300 hover:border-zinc-500 text-zinc-700 font-bold text-sm uppercase tracking-editorial py-2 px-3 transition-colors"
-            >
-              <Share2 className="w-4 h-4" />
-              {copied ? "Copiato!" : "Condividi"}
-            </button>
-          </div>
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+            Simulatore Fiscale 2026
+          </p>
+          {scenarioLabel && (
+            <p className="text-xs font-mono text-zinc-400 mb-2 tracking-tight">
+              {scenarioLabel}
+            </p>
+          )}
+          <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
+            Forfettario vs Ordinario
+          </h1>
+          <p className="mt-3 text-base text-zinc-500 max-w-xl">
+            Inserisci i tuoi dati per scoprire quale regime ti lascia più
+            soldi in tasca.
+          </p>
+          <button
+            onClick={handleShare}
+            className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-editorial text-zinc-400 hover:text-zinc-700 transition-colors"
+          >
+            <Share2 className="w-3 h-3" />
+            {copied ? "Copiato!" : "Condividi"}
+          </button>
         </div>
 
         {/* ── MAIN GRID ── */}
@@ -456,9 +452,14 @@ export default function ForfettarioCalculator({
                 max={120000}
                 step={1000}
                 value={[inputs.expectedRevenue]}
-                onPointerDown={() => { urlSyncReady.current = false; }}
+                onPointerDown={() => {
+                  urlSyncReady.current = false;
+                }}
                 onValueChange={([val]) => handleRevenueChange(val)}
-                onValueCommit={([val]) => { urlSyncReady.current = true; handleRevenueChange(val); }}
+                onValueCommit={([val]) => {
+                  urlSyncReady.current = true;
+                  handleRevenueChange(val);
+                }}
               >
                 <SliderPrimitive.Track className="slider-track">
                   <SliderPrimitive.Range className="slider-range" />

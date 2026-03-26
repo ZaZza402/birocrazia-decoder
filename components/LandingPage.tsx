@@ -177,17 +177,17 @@ export default function LandingPage() {
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-500 mb-10">
               Strumenti disponibili
             </p>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-800">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-800">
               {/* Tool 1 — Forfettario */}
               <Link
                 href="/calcolatori/forfettario"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
                     Live
                   </span>
-                  <h2 className="text-2xl font-black text-white leading-tight mb-2">
+                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Simulatore
                     <br />
                     Forfettario vs Ordinario
@@ -206,13 +206,13 @@ export default function LandingPage() {
               {/* Tool 2 — ATECO */}
               <Link
                 href="/calcolatori/ateco"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
                     Live
                   </span>
-                  <h2 className="text-2xl font-black text-white leading-tight mb-2">
+                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Trova il tuo
                     <br />
                     Codice ATECO 2025
@@ -232,13 +232,13 @@ export default function LandingPage() {
               {/* Tool 3 — Tax Cliff Monitor */}
               <Link
                 href="/calcolatori/cliff"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
                     Live
                   </span>
-                  <h2 className="text-2xl font-black text-white leading-tight mb-2">
+                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Tax Cliff
                     <br />
                     Monitor {new Date().getFullYear()}
@@ -258,13 +258,13 @@ export default function LandingPage() {
               {/* Tool 4 — Acconto */}
               <Link
                 href="/calcolatori/acconto"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
                     Live
                   </span>
-                  <h2 className="text-2xl font-black text-white leading-tight mb-2">
+                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Acconto
                     <br />
                     Imposta Sostitutiva
