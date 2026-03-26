@@ -55,14 +55,18 @@ function EntryRow({
       type="button"
       onClick={() => onSelect(entry)}
       className={`w-full flex items-center gap-3 px-4 py-3 text-left border-b border-zinc-100 last:border-0 transition-colors ${
-        selected ? "bg-zinc-950 text-white" : "hover:bg-zinc-50 active:bg-zinc-100"
+        selected
+          ? "bg-zinc-950 text-white"
+          : "hover:bg-zinc-50 active:bg-zinc-100"
       }`}
     >
       <span className="text-[10px] font-mono font-bold flex-shrink-0 w-[4.5rem] text-zinc-400">
         {entry.code}
       </span>
       <div className="flex-1 min-w-0">
-        <p className={`text-sm font-semibold leading-tight ${selected ? "text-white" : "text-zinc-950"}`}>
+        <p
+          className={`text-sm font-semibold leading-tight ${selected ? "text-white" : "text-zinc-950"}`}
+        >
           {entry.description}
         </p>
       </div>
@@ -79,10 +83,13 @@ function DetailSheet({
   entry: AtecoEntry;
   onClose: () => void;
 }) {
-  // Prevent body scroll while sheet is open
+  // Prevent body scroll while sheet is open — mobile only (lg breakpoint = 1024px)
   useEffect(() => {
+    if (!window.matchMedia("(max-width: 1023px)").matches) return;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, []);
 
   return (
@@ -131,23 +138,32 @@ function DetailSheet({
           {/* Stats row */}
           <div className="grid grid-cols-3 gap-3 mb-5 pt-4 border-t border-zinc-800">
             <div>
-              <p className="text-[10px] uppercase tracking-editorial text-zinc-500 mb-1">Coeff.</p>
-              <p className="text-2xl font-black font-mono">{(entry.coefficient * 100).toFixed(0)}%</p>
+              <p className="text-[10px] uppercase tracking-editorial text-zinc-500 mb-1">
+                Coeff.
+              </p>
+              <p className="text-2xl font-black font-mono">
+                {(entry.coefficient * 100).toFixed(0)}%
+              </p>
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-editorial text-zinc-500 mb-1">Aliquota</p>
+              <p className="text-[10px] uppercase tracking-editorial text-zinc-500 mb-1">
+                Aliquota
+              </p>
               <p className="text-2xl font-black font-mono">15%</p>
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-editorial text-zinc-500 mb-1">Su €50k</p>
+              <p className="text-[10px] uppercase tracking-editorial text-zinc-500 mb-1">
+                Su €50k
+              </p>
               <p className="text-2xl font-black font-mono">
-                €{(50000 * entry.coefficient * 0.15 / 1000).toFixed(1)}k
+                €{((50000 * entry.coefficient * 0.15) / 1000).toFixed(1)}k
               </p>
             </div>
           </div>
 
           <p className="text-[11px] text-zinc-500 mb-5">
-            = €50.000 × {(entry.coefficient * 100).toFixed(0)}% × 15% solo imposta sostitutiva, escluso INPS
+            = €50.000 × {(entry.coefficient * 100).toFixed(0)}% × 15% solo
+            imposta sostitutiva, escluso INPS
           </p>
 
           <Link
@@ -189,14 +205,20 @@ export default function AtecoFinder() {
   return (
     <div className="min-h-screen bg-stone-50 pt-20 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
-
         {/* ── HEADER — compact on mobile ── */}
         <div className="mb-6 border-b border-zinc-200 pb-5">
           {/* Breadcrumb */}
           <div className="flex items-center gap-1.5 mb-3">
-            <Link href="/" className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 hover:text-zinc-700 transition-colors">Bur0</Link>
+            <Link
+              href="/"
+              className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 hover:text-zinc-700 transition-colors"
+            >
+              Bur0
+            </Link>
             <ChevronRight className="w-2.5 h-2.5 text-zinc-300" />
-            <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-700">ATECO 2025</span>
+            <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-700">
+              ATECO 2025
+            </span>
           </div>
           <h1 className="text-3xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
             Trova il tuo Codice ATECO
@@ -209,7 +231,6 @@ export default function AtecoFinder() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8">
           {/* ── LEFT PANEL ── */}
           <div className="lg:col-span-7 space-y-3">
-
             {/* Search bar */}
             <div className="bg-white border border-zinc-200 flex items-center gap-3 px-4 py-3">
               <Search className="w-4 h-4 text-zinc-400 flex-shrink-0" />
@@ -217,13 +238,19 @@ export default function AtecoFinder() {
                 ref={inputRef}
                 type="text"
                 value={query}
-                onChange={(e) => { setQuery(e.target.value); setActiveSector(null); }}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setActiveSector(null);
+                }}
                 placeholder="es. sviluppatore, fisioterapista, fotografo…"
                 className="flex-1 text-sm text-zinc-950 placeholder:text-zinc-400 outline-none bg-transparent"
                 autoFocus
               />
               {query && (
-                <button onClick={clearSearch} className="flex-shrink-0 text-zinc-400 hover:text-zinc-700">
+                <button
+                  onClick={clearSearch}
+                  className="flex-shrink-0 text-zinc-400 hover:text-zinc-700"
+                >
                   <X className="w-4 h-4" />
                 </button>
               )}
@@ -262,17 +289,28 @@ export default function AtecoFinder() {
             <div className="bg-white border border-zinc-200 overflow-hidden">
               {/* Header row */}
               <div className="flex items-center gap-3 px-4 py-2 border-b border-zinc-100 bg-zinc-50">
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 w-[4.5rem] flex-shrink-0">Codice</span>
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 flex-1">Attività</span>
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 flex-shrink-0">Coeff.</span>
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 w-[4.5rem] flex-shrink-0">
+                  Codice
+                </span>
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 flex-1">
+                  Attività
+                </span>
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 flex-shrink-0">
+                  Coeff.
+                </span>
               </div>
 
               {/* Entries */}
               <div className="max-h-[420px] lg:max-h-[520px] overflow-y-auto">
                 {displayEntries.length === 0 ? (
                   <div className="px-5 py-10 text-center">
-                    <p className="text-sm text-zinc-500">Nessun risultato per &ldquo;{query}&rdquo;</p>
-                    <p className="text-xs text-zinc-400 mt-1">Prova con sinonimi — es. &ldquo;commercio&rdquo; invece di &ldquo;vendita&rdquo;</p>
+                    <p className="text-sm text-zinc-500">
+                      Nessun risultato per &ldquo;{query}&rdquo;
+                    </p>
+                    <p className="text-xs text-zinc-400 mt-1">
+                      Prova con sinonimi — es. &ldquo;commercio&rdquo; invece di
+                      &ldquo;vendita&rdquo;
+                    </p>
                   </div>
                 ) : (
                   displayEntries.map((entry) => (
@@ -415,12 +453,23 @@ export default function AtecoFinder() {
                 </p>
                 <div className="space-y-5">
                   {[
-                    { step: "01", text: "Cerca la tua professione nella lista a sinistra" },
-                    { step: "02", text: "Clicca sul codice per vedere coefficiente e calcolo" },
-                    { step: "03", text: "Usa il codice nel Simulatore Forfettario per il netto completo" },
+                    {
+                      step: "01",
+                      text: "Cerca la tua professione nella lista a sinistra",
+                    },
+                    {
+                      step: "02",
+                      text: "Clicca sul codice per vedere coefficiente e calcolo",
+                    },
+                    {
+                      step: "03",
+                      text: "Usa il codice nel Simulatore Forfettario per il netto completo",
+                    },
                   ].map(({ step, text }) => (
                     <div key={step} className="flex items-start gap-3">
-                      <span className="text-xs font-mono font-black text-zinc-300 flex-shrink-0 pt-0.5 w-6">{step}</span>
+                      <span className="text-xs font-mono font-black text-zinc-300 flex-shrink-0 pt-0.5 w-6">
+                        {step}
+                      </span>
                       <p className="text-sm text-zinc-600">{text}</p>
                     </div>
                   ))}
@@ -433,8 +482,15 @@ export default function AtecoFinder() {
                   <div className="space-y-2">
                     {Object.entries(COEFFICIENT_LABELS).map(
                       ([coeff, { label, color }]) => (
-                        <div key={coeff} className="flex items-center justify-between">
-                          <span className={`text-sm font-mono font-black ${color}`}>{label}</span>
+                        <div
+                          key={coeff}
+                          className="flex items-center justify-between"
+                        >
+                          <span
+                            className={`text-sm font-mono font-black ${color}`}
+                          >
+                            {label}
+                          </span>
                           <span className="text-xs text-zinc-500">
                             {coeff === "0.4"
                               ? "Commercio, ristorazione, ospitalità"
