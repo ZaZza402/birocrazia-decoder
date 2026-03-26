@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, AlertTriangle, Search } from "lucide-react";
+import { ArrowRight, AlertTriangle, Search, TrendingUp, Calendar } from "lucide-react";
 
 export default function LandingPage() {
   const jsonLd = {
@@ -171,7 +171,7 @@ export default function LandingPage() {
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-500 mb-10">
               Strumenti disponibili
             </p>
-            <div className="grid md:grid-cols-2 gap-px bg-zinc-800">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-800">
               {/* Tool 1 — Forfettario */}
               <Link
                 href="/calcolatori/forfettario"
@@ -219,6 +219,58 @@ export default function LandingPage() {
                 <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
                   <Search className="w-3.5 h-3.5" />
                   Cerca il tuo codice
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Tool 3 — Tax Cliff Monitor */}
+              <Link
+                href="/calcolatori/cliff"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[200px]"
+              >
+                <div>
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
+                    Live
+                  </span>
+                  <h2 className="text-2xl font-black text-white leading-tight mb-2">
+                    Tax Cliff
+                    <br />
+                    Monitor {new Date().getFullYear()}
+                  </h2>
+                  <p className="text-sm text-zinc-400 leading-relaxed">
+                    Traccia il fatturato mensile e monitora quanto sei lontano
+                    dalla soglia di €100.000.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
+                  <TrendingUp className="w-3.5 h-3.5" />
+                  Monitora il fatturato
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Tool 4 — Acconto */}
+              <Link
+                href="/calcolatori/acconto"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[200px]"
+              >
+                <div>
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
+                    Live
+                  </span>
+                  <h2 className="text-2xl font-black text-white leading-tight mb-2">
+                    Acconto
+                    <br />
+                    Imposta Sostitutiva
+                  </h2>
+                  <p className="text-sm text-zinc-400 leading-relaxed">
+                    Calcola quanto pagare di acconto entro il 30 Novembre. Rate,
+                    scadenze e codice F24.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
+                  <Calendar className="w-3.5 h-3.5" />
+                  Calcola le rate
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import {
   AlertTriangle,
@@ -9,6 +9,7 @@ import {
   ExternalLink,
   X,
   FileText,
+  Share2,
 } from "lucide-react";
 import { ForfettarioReport } from "@/components/ForfettarioReport";
 import LoadingScreen from "@/components/LoadingScreen";
@@ -32,19 +33,40 @@ import {
   formatCurrency,
 } from "@/lib/forfettario-utils";
 import { ATECO_DATA, type AtecoEntry } from "@/lib/ateco-data";
+import { useRouter, usePathname } from "next/navigation";
 
-export default function ForfettarioCalculator() {
+interface InitialInputs {
+  atecoCode?: string;
+  cassaType?: CassaType;
+  isNewBusiness?: boolean;
+  expectedRevenue?: number;
+  previousYearINPS?: number;
+  realExpenses?: number;
+  clientType?: "b2b" | "b2c";
+}
+
+export default function ForfettarioCalculator({
+  initialInputs,
+}: {
+  initialInputs?: InitialInputs;
+}) {
+  const initialAteco =
+    initialInputs?.atecoCode
+      ? (ATECO_DATA.find((e) => e.code === initialInputs.atecoCode) ??
+          ATECO_DATA[0])
+      : ATECO_DATA[0];
+
   const [inputs, setInputs] = useState<ForfettarioInputs>({
-    atecoCoefficient: 0.67,
-    cassaType: "gestione_separata",
-    isNewBusiness: false,
-    expectedRevenue: 50000,
-    previousYearINPS: 0,
-    realExpenses: 5000,
-    clientType: "b2b",
+    atecoCoefficient: initialAteco.coefficient,
+    cassaType: initialInputs?.cassaType ?? "gestione_separata",
+    isNewBusiness: initialInputs?.isNewBusiness ?? false,
+    expectedRevenue: initialInputs?.expectedRevenue ?? 50000,
+    previousYearINPS: initialInputs?.previousYearINPS ?? 0,
+    realExpenses: initialInputs?.realExpenses ?? 5000,
+    clientType: initialInputs?.clientType ?? "b2b",
   });
 
-  const [selectedAteco, setSelectedAteco] = useState<AtecoEntry>(ATECO_DATA[0]);
+  const [selectedAteco, setSelectedAteco] = useState<AtecoEntry>(initialAteco);
   const [showPdfPopup, setShowPdfPopup] = useState(false);
   const [showPdfLoading, setShowPdfLoading] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
@@ -60,6 +82,11 @@ export default function ForfettarioCalculator() {
   const [prevINPSStr, setPrevINPSStr] = useState(
     String(inputs.previousYearINPS),
   );
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const didMount = useRef(false);
+  const [copied, setCopied] = useState(false);
 
   const comparison = useMemo(() => {
     try {
@@ -124,6 +151,23 @@ export default function ForfettarioCalculator() {
     }
   }, [pendingPdf, showPdfLoading]);
 
+  useEffect(() => {
+    if (!didMount.current) {
+      didMount.current = true;
+      return;
+    }
+    const params = new URLSearchParams({
+      rev: String(inputs.expectedRevenue),
+      ateco: selectedAteco.code,
+      cassa: inputs.cassaType,
+      startup: inputs.isNewBusiness ? "1" : "0",
+      tipo: inputs.clientType,
+      spese: String(inputs.realExpenses),
+      inps: String(inputs.previousYearINPS),
+    });
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [inputs, selectedAteco, router, pathname]);
+
   const generatePdf = async () => {
     if (isGenerating) return;
     setIsGenerating(true);
@@ -152,6 +196,12 @@ export default function ForfettarioCalculator() {
   const handleAtecoChange = (entry: AtecoEntry) => {
     setSelectedAteco(entry);
     setInputs({ ...inputs, atecoCoefficient: entry.coefficient });
+  };
+
+  const handleShare = async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const forfettarioWins = comparison.difference > 0;
@@ -709,7 +759,14 @@ export default function ForfettarioCalculator() {
                   Tutti i calcoli in un documento da portare al commercialista.
                 </p>
               </div>
-              <div className="flex-shrink-0">
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <button
+                  onClick={handleShare}
+                  className="inline-flex items-center gap-2 border border-zinc-300 hover:border-zinc-500 text-zinc-700 font-bold text-sm uppercase tracking-editorial py-3 px-4 transition-colors"
+                >
+                  <Share2 className="w-4 h-4" />
+                  {copied ? "Copiato!" : "Condividi"}
+                </button>
                 <button
                   disabled={isGenerating}
                   onClick={generatePdf}

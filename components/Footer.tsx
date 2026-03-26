@@ -51,6 +51,28 @@ export default function Footer() {
                   </span>
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/calcolatori/cliff"
+                  className="text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  Tax Cliff Monitor 2026{" "}
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500">
+                    Live
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/calcolatori/acconto"
+                  className="text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  Acconto Imposta Sostitutiva{" "}
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500">
+                    Live
+                  </span>
+                </Link>
+              </li>
             </ul>
           </div>
 
