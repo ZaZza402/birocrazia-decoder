@@ -63,13 +63,19 @@ export default function Navigation() {
               href="/calcolatori/ateco"
               className="text-[11px] font-bold uppercase tracking-editorial text-zinc-500 hover:text-zinc-950 px-3 py-1.5 transition-colors whitespace-nowrap"
             >
-              Codice ATECO
+              ATECO
             </Link>
             <Link
               href="/calcolatori/cliff"
               className="text-[11px] font-bold uppercase tracking-editorial text-zinc-500 hover:text-zinc-950 px-3 py-1.5 transition-colors whitespace-nowrap"
             >
               Tax Cliff
+            </Link>
+            <Link
+              href="/calcolatori/acconto"
+              className="text-[11px] font-bold uppercase tracking-editorial text-zinc-500 hover:text-zinc-950 px-3 py-1.5 transition-colors whitespace-nowrap"
+            >
+              Acconto
             </Link>
             {isInstallable && (
               <button
@@ -138,6 +144,13 @@ export default function Navigation() {
                 className="block text-xs font-bold uppercase tracking-editorial text-zinc-700 hover:text-zinc-950 py-2"
               >
                 Tax Cliff
+              </Link>
+              <Link
+                href="/calcolatori/acconto"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block text-xs font-bold uppercase tracking-editorial text-zinc-700 hover:text-zinc-950 py-2"
+              >
+                Acconto Imposta
               </Link>
               {isInstallable && (
                 <button

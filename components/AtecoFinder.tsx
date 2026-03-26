@@ -167,7 +167,7 @@ function DetailSheet({
           </p>
 
           <Link
-            href="/calcolatori/forfettario"
+            href={`/calcolatori/forfettario?ateco=${entry.code}`}
             onClick={onClose}
             className="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold text-sm uppercase tracking-editorial py-3.5 transition-colors group w-full"
           >
@@ -418,7 +418,7 @@ export default function AtecoFinder() {
                     Regime Ordinario con questo coefficiente.
                   </p>
                   <Link
-                    href="/calcolatori/forfettario"
+                    href={`/calcolatori/forfettario?ateco=${selected.code}`}
                     className="inline-flex items-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-editorial px-5 py-2.5 transition-colors group w-full justify-center"
                   >
                     Apri il Simulatore

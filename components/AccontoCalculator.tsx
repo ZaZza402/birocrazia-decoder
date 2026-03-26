@@ -17,8 +17,14 @@ function daysUntil(date: Date): number {
   return Math.ceil((date.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
 }
 
-export default function AccontoCalculator() {
-  const [prevTaxStr, setPrevTaxStr] = useState("");
+export default function AccontoCalculator({
+  initialTax,
+}: {
+  initialTax?: number;
+} = {}) {
+  const [prevTaxStr, setPrevTaxStr] = useState(
+    initialTax !== undefined ? String(Math.round(initialTax)) : "",
+  );
   const [stimaStr, setStimaStr] = useState("");
   const [metodo, setMetodo] = useState<"storico" | "previsionale">("storico");
 
@@ -116,8 +122,8 @@ export default function AccontoCalculator() {
                 Imposta Sostitutiva {YEAR - 1}
               </label>
               <p className="text-[11px] text-zinc-400 mb-3">
-                Trovata nella tua dichiarazione dei redditi{" "}
-                {YEAR - 1} — riga &ldquo;Imposta sostitutiva&rdquo;.
+                Trovata nella tua dichiarazione dei redditi {YEAR - 1} — riga
+                &ldquo;Imposta sostitutiva&rdquo;.
               </p>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-zinc-400 font-mono">
@@ -201,9 +207,8 @@ export default function AccontoCalculator() {
                     Esente
                   </p>
                   <p className="text-xs text-zinc-500 mt-1">
-                    Importo inferiore a{" "}
-                    {formatCurrency(SOGLIA_ESENZIONE)} — nessun versamento
-                    richiesto.
+                    Importo inferiore a {formatCurrency(SOGLIA_ESENZIONE)} —
+                    nessun versamento richiesto.
                   </p>
                 </div>
               ) : (
@@ -303,7 +308,10 @@ export default function AccontoCalculator() {
                       </span>{" "}
                       (acconto imposta sostitutiva regime forfettario)
                     </li>
-                    <li>— Pagamento tramite home banking, intermediario, F24 telematico</li>
+                    <li>
+                      — Pagamento tramite home banking, intermediario, F24
+                      telematico
+                    </li>
                     <li>
                       — Se usi un commercialista, passa questi numeri con le
                       scadenze

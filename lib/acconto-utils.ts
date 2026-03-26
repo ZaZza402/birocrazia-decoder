@@ -35,5 +35,11 @@ export function calcolaAcconto(tassaBase: number): AccontoResult {
   const primaRata = Math.round(totale * 0.4 * 100) / 100;
   const secondaRata = Math.round((totale - primaRata) * 100) / 100;
 
-  return { totale, primaRata, secondaRata, unicaRata: false, nessunPagamento: false };
+  return {
+    totale,
+    primaRata,
+    secondaRata,
+    unicaRata: false,
+    nessunPagamento: false,
+  };
 }

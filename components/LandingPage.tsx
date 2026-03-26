@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { ArrowRight, AlertTriangle, Search, TrendingUp, Calendar } from "lucide-react";
+import {
+  ArrowRight,
+  AlertTriangle,
+  Search,
+  TrendingUp,
+  Calendar,
+} from "lucide-react";
 
 export default function LandingPage() {
   const jsonLd = {
@@ -171,11 +177,11 @@ export default function LandingPage() {
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-500 mb-10">
               Strumenti disponibili
             </p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-800">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-800">
               {/* Tool 1 — Forfettario */}
               <Link
                 href="/calcolatori/forfettario"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[200px]"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
@@ -200,7 +206,7 @@ export default function LandingPage() {
               {/* Tool 2 — ATECO */}
               <Link
                 href="/calcolatori/ateco"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[200px]"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
@@ -226,7 +232,7 @@ export default function LandingPage() {
               {/* Tool 3 — Tax Cliff Monitor */}
               <Link
                 href="/calcolatori/cliff"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[200px]"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">
@@ -252,7 +258,7 @@ export default function LandingPage() {
               {/* Tool 4 — Acconto */}
               <Link
                 href="/calcolatori/acconto"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[200px]"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500 mb-3 block">

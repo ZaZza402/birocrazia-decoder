@@ -54,12 +54,20 @@ export default function CliffTracker() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
   };
 
+  const handleReset = () => {
+    if (!window.confirm("Azzerare tutti i dati del fatturato?")) return;
+    localStorage.removeItem(STORAGE_KEY);
+    setMonths({});
+    const empty: Record<number, string> = {};
+    for (let m = 1; m <= 12; m++) empty[m] = "";
+    setInputVals(empty);
+  };
+
   const updateMonth = (m: number, raw: string) => {
     setInputVals((prev) => ({ ...prev, [m]: raw }));
     const trimmed = raw.trim();
     const num = parseFloat(trimmed);
-    const val =
-      trimmed === "" ? undefined : Math.max(0, isNaN(num) ? 0 : num);
+    const val = trimmed === "" ? undefined : Math.max(0, isNaN(num) ? 0 : num);
     const newMonths = { ...months, [m]: val };
     setMonths(newMonths);
     persist(newMonths);
@@ -324,11 +332,19 @@ export default function CliffTracker() {
                   <span className="text-xs font-semibold text-zinc-400 uppercase tracking-editorial">
                     Totale inserito
                   </span>
-                  <span
-                    className={`text-xl font-black font-mono tabular ${statusColor}`}
-                  >
-                    {formatCurrency(total)}
-                  </span>
+                  <div className="flex items-center gap-4">
+                    <span
+                      className={`text-xl font-black font-mono tabular ${statusColor}`}
+                    >
+                      {formatCurrency(total)}
+                    </span>
+                    <button
+                      onClick={handleReset}
+                      className="text-[11px] font-semibold uppercase tracking-editorial text-zinc-400 hover:text-red-600 transition-colors"
+                    >
+                      Azzera tutto
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

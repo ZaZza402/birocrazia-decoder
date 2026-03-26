@@ -33,6 +33,7 @@ import {
   formatCurrency,
 } from "@/lib/forfettario-utils";
 import { ATECO_DATA, type AtecoEntry } from "@/lib/ateco-data";
+import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
 interface InitialInputs {
@@ -47,14 +48,15 @@ interface InitialInputs {
 
 export default function ForfettarioCalculator({
   initialInputs,
+  scenarioLabel,
 }: {
   initialInputs?: InitialInputs;
+  scenarioLabel?: string;
 }) {
-  const initialAteco =
-    initialInputs?.atecoCode
-      ? (ATECO_DATA.find((e) => e.code === initialInputs.atecoCode) ??
-          ATECO_DATA[0])
-      : ATECO_DATA[0];
+  const initialAteco = initialInputs?.atecoCode
+    ? (ATECO_DATA.find((e) => e.code === initialInputs.atecoCode) ??
+      ATECO_DATA[0])
+    : ATECO_DATA[0];
 
   const [inputs, setInputs] = useState<ForfettarioInputs>({
     atecoCoefficient: initialAteco.coefficient,
@@ -86,6 +88,7 @@ export default function ForfettarioCalculator({
   const router = useRouter();
   const pathname = usePathname();
   const didMount = useRef(false);
+  const urlSyncReady = useRef(true);
   const [copied, setCopied] = useState(false);
 
   const comparison = useMemo(() => {
@@ -156,6 +159,7 @@ export default function ForfettarioCalculator({
       didMount.current = true;
       return;
     }
+    if (!urlSyncReady.current) return;
     const params = new URLSearchParams({
       rev: String(inputs.expectedRevenue),
       ateco: selectedAteco.code,
@@ -216,16 +220,32 @@ export default function ForfettarioCalculator({
       <div className="max-w-7xl mx-auto">
         {/* ── HEADER ── */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
-          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
-            Simulatore Fiscale 2026
-          </p>
-          <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
-            Forfettario vs Ordinario
-          </h1>
-          <p className="mt-3 text-base text-zinc-500 max-w-xl">
-            Inserisci i tuoi dati per scoprire quale regime ti lascia più soldi
-            in tasca.
-          </p>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+                Simulatore Fiscale 2026
+              </p>
+              {scenarioLabel && (
+                <p className="text-xs font-mono text-zinc-400 mb-2 tracking-tight">
+                  {scenarioLabel}
+                </p>
+              )}
+              <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
+                Forfettario vs Ordinario
+              </h1>
+              <p className="mt-3 text-base text-zinc-500 max-w-xl">
+                Inserisci i tuoi dati per scoprire quale regime ti lascia più soldi
+                in tasca.
+              </p>
+            </div>
+            <button
+              onClick={handleShare}
+              className="flex-shrink-0 inline-flex items-center gap-2 border border-zinc-300 hover:border-zinc-500 text-zinc-700 font-bold text-sm uppercase tracking-editorial py-2 px-3 transition-colors"
+            >
+              <Share2 className="w-4 h-4" />
+              {copied ? "Copiato!" : "Condividi"}
+            </button>
+          </div>
         </div>
 
         {/* ── MAIN GRID ── */}
@@ -436,7 +456,9 @@ export default function ForfettarioCalculator({
                 max={120000}
                 step={1000}
                 value={[inputs.expectedRevenue]}
+                onPointerDown={() => { urlSyncReady.current = false; }}
                 onValueChange={([val]) => handleRevenueChange(val)}
+                onValueCommit={([val]) => { urlSyncReady.current = true; handleRevenueChange(val); }}
               >
                 <SliderPrimitive.Track className="slider-track">
                   <SliderPrimitive.Range className="slider-range" />
@@ -609,36 +631,53 @@ export default function ForfettarioCalculator({
                   </p>
                 </div>
               ) : (
-                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
-                      {forfettarioWins
-                        ? "Forfettario — Regime Consigliato"
-                        : "Ordinario — Regime Consigliato"}
-                    </p>
-                    <p className="text-5xl font-black font-mono tabular text-zinc-950 leading-none">
-                      {formatCurrency(
-                        forfettarioWins
-                          ? comparison.forfettario.netIncome
-                          : comparison.ordinario.netIncome,
-                      )}
-                    </p>
-                    <p className="text-sm text-zinc-500 mt-1">
-                      Netto annuale in tasca
-                    </p>
+                <>
+                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                    <div>
+                      <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                        {forfettarioWins
+                          ? "Forfettario — Regime Consigliato"
+                          : "Ordinario — Regime Consigliato"}
+                      </p>
+                      <p className="text-5xl font-black font-mono tabular text-zinc-950 leading-none">
+                        {formatCurrency(
+                          forfettarioWins
+                            ? comparison.forfettario.netIncome
+                            : comparison.ordinario.netIncome,
+                        )}
+                      </p>
+                      <p className="text-sm text-zinc-500 mt-1">
+                        Netto annuale in tasca
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                        Risparmio vs alternativa
+                      </p>
+                      <p
+                        className={`text-3xl font-black font-mono tabular ${Math.abs(comparison.difference) > 0 ? "text-red-600" : "text-zinc-950"}`}
+                      >
+                        {comparison.difference > 0 ? "+" : ""}
+                        {formatCurrency(comparison.difference)}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
-                      Risparmio vs alternativa
+                  {inputs.expectedRevenue >= 70000 && (
+                    <p className="text-xs text-zinc-500 mt-3 border-t border-zinc-100 pt-3">
+                      A{" "}
+                      <span className="font-bold text-zinc-700">
+                        {formatCurrency(100000 - inputs.expectedRevenue)}
+                      </span>{" "}
+                      dalla Tax Cliff.{" "}
+                      <Link
+                        href="/calcolatori/cliff"
+                        className="underline underline-offset-2 hover:text-zinc-900"
+                      >
+                        Traccialo ogni mese →
+                      </Link>
                     </p>
-                    <p
-                      className={`text-3xl font-black font-mono tabular ${Math.abs(comparison.difference) > 0 ? "text-red-600" : "text-zinc-950"}`}
-                    >
-                      {comparison.difference > 0 ? "+" : ""}
-                      {formatCurrency(comparison.difference)}
-                    </p>
-                  </div>
-                </div>
+                  )}
+                </>
               )}
             </div>
 
@@ -749,6 +788,25 @@ export default function ForfettarioCalculator({
               </div>
             </div>
 
+            {/* ── ACCONTO CTA ── */}
+            {!isOverCliff && comparison.forfettario.taxAmount > 51.65 && (
+              <div className="bg-white border border-zinc-200 p-4 flex items-center justify-between gap-4">
+                <p className="text-xs text-zinc-600">
+                  Imposta sostitutiva stimata:{" "}
+                  <span className="font-bold font-mono">
+                    {formatCurrency(comparison.forfettario.taxAmount)}
+                  </span>{" "}
+                  — devi versare l&apos;acconto?
+                </p>
+                <Link
+                  href={`/calcolatori/acconto?tax=${Math.round(comparison.forfettario.taxAmount)}`}
+                  className="flex-shrink-0 text-xs font-bold uppercase tracking-editorial text-zinc-950 border border-zinc-300 px-3 py-2 hover:border-zinc-700 transition-colors whitespace-nowrap"
+                >
+                  Calcola le rate →
+                </Link>
+              </div>
+            )}
+
             {/* ── PDF CTA ── */}
             <div className="bg-white border border-zinc-200 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
@@ -760,13 +818,6 @@ export default function ForfettarioCalculator({
                 </p>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <button
-                  onClick={handleShare}
-                  className="inline-flex items-center gap-2 border border-zinc-300 hover:border-zinc-500 text-zinc-700 font-bold text-sm uppercase tracking-editorial py-3 px-4 transition-colors"
-                >
-                  <Share2 className="w-4 h-4" />
-                  {copied ? "Copiato!" : "Condividi"}
-                </button>
                 <button
                   disabled={isGenerating}
                   onClick={generatePdf}
