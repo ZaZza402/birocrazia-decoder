@@ -657,9 +657,11 @@ export default function FatturaGenerator() {
                 )}
 
                 {/* Ritenuta — incompatible with Forfettario */}
-                <div className={`flex items-start gap-3 ${
-                  isForfettario ? "opacity-40 pointer-events-none" : ""
-                }`}>
+                <div
+                  className={`flex items-start gap-3 ${
+                    isForfettario ? "opacity-40 pointer-events-none" : ""
+                  }`}
+                >
                   <button
                     onClick={() => setRitenuta((v) => !v)}
                     disabled={isForfettario}
@@ -777,10 +779,11 @@ export default function FatturaGenerator() {
                   </div>
                   {ritenuta && (
                     <p className="text-[10px] text-zinc-400 pt-1">
-                      * Il cliente incassa{" "}
-                      <strong>{fmtCurrency(total, currency)}</strong> e versa{" "}
+                      * Tu incassi{" "}
+                      <strong>{fmtCurrency(total, currency)}</strong>. Il
+                      cliente trattiene{" "}
                       <strong>{fmtCurrency(ritenutaAmount, currency)}</strong>{" "}
-                      all'Agenzia delle Entrate.
+                      e li versa all'Agenzia delle Entrate per tuo conto.
                     </p>
                   )}
                 </div>
