@@ -21,7 +21,8 @@ export default async function ForfettarioPage({
   const cassaRaw = str(p.cassa);
   const validCassas: CassaType[] = [
     "gestione_separata",
-    "artigiani_commercianti",
+    "artigiani",
+    "commercianti",
     "custom",
   ];
   const cassa = validCassas.includes(cassaRaw as CassaType)

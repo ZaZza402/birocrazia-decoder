@@ -262,7 +262,7 @@ export const SCENARIOS: Scenario[] = [
     inputs: {
       expectedRevenue: 50000,
       atecoCoefficient: 0.86,
-      cassaType: "artigiani_commercianti",
+      cassaType: "artigiani",
       isNewBusiness: false,
       clientType: "b2b",
       realExpenses: 8000,
@@ -272,14 +272,14 @@ export const SCENARIOS: Scenario[] = [
   {
     slug: "idraulico-48k",
     profession: "Idraulico / Termoidraulico",
-    title: "Calcolo Tasse Forfettario — Idraulico €48.000",
+    title: "Calcolo Tasse Forfettario \u2014 Idraulico \u20ac48.000",
     description:
-      "Simulazione fiscale per un idraulico artigiano con €48.000 di fatturato. Regime Forfettario, coefficiente 86%, INPS Artigiani.",
+      "Simulazione fiscale per un idraulico artigiano con \u20ac48.000 di fatturato. Regime Forfettario, coefficiente 86%, INPS Artigiani.",
     atecoCode: "43.22.01",
     inputs: {
       expectedRevenue: 48000,
       atecoCoefficient: 0.86,
-      cassaType: "artigiani_commercianti",
+      cassaType: "artigiani",
       isNewBusiness: false,
       clientType: "b2b",
       realExpenses: 8000,

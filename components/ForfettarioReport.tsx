@@ -212,9 +212,11 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
               "Cassa Previdenziale",
               inputs.cassaType === "gestione_separata"
                 ? "Gestione Separata INPS (26.07%)"
-                : inputs.cassaType === "artigiani_commercianti"
-                  ? "Artigiani / Commercianti"
-                  : "Cassa Professionale",
+                : inputs.cassaType === "artigiani"
+                  ? "Artigiani"
+                  : inputs.cassaType === "commercianti"
+                    ? "Commercianti"
+                    : "Cassa Professionale",
             ],
             [
               "Regime Start-up",

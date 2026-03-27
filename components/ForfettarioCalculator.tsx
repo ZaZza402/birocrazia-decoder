@@ -290,8 +290,11 @@ export default function ForfettarioCalculator({
                     <option value="gestione_separata">
                       Gestione Separata INPS (26.07%)
                     </option>
-                    <option value="artigiani_commercianti">
-                      Artigiani / Commercianti
+                    <option value="artigiani">
+                      Artigiani (contributi fissi + variabili)
+                    </option>
+                    <option value="commercianti">
+                      Commercianti (contributi fissi + variabili)
                     </option>
                     <option value="custom">Cassa Professionale</option>
                   </select>
@@ -745,6 +748,11 @@ export default function ForfettarioCalculator({
                       </div>
                     ))}
                   </div>
+                  {inputs.realExpenses > 0 && (
+                    <p className="text-[10px] text-zinc-400 mt-3 leading-relaxed">
+                      Spese ({formatCurrency(inputs.realExpenses)}) incluse nel netto — nel forfettario non sono deducibili fiscalmente ma le paghi comunque.
+                    </p>
+                  )}
                 </div>
               )}
 

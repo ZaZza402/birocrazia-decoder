@@ -24,8 +24,7 @@ export default function InstallAppButton() {
 
     // Detect iOS (no beforeinstallprompt support)
     const ios =
-      /iphone|ipad|ipod/i.test(navigator.userAgent) &&
-      !("MSStream" in window);
+      /iphone|ipad|ipod/i.test(navigator.userAgent) && !("MSStream" in window);
     setIsIOS(ios);
 
     const handler = (e: Event) => {
@@ -75,8 +74,7 @@ export default function InstallAppButton() {
         <p className="mt-3 text-xs text-zinc-500 leading-relaxed max-w-xs">
           Su iPhone: tocca{" "}
           <span className="font-bold text-zinc-900">
-            Condividi{" "}
-            <Share className="inline w-3 h-3 mb-0.5" />
+            Condividi <Share className="inline w-3 h-3 mb-0.5" />
           </span>{" "}
           in Safari, poi{" "}
           <span className="font-bold text-zinc-900">

@@ -1,6 +1,7 @@
 export type CassaType =
   | "gestione_separata"
-  | "artigiani_commercianti"
+  | "artigiani"
+  | "commercianti"
   | "custom";
 
 export interface ForfettarioInputs {
@@ -44,11 +45,46 @@ export const ATECO_CODES = [
   },
 ];
 
-// CONSTANTS 2025 (Estimates based on current law)
-const INPS_GS_RATE = 0.2607; // Gestione Separata ~26.07%
-const INPS_ART_FIXED = 4515; // Minimal fixed for Artigiani (~4.5k)
-const INPS_ART_MIN_INCOME = 18415; // Minimal income threshold
-const INPS_ART_RATE_OVER = 0.24; // ~24% over threshold
+// CONSTANTS 2025
+const INPS_GS_RATE = 0.2607; // Gestione Separata 26.07%
+
+// Artigiani 2025
+const INPS_ART_FIXED = 4460.64;
+const INPS_ART_THRESHOLD_1 = 18555;
+const INPS_ART_RATE_1 = 0.24;
+const INPS_ART_THRESHOLD_2 = 55440;
+const INPS_ART_RATE_2 = 0.25;
+
+// Commercianti 2025
+const INPS_COM_FIXED = 4549.70;
+const INPS_COM_THRESHOLD_1 = 18555;
+const INPS_COM_RATE_1 = 0.2448;
+const INPS_COM_THRESHOLD_2 = 55440;
+const INPS_COM_RATE_2 = 0.254;
+
+function calcArtigianiINPS(taxable: number, applyReduction: boolean): number {
+  let contrib = INPS_ART_FIXED;
+  if (taxable > INPS_ART_THRESHOLD_1) {
+    const band1 = Math.min(taxable, INPS_ART_THRESHOLD_2) - INPS_ART_THRESHOLD_1;
+    contrib += band1 * INPS_ART_RATE_1;
+  }
+  if (taxable > INPS_ART_THRESHOLD_2) {
+    contrib += (taxable - INPS_ART_THRESHOLD_2) * INPS_ART_RATE_2;
+  }
+  return applyReduction ? contrib * 0.65 : contrib;
+}
+
+function calcCommercianti(taxable: number, applyReduction: boolean): number {
+  let contrib = INPS_COM_FIXED;
+  if (taxable > INPS_COM_THRESHOLD_1) {
+    const band1 = Math.min(taxable, INPS_COM_THRESHOLD_2) - INPS_COM_THRESHOLD_1;
+    contrib += band1 * INPS_COM_RATE_1;
+  }
+  if (taxable > INPS_COM_THRESHOLD_2) {
+    contrib += (taxable - INPS_COM_THRESHOLD_2) * INPS_COM_RATE_2;
+  }
+  return applyReduction ? contrib * 0.65 : contrib;
+}
 
 const IRPEF_BRACKETS = [
   { limit: 28000, rate: 0.23 },
@@ -94,21 +130,16 @@ export function compareRegimes(inputs: ForfettarioInputs): {
   let f_taxable = f_gross * inputs.atecoCoefficient;
   let f_inps = 0;
 
-  // INPS Calculation
+  // INPS Calculation (Forfettario: taxable base = gross × coefficient)
   if (inputs.cassaType === "gestione_separata") {
     f_inps = f_taxable * INPS_GS_RATE;
-  } else if (inputs.cassaType === "artigiani_commercianti") {
-    // Note: Artigiani pay on REAL income in Forfettario too (Coefficient applies)
-    if (f_taxable <= INPS_ART_MIN_INCOME) {
-      f_inps = INPS_ART_FIXED;
-    } else {
-      f_inps =
-        INPS_ART_FIXED + (f_taxable - INPS_ART_MIN_INCOME) * INPS_ART_RATE_OVER;
-    }
-    // Artigiani in Forfettario can request 35% reduction
-    f_inps = f_inps * 0.65;
+  } else if (inputs.cassaType === "artigiani") {
+    // 35% reduction available in Forfettario
+    f_inps = calcArtigianiINPS(f_taxable, true);
+  } else if (inputs.cassaType === "commercianti") {
+    f_inps = calcCommercianti(f_taxable, true);
   } else if (inputs.cassaType === "custom" && inputs.customCassaRate) {
-    f_inps = f_gross * (inputs.customCassaRate / 100); // Usually on Gross for professionals
+    f_inps = f_gross * (inputs.customCassaRate / 100);
   }
 
   // Tax Calculation (Sostitutiva)
@@ -166,18 +197,13 @@ export function compareRegimes(inputs: ForfettarioInputs): {
   let o_taxable = Math.max(0, o_gross - inputs.realExpenses);
 
   let o_inps = 0;
-  // INPS Calculation (Ordinario follows similar rules but on Real Net usually)
-  // Simplifying assumption: GS pays on (Revenue - Expenses)
+  // INPS Calculation (Ordinario: no 35% reduction)
   if (inputs.cassaType === "gestione_separata") {
     o_inps = o_taxable * INPS_GS_RATE;
-  } else if (inputs.cassaType === "artigiani_commercianti") {
-    if (o_taxable <= INPS_ART_MIN_INCOME) {
-      o_inps = INPS_ART_FIXED;
-    } else {
-      o_inps =
-        INPS_ART_FIXED + (o_taxable - INPS_ART_MIN_INCOME) * INPS_ART_RATE_OVER;
-    }
-    // No 35% reduction in Ordinario!
+  } else if (inputs.cassaType === "artigiani") {
+    o_inps = calcArtigianiINPS(o_taxable, false);
+  } else if (inputs.cassaType === "commercianti") {
+    o_inps = calcCommercianti(o_taxable, false);
   } else if (inputs.cassaType === "custom" && inputs.customCassaRate) {
     o_inps = inputs.expectedRevenue * (inputs.customCassaRate / 100);
   }
