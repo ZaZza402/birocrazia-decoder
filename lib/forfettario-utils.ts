@@ -145,11 +145,10 @@ export function compareRegimes(inputs: ForfettarioInputs): {
   }
 
   // Tax Calculation (Sostitutiva)
-  // CORRECTION: Deductibility Consistency
-  // If user provided previousYearINPS, use it (Cash Basis Strict).
-  // Otherwise, fallback to deducting the current generated INPS (Competence Simulation).
-  const deductible_inps_f =
-    inputs.previousYearINPS > 0 ? inputs.previousYearINPS : f_inps;
+  // Principio di Cassa (strict cash basis): you can only deduct INPS contributions
+  // that were physically paid in the previous fiscal year. If previousYearINPS = 0
+  // (first year or no prior payment), the full ATECO-adjusted base is taxed.
+  const deductible_inps_f = inputs.previousYearINPS;
   let f_taxable_net = Math.max(0, f_taxable - deductible_inps_f);
   let f_tax = f_taxable_net * (inputs.isNewBusiness ? 0.05 : 0.15);
 
