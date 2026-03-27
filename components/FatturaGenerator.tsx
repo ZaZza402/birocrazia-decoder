@@ -2,7 +2,11 @@
 
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { Plus, Trash2, Upload, X, FileText, Info } from "lucide-react";
-import type { FatturaData, FatturaItem, DocType } from "@/components/FatturaDocument";
+import type {
+  FatturaData,
+  FatturaItem,
+  DocType,
+} from "@/components/FatturaDocument";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -92,15 +96,41 @@ export default function FatturaGenerator() {
       localStorage.setItem(
         LS_KEY,
         JSON.stringify({
-          docType, from, to, invoiceNumber, currency, invoiceDate, dueDate,
-          interest, items, notes, bankDetails, isForfettario, ritenuta,
-          taxRate, roundingAmount,
+          docType,
+          from,
+          to,
+          invoiceNumber,
+          currency,
+          invoiceDate,
+          dueDate,
+          interest,
+          items,
+          notes,
+          bankDetails,
+          isForfettario,
+          ritenuta,
+          taxRate,
+          roundingAmount,
         }),
       );
     } catch {}
-  }, [docType, from, to, invoiceNumber, currency, invoiceDate, dueDate,
-      interest, items, notes, bankDetails, isForfettario, ritenuta,
-      taxRate, roundingAmount]);
+  }, [
+    docType,
+    from,
+    to,
+    invoiceNumber,
+    currency,
+    invoiceDate,
+    dueDate,
+    interest,
+    items,
+    notes,
+    bankDetails,
+    isForfettario,
+    ritenuta,
+    taxRate,
+    roundingAmount,
+  ]);
 
   // ─── Totals ──────────────────────────────────────────────────────────────
 
@@ -245,7 +275,9 @@ export default function FatturaGenerator() {
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-zinc-950 leading-none mb-2">
               Pro-Forma /{" "}
-              <span className="text-zinc-400 font-normal">Avviso di Parcella</span>
+              <span className="text-zinc-400 font-normal">
+                Avviso di Parcella
+              </span>
             </h1>
             <p className="text-zinc-500 text-sm">
               Documento di richiesta pagamento — non è una fattura fiscale. La
@@ -575,7 +607,11 @@ export default function FatturaGenerator() {
                 {/* Forfettario toggle */}
                 <div className="flex items-start gap-3">
                   <button
-                    onClick={() => setIsForfettario((v) => !v)}
+                    onClick={() => {
+                      const next = !isForfettario;
+                      setIsForfettario(next);
+                      if (next) setRitenuta(false); // mutually exclusive
+                    }}
                     className={`mt-0.5 flex-shrink-0 w-10 h-5 rounded-full transition-colors ${
                       isForfettario ? "bg-zinc-950" : "bg-zinc-200"
                     }`}
@@ -620,10 +656,13 @@ export default function FatturaGenerator() {
                   </div>
                 )}
 
-                {/* Ritenuta */}
-                <div className="flex items-start gap-3">
+                {/* Ritenuta — incompatible with Forfettario */}
+                <div className={`flex items-start gap-3 ${
+                  isForfettario ? "opacity-40 pointer-events-none" : ""
+                }`}>
                   <button
                     onClick={() => setRitenuta((v) => !v)}
+                    disabled={isForfettario}
                     className={`mt-0.5 flex-shrink-0 w-10 h-5 rounded-full transition-colors ${
                       ritenuta ? "bg-zinc-950" : "bg-zinc-200"
                     }`}
@@ -639,8 +678,9 @@ export default function FatturaGenerator() {
                       Ritenuta d'acconto (20%)
                     </p>
                     <p className="text-xs text-zinc-400 mt-0.5">
-                      Deduce automaticamente il 20% dal totale. Il cliente
-                      trattiene questa quota e la versa al fisco per tuo conto.
+                      {isForfettario
+                        ? "Non applicabile in Regime Forfettario — il contribuente è escluso dalla qualifica di sostituto d'imposta."
+                        : "Deduce automaticamente il 20% dal totale. Il cliente trattiene questa quota e la versa al fisco per tuo conto."}
                     </p>
                   </div>
                 </div>
