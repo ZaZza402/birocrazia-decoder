@@ -307,7 +307,9 @@ export default function FatturaDocument({ data }: Props) {
             {data.logoBase64 && <Image style={s.logo} src={data.logoBase64} />}
             <Text style={s.invoiceTitle}>{docLabel}</Text>
             <View style={s.nonFiscalBadge}>
-              <Text style={s.nonFiscalBadgeText}>Non è una fattura fiscale</Text>
+              <Text style={s.nonFiscalBadgeText}>
+                Non è una fattura fiscale
+              </Text>
             </View>
             <Text style={[s.sectionLabel, { marginTop: 10 }]}>Da</Text>
             <Text style={s.addressText}>

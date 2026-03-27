@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Generatore Pro-Forma / Avviso di Parcella 2025 - PDF Gratuito | BurZero",
+  title:
+    "Generatore Pro-Forma / Avviso di Parcella 2026 - PDF Gratuito | BurZero",
   description:
     "Crea un Avviso di Parcella (Pro-Forma) in PDF gratis. Non è una fattura elettronica: la fattura viene emessa solo a pagamento ricevuto. Forfettario, ritenuta d'acconto, marca da bollo. Nessun account.",
   keywords:

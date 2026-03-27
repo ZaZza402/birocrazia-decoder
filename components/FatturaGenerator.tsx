@@ -782,8 +782,8 @@ export default function FatturaGenerator() {
                       * Tu incassi{" "}
                       <strong>{fmtCurrency(total, currency)}</strong>. Il
                       cliente trattiene{" "}
-                      <strong>{fmtCurrency(ritenutaAmount, currency)}</strong>{" "}
-                      e li versa all'Agenzia delle Entrate per tuo conto.
+                      <strong>{fmtCurrency(ritenutaAmount, currency)}</strong> e
+                      li versa all'Agenzia delle Entrate per tuo conto.
                     </p>
                   )}
                 </div>

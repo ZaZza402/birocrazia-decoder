@@ -7,7 +7,7 @@ import CookieBanner from "@/components/CookieBanner";
 import PageTransition from "@/components/PageTransition";
 
 export const metadata: Metadata = {
-  title: "Conviene Forfettario o Ordinario? Simulatore 2025 | Bur0",
+  title: "Conviene Forfettario o Ordinario? Simulatore 2026 | Bur0",
   description:
     "Scopri quanto risparmi con il Regime Forfettario vs Ordinario. Simulazione reale con i tuoi numeri, report PDF gratuito. Evita la trappola degli €85k.",
   keywords:
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Conviene Forfettario o Ordinario? Simulatore 2025 | Bur0",
+    title: "Conviene Forfettario o Ordinario? Simulatore 2026 | Bur0",
     description:
       "Scopri quanto risparmi con il Regime Forfettario vs Ordinario. Simulazione reale con i tuoi numeri, report PDF gratuito.",
     url: "https://bur0.click",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Conviene Forfettario o Ordinario? Simulatore 2025 | Bur0",
+    title: "Conviene Forfettario o Ordinario? Simulatore 2026 | Bur0",
     description:
       "Scopri quanto risparmi con il Regime Forfettario vs Ordinario. Simulazione reale con i tuoi numeri.",
     images: ["/og-image.jpg"],
