@@ -11,8 +11,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
           {/* Brand */}
           <div>
-            <p className="text-lg font-black text-white mb-1">
-              Bur<span className="font-mono">0</span>
+            <p className="text-lg text-white mb-1">
+              <span className="font-normal">Bur</span>
+              <span className="font-black text-red-500">Zero</span>
             </p>
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-4">
               Strumenti Fiscali Gratuiti

@@ -119,7 +119,8 @@ export default function LandingPage() {
         <section className="bg-white border-b border-zinc-200">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-10">
-              Esempio reale — Fatturato €50.000, ATECO 67%, senza spese aziendali
+              Esempio reale — Fatturato €50.000, ATECO 67%, senza spese
+              aziendali
             </p>
 
             <div className="grid md:grid-cols-3 gap-0 border border-zinc-200">
@@ -166,6 +167,44 @@ export default function LandingPage() {
                 </p>
                 <p className="text-xs text-red-400 mt-3 font-semibold">
                   In 5 anni: oltre €35.000
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── PEACE OF MIND ── */}
+        <section className="border-b border-zinc-200">
+          <div className="max-w-5xl mx-auto px-6 py-12 md:py-16">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-10">
+              I tuoi dati
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-zinc-200">
+              <div className="bg-stone-50 px-6 py-7">
+                <p className="text-sm font-black text-zinc-950 mb-2">
+                  Nessun account.
+                </p>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  Niente registrazione, niente email, niente password. Apri il
+                  sito e inizia — basta.
+                </p>
+              </div>
+              <div className="bg-stone-50 px-6 py-7">
+                <p className="text-sm font-black text-zinc-950 mb-2">
+                  Tutto resta sul tuo dispositivo.
+                </p>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  I numeri che inserisci non vanno da nessuna parte. Nessun
+                  server li vede. Nessun tracciamento.
+                </p>
+              </div>
+              <div className="bg-stone-50 px-6 py-7">
+                <p className="text-sm font-black text-zinc-950 mb-2">
+                  Vuoi sparire? Cancella e basta.
+                </p>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  Svuota la cache o disinstalla l&apos;app e non rimane
+                  nient&apos;altro. Zero. Come se non fossi mai passato.
                 </p>
               </div>
             </div>

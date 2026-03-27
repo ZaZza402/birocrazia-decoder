@@ -119,9 +119,9 @@ export default function PrivacyPage() {
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed">
               Non conserviamo i tuoi dati personali sui nostri server, quindi
-              non possiamo modificarli o cancellarli a richiesta —
-              semplicemente non esistono da noi. Puoi eliminarli in autonomia
-              cancellando i dati del sito nelle impostazioni del browser.
+              non possiamo modificarli o cancellarli a richiesta — semplicemente
+              non esistono da noi. Puoi eliminarli in autonomia cancellando i
+              dati del sito nelle impostazioni del browser.
             </p>
           </section>
 

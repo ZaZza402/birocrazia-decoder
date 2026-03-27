@@ -74,8 +74,9 @@ export default function LoadingScreen({
           <div className="inline-flex items-center justify-center w-20 h-20 bg-white/10 backdrop-blur-lg rounded-3xl mb-4 animate-in zoom-in duration-500">
             <CurrentIcon className="w-10 h-10 text-white animate-pulse" />
           </div>
-          <h1 className="text-3xl font-black text-white mb-2">
-            Bur<span className="text-indigo-300 font-mono">0</span>
+          <h1 className="text-3xl text-white mb-2">
+            <span className="font-normal">Bur</span>
+            <span className="font-black text-red-400">Zero</span>
           </h1>
           <p className="text-indigo-200 text-sm font-medium">
             {type === "calculator"

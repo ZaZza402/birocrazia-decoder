@@ -16,7 +16,8 @@ export default function BrandedEmbedPage() {
             rel="noopener noreferrer"
             className="text-white hover:text-indigo-200 transition-colors flex items-center gap-1"
           >
-            Bur<span className="font-mono text-lg">0</span>
+            <span className="font-normal">Bur</span>
+            <span className="font-black text-red-400 text-lg">Zero</span>
           </a>
           <span className="text-indigo-200 text-xs">
             • Strumenti Fiscali Gratuiti

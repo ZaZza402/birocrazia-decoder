@@ -11,6 +11,30 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Service worker must never be cached — browser uses byte-diff to detect updates
+        source: "/sw.js",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+          {
+            key: "Service-Worker-Allowed",
+            value: "/",
+          },
+        ],
+      },
+      {
+        // Manifest must be fresh so installed PWAs pick up name/theme changes
+        source: "/site.webmanifest",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache",
+          },
+        ],
+      },
+      {
         source: "/sitemap.xml",
         headers: [
           {

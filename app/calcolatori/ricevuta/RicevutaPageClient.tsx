@@ -117,7 +117,8 @@ export default function RicevutaPageClient() {
                   <ShieldCheck className="w-4 h-4 text-green-500" />
                   LA SOLUZIONE{" "}
                   <span className="tracking-tight">
-                    BUR<span className="text-indigo-600">0</span>
+                    <span className="font-normal">Bur</span>
+                    <span className="font-black text-red-600">Zero</span>
                   </span>
                 </h3>
                 <ul className="space-y-3 text-slate-800 text-sm font-bold">

@@ -12,7 +12,7 @@ import {
   Share2,
 } from "lucide-react";
 import { ForfettarioReport } from "@/components/ForfettarioReport";
-import LoadingScreen from "@/components/LoadingScreen";
+
 import AtecoCombobox from "@/components/AtecoCombobox";
 import InfoTooltip from "@/components/InfoTooltip";
 
@@ -71,7 +71,7 @@ export default function ForfettarioCalculator({
 
   const [selectedAteco, setSelectedAteco] = useState<AtecoEntry>(initialAteco);
   const [showPdfPopup, setShowPdfPopup] = useState(false);
-  const [showPdfLoading, setShowPdfLoading] = useState(false);
+
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -146,14 +146,14 @@ export default function ForfettarioCalculator({
   }, [inputs]);
 
   useEffect(() => {
-    if (pendingPdf && !showPdfLoading) {
+    if (pendingPdf) {
       setPdfBlob(pendingPdf.blob);
       setPdfUrl(pendingPdf.url);
       setShowPdfPopup(true);
       setIsGenerating(false);
       setPendingPdf(null);
     }
-  }, [pendingPdf, showPdfLoading]);
+  }, [pendingPdf]);
 
   useEffect(() => {
     if (!didMount.current) {
@@ -176,7 +176,6 @@ export default function ForfettarioCalculator({
   const generatePdf = async () => {
     if (isGenerating) return;
     setIsGenerating(true);
-    setShowPdfLoading(true);
     try {
       const { pdf } = await import("@react-pdf/renderer");
       const blob = await pdf(
@@ -187,7 +186,6 @@ export default function ForfettarioCalculator({
     } catch (e) {
       console.error("PDF generation failed:", e);
       setIsGenerating(false);
-      setShowPdfLoading(false);
     }
   };
 
@@ -855,17 +853,8 @@ export default function ForfettarioCalculator({
         </div>
       </div>
 
-      {/* Loading screen */}
-      {showPdfLoading && (
-        <LoadingScreen
-          type="pdf"
-          minDuration={2500}
-          onComplete={() => setShowPdfLoading(false)}
-        />
-      )}
-
       {/* PDF Popup */}
-      {showPdfPopup && pdfUrl && !showPdfLoading && (
+      {showPdfPopup && pdfUrl && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
           <div className="bg-white border border-zinc-200 max-w-sm w-full p-8 relative shadow-xl">
             <button
