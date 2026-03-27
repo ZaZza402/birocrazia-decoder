@@ -11,7 +11,7 @@ export default function BrandedEmbedPage() {
         <div className="flex items-center justify-center gap-2 text-sm font-bold">
           <span>Powered by</span>
           <a
-            href="https://bur0.click"
+            href="https://www.bur0.click"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white hover:text-indigo-200 transition-colors flex items-center gap-1"

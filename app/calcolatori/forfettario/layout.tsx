@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Simulatore Regime Forfettario 2026 | Bur0",
     description:
       "Calcola esattamente quanto risparmi tra Regime Forfettario e Ordinario. Report PDF gratuito.",
-    url: "https://bur0.click/calcolatori/forfettario",
+    url: "https://www.bur0.click/calcolatori/forfettario",
     type: "website",
   },
 };

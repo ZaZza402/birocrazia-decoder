@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Generatore Ricevute Prestazione Occasionale | Bur0",
     description:
       "Smetti di usare template Word rotti. Crea ricevute fiscalmente perfette con calcolo automatico della ritenuta e monitoraggio dei limiti.",
-    url: "https://bur0.click/calcolatori/ricevuta",
+    url: "https://www.bur0.click/calcolatori/ricevuta",
     type: "website",
   },
 };

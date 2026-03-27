@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: "Tax Cliff Monitor 2026 | Bur0",
     description:
       "Traccia il tuo fatturato mensile e scopri quando sei vicino alla Tax Cliff di €100.000.",
-    url: "https://bur0.click/calcolatori/cliff",
+    url: "https://www.bur0.click/calcolatori/cliff",
     type: "website",
   },
 };

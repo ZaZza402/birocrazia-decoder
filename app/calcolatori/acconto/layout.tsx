@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Calcola Acconto Imposta Sostitutiva 2026 | Bur0",
     description:
       "Scopri quanto devi pagare di acconto sull'imposta sostitutiva e quando. Scadenza 30 novembre.",
-    url: "https://bur0.click/calcolatori/acconto",
+    url: "https://www.bur0.click/calcolatori/acconto",
     type: "website",
   },
 };

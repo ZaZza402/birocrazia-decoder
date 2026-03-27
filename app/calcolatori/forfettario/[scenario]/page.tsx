@@ -28,7 +28,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${scenario.title} | Bur0`,
       description: scenario.description,
-      url: `https://bur0.click/calcolatori/forfettario/${scenario.slug}`,
+      url: `https://www.bur0.click/calcolatori/forfettario/${scenario.slug}`,
       type: "website",
     },
   };

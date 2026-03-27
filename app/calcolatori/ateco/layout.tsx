@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: "Trova il tuo Codice ATECO 2026 | Bur0",
     description:
       "Cerca per descrizione dell'attività e trova subito il codice ATECO e il coefficiente forfettario. Aggiornato ATECO 2026.",
-    url: "https://bur0.click/calcolatori/ateco",
+    url: "https://www.bur0.click/calcolatori/ateco",
     type: "website",
   },
 };
@@ -29,7 +29,7 @@ export default function AtecoLayout({
     name: "Trova Codice ATECO 2026 — Bur0",
     description:
       "Strumento di ricerca codici ATECO 2026 per Partita IVA e Regime Forfettario. Scrivi la tua attività e trova subito codice e coefficiente.",
-    url: "https://bur0.click/calcolatori/ateco",
+    url: "https://www.bur0.click/calcolatori/ateco",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web Browser",
     offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },

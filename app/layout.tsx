@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Bur0" }],
   creator: "Bur0",
   publisher: "Bur0",
-  metadataBase: new URL("https://bur0.click"),
+  metadataBase: new URL("https://www.bur0.click"),
   alternates: {
     canonical: "/",
   },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Conviene Forfettario o Ordinario? Simulatore 2026 | Bur0",
     description:
       "Scopri quanto risparmi con il Regime Forfettario vs Ordinario. Simulazione reale con i tuoi numeri, report PDF gratuito.",
-    url: "https://bur0.click",
+    url: "https://www.bur0.click",
     siteName: "Bur0",
     locale: "it_IT",
     type: "website",

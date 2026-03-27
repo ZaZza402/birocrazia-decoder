@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Generatore Pro-Forma / Avviso di Parcella | BurZero",
     description:
       "Avviso di Parcella PDF gratis. La fattura ufficiale parte solo a pagamento ricevuto.",
-    url: "https://bur0.click/calcolatori/fattura",
+    url: "https://www.bur0.click/calcolatori/fattura",
     type: "website",
   },
 };
