@@ -56,7 +56,7 @@ const INPS_ART_THRESHOLD_2 = 55440;
 const INPS_ART_RATE_2 = 0.25;
 
 // Commercianti 2025
-const INPS_COM_FIXED = 4549.70;
+const INPS_COM_FIXED = 4549.7;
 const INPS_COM_THRESHOLD_1 = 18555;
 const INPS_COM_RATE_1 = 0.2448;
 const INPS_COM_THRESHOLD_2 = 55440;
@@ -65,7 +65,8 @@ const INPS_COM_RATE_2 = 0.254;
 function calcArtigianiINPS(taxable: number, applyReduction: boolean): number {
   let contrib = INPS_ART_FIXED;
   if (taxable > INPS_ART_THRESHOLD_1) {
-    const band1 = Math.min(taxable, INPS_ART_THRESHOLD_2) - INPS_ART_THRESHOLD_1;
+    const band1 =
+      Math.min(taxable, INPS_ART_THRESHOLD_2) - INPS_ART_THRESHOLD_1;
     contrib += band1 * INPS_ART_RATE_1;
   }
   if (taxable > INPS_ART_THRESHOLD_2) {
@@ -77,7 +78,8 @@ function calcArtigianiINPS(taxable: number, applyReduction: boolean): number {
 function calcCommercianti(taxable: number, applyReduction: boolean): number {
   let contrib = INPS_COM_FIXED;
   if (taxable > INPS_COM_THRESHOLD_1) {
-    const band1 = Math.min(taxable, INPS_COM_THRESHOLD_2) - INPS_COM_THRESHOLD_1;
+    const band1 =
+      Math.min(taxable, INPS_COM_THRESHOLD_2) - INPS_COM_THRESHOLD_1;
     contrib += band1 * INPS_COM_RATE_1;
   }
   if (taxable > INPS_COM_THRESHOLD_2) {
@@ -123,7 +125,7 @@ export function compareRegimes(inputs: ForfettarioInputs): {
   // If > 85k but < 100k, you are technically Forfettario THIS year, but out NEXT year.
   if (inputs.expectedRevenue > 85000 && !isForcedOrdinario) {
     f_warnings.push(
-      "ATTENZIONE: Superando gli 85k uscirai dal regime l'anno prossimo."
+      "ATTENZIONE: Superando gli 85k uscirai dal regime l'anno prossimo.",
     );
   }
 
@@ -165,7 +167,7 @@ export function compareRegimes(inputs: ForfettarioInputs): {
   if (isForcedOrdinario) {
     f_net = 0; // Invalid
     f_warnings.push(
-      "IMPOSSIBILE: Sopra i 100k il regime forfettario cessa immediatamente (retroattivo)."
+      "IMPOSSIBILE: Sopra i 100k il regime forfettario cessa immediatamente (retroattivo).",
     );
   }
 
@@ -184,7 +186,7 @@ export function compareRegimes(inputs: ForfettarioInputs): {
     o_iva = Math.max(0, o_gross - netRevenue); // Ensure non-negative
     o_gross = netRevenue; // The actual revenue for IRPEF
     o_warnings.push(
-      "B2C IMPACT: Poiché vendi a privati, il 22% del tuo incasso se ne va subito in IVA."
+      "B2C IMPACT: Poiché vendi a privati, il 22% del tuo incasso se ne va subito in IVA.",
     );
   } else {
     // B2B: You add VAT on top, client pays. It's neutral for you (mostly).

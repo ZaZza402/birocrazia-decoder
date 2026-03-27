@@ -6,8 +6,6 @@ import {
   AlertTriangle,
   Loader2,
   Download,
-  ExternalLink,
-  X,
   FileText,
   Share2,
 } from "lucide-react";
@@ -70,15 +68,7 @@ export default function ForfettarioCalculator({
   });
 
   const [selectedAteco, setSelectedAteco] = useState<AtecoEntry>(initialAteco);
-  const [showPdfPopup, setShowPdfPopup] = useState(false);
-
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [pendingPdf, setPendingPdf] = useState<{
-    blob: Blob;
-    url: string;
-  } | null>(null);
+  const [pdfStatus, setPdfStatus] = useState<"idle" | "generating" | "done">("idle");
   const [realExpensesStr, setRealExpensesStr] = useState(
     String(inputs.realExpenses),
   );
@@ -146,16 +136,6 @@ export default function ForfettarioCalculator({
   }, [inputs]);
 
   useEffect(() => {
-    if (pendingPdf) {
-      setPdfBlob(pendingPdf.blob);
-      setPdfUrl(pendingPdf.url);
-      setShowPdfPopup(true);
-      setIsGenerating(false);
-      setPendingPdf(null);
-    }
-  }, [pendingPdf]);
-
-  useEffect(() => {
     if (!didMount.current) {
       didMount.current = true;
       return;
@@ -174,18 +154,27 @@ export default function ForfettarioCalculator({
   }, [inputs, selectedAteco, router, pathname]);
 
   const generatePdf = async () => {
-    if (isGenerating) return;
-    setIsGenerating(true);
+    if (pdfStatus === "generating") return;
+    setPdfStatus("generating");
     try {
       const { pdf } = await import("@react-pdf/renderer");
       const blob = await pdf(
         <ForfettarioReport inputs={inputs} results={comparison} />,
       ).toBlob();
       const url = URL.createObjectURL(blob);
-      setPendingPdf({ blob, url });
+      // Trigger download / iOS share sheet directly—no popup
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "BurZero-Report-Forfettario.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      setPdfStatus("done");
+      setTimeout(() => setPdfStatus("idle"), 2500);
     } catch (e) {
       console.error("PDF generation failed:", e);
-      setIsGenerating(false);
+      setPdfStatus("idle");
     }
   };
 
@@ -750,7 +739,9 @@ export default function ForfettarioCalculator({
                   </div>
                   {inputs.realExpenses > 0 && (
                     <p className="text-[10px] text-zinc-400 mt-3 leading-relaxed">
-                      Spese ({formatCurrency(inputs.realExpenses)}) incluse nel netto — nel forfettario non sono deducibili fiscalmente ma le paghi comunque.
+                      Spese ({formatCurrency(inputs.realExpenses)}) incluse nel
+                      netto — nel forfettario non sono deducibili fiscalmente ma
+                      le paghi comunque.
                     </p>
                   )}
                 </div>
@@ -844,16 +835,22 @@ export default function ForfettarioCalculator({
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <button
-                  disabled={isGenerating}
+                  disabled={pdfStatus === "generating"}
                   onClick={generatePdf}
                   className="inline-flex items-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-editorial py-3 px-6 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isGenerating ? (
+                  {pdfStatus === "generating" ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : pdfStatus === "done" ? (
+                    <span className="text-green-400">&#10003;</span>
                   ) : (
                     <FileText className="w-4 h-4" />
                   )}
-                  {isGenerating ? "Generazione..." : "Scarica Report"}
+                  {pdfStatus === "generating"
+                    ? "Generazione..."
+                    : pdfStatus === "done"
+                      ? "Download Avviato"
+                      : "Scarica Report"}
                 </button>
               </div>
             </div>
@@ -861,61 +858,15 @@ export default function ForfettarioCalculator({
         </div>
       </div>
 
-      {/* PDF Popup */}
-      {showPdfPopup && pdfUrl && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-          <div className="bg-white border border-zinc-200 max-w-sm w-full p-8 relative shadow-xl">
-            <button
-              onClick={() => {
-                setShowPdfPopup(false);
-                if (pdfUrl) URL.revokeObjectURL(pdfUrl);
-                setPdfUrl(null);
-                setPdfBlob(null);
-              }}
-              className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-700"
-            >
-              <X className="w-4 h-4" />
-            </button>
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
-              Report Pronto
+      {/* Generating overlay */}
+      {pdfStatus === "generating" && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+          <div className="bg-white border border-zinc-200 px-10 py-8 flex flex-col items-center gap-4 shadow-xl">
+            <Loader2 className="w-8 h-8 animate-spin text-zinc-950" />
+            <p className="text-sm font-black text-zinc-950 uppercase tracking-editorial">
+              Generazione Report
             </p>
-            <p className="text-2xl font-black text-zinc-950 mb-1">
-              PDF Generato
-            </p>
-            <p className="text-sm text-zinc-500 mb-6">
-              Il report è pronto. Aprilo per vedere i dettagli completi della
-              simulazione.
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  if (pdfBlob) {
-                    const freshUrl = URL.createObjectURL(pdfBlob);
-                    window.open(freshUrl, "_blank");
-                    setTimeout(() => URL.revokeObjectURL(freshUrl), 1000);
-                    setShowPdfPopup(false);
-                    if (pdfUrl) URL.revokeObjectURL(pdfUrl);
-                    setPdfUrl(null);
-                    setPdfBlob(null);
-                  }
-                }}
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-editorial py-3 px-4 transition-colors"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Apri PDF
-              </button>
-              <button
-                onClick={() => {
-                  setShowPdfPopup(false);
-                  if (pdfUrl) URL.revokeObjectURL(pdfUrl);
-                  setPdfUrl(null);
-                  setPdfBlob(null);
-                }}
-                className="flex-1 border border-zinc-300 text-zinc-700 hover:border-zinc-500 font-bold text-sm uppercase tracking-editorial py-3 px-4 transition-colors"
-              >
-                Chiudi
-              </button>
-            </div>
+            <p className="text-xs text-zinc-400">Calcoli in corso&hellip;</p>
           </div>
         </div>
       )}
