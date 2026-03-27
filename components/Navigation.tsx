@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Menu, Download } from "lucide-react";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 import MobileJourneyDrawer from "@/components/MobileJourneyDrawer";
@@ -23,9 +22,10 @@ export default function Navigation() {
           <div className="flex items-center px-3 py-2 gap-2">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-              <Image
-                src="/android-chrome-512x512.png"
-                alt="Bur0"
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/android-chrome-512x512.png?v=2"
+                alt="BurZero"
                 width={24}
                 height={24}
                 className="w-6 h-6"
