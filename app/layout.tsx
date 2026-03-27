@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     shortcut: ["/android-chrome-512x512.png"],
   },
   verification: {
-    google: "G-9SZBH3PPKS",
+    google: "AerZfH_YyZNanrrF6a9Z_lFkzGZxr7mYxTQ0FQ5GHak",
   },
 };
 
