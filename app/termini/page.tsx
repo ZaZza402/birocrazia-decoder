@@ -1,19 +1,19 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
   title: "Termini e Condizioni | Bur0",
-  description: "Termini di Utilizzo — Strumento di Simulazione Fiscale",
+  description: "Termini di Utilizzo � Strumento di Simulazione Fiscale",
 };
 
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-stone-50 pt-20 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-        {/* â”€â”€ HEADER â”€â”€ */}
+        {/* ── HEADER ── */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
           <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
-            Termini di Utilizzo — bur0.click
+            Termini di Utilizzo � bur0.click
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
             Termini e Condizioni
@@ -24,7 +24,7 @@ export default function TermsPage() {
           </p>
         </div>
 
-        {/* â”€â”€ DISCLAIMER BOX â”€â”€ */}
+        {/* ── DISCLAIMER BOX ── */}
         <div className="bg-white border border-zinc-200 border-l-4 border-l-red-600 p-5 mb-10">
           <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
             Importante
@@ -166,7 +166,7 @@ export default function TermsPage() {
           </section>
         </div>
 
-        {/* â”€â”€ FOOTER ROW â”€â”€ */}
+        {/* ── FOOTER ROW ── */}
         <div className="mt-8 pt-6 border-t border-zinc-200 flex items-center justify-between gap-4">
           <p className="text-xs text-zinc-400">
             Ultima revisione: Marzo 2026 &mdash; Utilizzando Bur0 accetti questi

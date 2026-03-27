@@ -23,7 +23,7 @@ export default function EmbedDocsPage() {
             </h3>
             <pre className="bg-gray-900 text-green-400 p-4 rounded overflow-x-auto text-sm">
               {`<iframe
-  src="https://bur0.click/embed/white-label"
+  src="https://www.bur0.click/embed/white-label"
   width="100%"
   height="1200"
   frameborder="0"
@@ -58,7 +58,7 @@ export default function EmbedDocsPage() {
             </h3>
             <pre className="bg-gray-900 text-green-400 p-4 rounded overflow-x-auto text-sm">
               {`<iframe
-  src="https://bur0.click/embed/branded"
+  src="https://www.bur0.click/embed/branded"
   width="100%"
   height="1250"
   frameborder="0"
