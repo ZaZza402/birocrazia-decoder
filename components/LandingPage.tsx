@@ -6,6 +6,7 @@ import {
   TrendingUp,
   Calendar,
 } from "lucide-react";
+import InstallAppButton from "@/components/InstallAppButton";
 
 export default function LandingPage() {
   const jsonLd = {
@@ -208,6 +209,7 @@ export default function LandingPage() {
                 </p>
               </div>
             </div>
+            <InstallAppButton />
           </div>
         </section>
 
