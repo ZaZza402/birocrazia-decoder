@@ -68,7 +68,9 @@ export default function ForfettarioCalculator({
   });
 
   const [selectedAteco, setSelectedAteco] = useState<AtecoEntry>(initialAteco);
-  const [pdfStatus, setPdfStatus] = useState<"idle" | "generating" | "done">("idle");
+  const [pdfStatus, setPdfStatus] = useState<"idle" | "generating" | "done">(
+    "idle",
+  );
   const [realExpensesStr, setRealExpensesStr] = useState(
     String(inputs.realExpenses),
   );

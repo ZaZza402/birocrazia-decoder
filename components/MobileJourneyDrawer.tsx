@@ -9,6 +9,7 @@ import {
   TrendingUp,
   Calendar,
   Download,
+  FileText,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
@@ -55,6 +56,14 @@ const STEPS: Step[] = [
     desc: "Calcola le rate di Novembre",
     href: "/calcolatori/acconto",
     Icon: Calendar,
+  },
+  {
+    num: "05",
+    label: "Emetti",
+    title: "Generatore Fattura",
+    desc: "Crea e scarica la tua fattura PDF",
+    href: "/calcolatori/fattura",
+    Icon: FileText,
   },
 ];
 

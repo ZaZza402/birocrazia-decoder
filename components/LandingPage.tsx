@@ -5,6 +5,7 @@ import {
   Search,
   TrendingUp,
   Calendar,
+  FileText,
 } from "lucide-react";
 import InstallAppButton from "@/components/InstallAppButton";
 
@@ -217,9 +218,9 @@ export default function LandingPage() {
         <section className="bg-zinc-950 text-white">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-500 mb-10">
-              Quattro passi — dal profilo alla pianificazione
+              Cinque passi — dal profilo alla fattura
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-800">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-zinc-800">
               {/* Step 1 — ATECO */}
               <Link
                 href="/calcolatori/ateco"
@@ -319,6 +320,31 @@ export default function LandingPage() {
                 <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
                   <Calendar className="w-3.5 h-3.5" />
                   Calcola le rate
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+              {/* Step 5 — Fattura */}
+              <Link
+                href="/calcolatori/fattura"
+                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
+              >
+                <div>
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
+                    05 — Emetti
+                  </span>
+                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
+                    Generatore
+                    <br />
+                    Fattura PDF
+                  </h2>
+                  <p className="text-sm text-zinc-400 leading-relaxed">
+                    Crea fatture professionali. Forfettario, ritenuta d'acconto,
+                    marca da bollo, logo drag & drop.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
+                  <FileText className="w-3.5 h-3.5" />
+                  Crea fattura
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>

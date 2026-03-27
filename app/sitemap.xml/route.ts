@@ -31,6 +31,11 @@ export function GET() {
       priority: "0.7",
       changefreq: "monthly",
     },
+    {
+      loc: `${BASE}/calcolatori/fattura`,
+      priority: "0.85",
+      changefreq: "monthly",
+    },
     ...SCENARIOS.map((s) => ({
       loc: `${BASE}/calcolatori/forfettario/${s.slug}`,
       priority: "0.8",
