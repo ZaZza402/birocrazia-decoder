@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
-import { Plus, Trash2, Upload, X, FileText } from "lucide-react";
-import type { FatturaData, FatturaItem } from "@/components/FatturaDocument";
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import { Plus, Trash2, Upload, X, FileText, Info } from "lucide-react";
+import type { FatturaData, FatturaItem, DocType } from "@/components/FatturaDocument";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type PdfStatus = "idle" | "generating" | "done";
+
+const LS_KEY = "burzero_proforma_v1";
 
 const EMPTY_ITEM = (): FatturaItem => ({
   description: "",
@@ -38,6 +40,7 @@ export default function FatturaGenerator() {
   const today = new Date().toISOString().split("T")[0];
 
   // Form state
+  const [docType, setDocType] = useState<DocType>("avviso_di_parcella");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [logoBase64, setLogoBase64] = useState<string | null>(null);
@@ -59,13 +62,54 @@ export default function FatturaGenerator() {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // ─── localStorage persistence ────────────────────────────────────────────
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(LS_KEY);
+      if (!saved) return;
+      const d = JSON.parse(saved);
+      if (d.docType) setDocType(d.docType);
+      if (d.from !== undefined) setFrom(d.from);
+      if (d.to !== undefined) setTo(d.to);
+      if (d.invoiceNumber !== undefined) setInvoiceNumber(d.invoiceNumber);
+      if (d.currency) setCurrency(d.currency);
+      if (d.invoiceDate) setInvoiceDate(d.invoiceDate);
+      if (d.dueDate !== undefined) setDueDate(d.dueDate);
+      if (d.interest !== undefined) setInterest(d.interest);
+      if (d.items?.length) setItems(d.items);
+      if (d.notes !== undefined) setNotes(d.notes);
+      if (d.bankDetails !== undefined) setBankDetails(d.bankDetails);
+      if (d.isForfettario !== undefined) setIsForfettario(d.isForfettario);
+      if (d.ritenuta !== undefined) setRitenuta(d.ritenuta);
+      if (d.taxRate !== undefined) setTaxRate(d.taxRate);
+      if (d.roundingAmount !== undefined) setRoundingAmount(d.roundingAmount);
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        LS_KEY,
+        JSON.stringify({
+          docType, from, to, invoiceNumber, currency, invoiceDate, dueDate,
+          interest, items, notes, bankDetails, isForfettario, ritenuta,
+          taxRate, roundingAmount,
+        }),
+      );
+    } catch {}
+  }, [docType, from, to, invoiceNumber, currency, invoiceDate, dueDate,
+      interest, items, notes, bankDetails, isForfettario, ritenuta,
+      taxRate, roundingAmount]);
+
   // ─── Totals ──────────────────────────────────────────────────────────────
 
   const subtotal = items.reduce((acc, item) => acc + itemNet(item), 0);
   const taxAmount = isForfettario ? 0 : subtotal * (taxRate / 100);
   const ritenutaAmount = ritenuta ? subtotal * 0.2 : 0;
   const marcaDaBollo = subtotal > 77.47 && isForfettario ? 2 : 0;
-  const total = subtotal + taxAmount - ritenutaAmount + roundingAmount + marcaDaBollo;
+  const total =
+    subtotal + taxAmount - ritenutaAmount + roundingAmount + marcaDaBollo;
 
   // ─── Logo upload ─────────────────────────────────────────────────────────
 
@@ -96,7 +140,7 @@ export default function FatturaGenerator() {
       const file = e.dataTransfer.files?.[0];
       if (file) processFile(file);
     },
-    [processFile]
+    [processFile],
   );
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -113,9 +157,13 @@ export default function FatturaGenerator() {
   const removeItem = (idx: number) =>
     setItems((prev) => prev.filter((_, i) => i !== idx));
 
-  const updateItem = (idx: number, field: keyof FatturaItem, value: string | number) => {
+  const updateItem = (
+    idx: number,
+    field: keyof FatturaItem,
+    value: string | number,
+  ) => {
     setItems((prev) =>
-      prev.map((item, i) => (i === idx ? { ...item, [field]: value } : item))
+      prev.map((item, i) => (i === idx ? { ...item, [field]: value } : item)),
     );
   };
 
@@ -131,6 +179,7 @@ export default function FatturaGenerator() {
       ]);
 
       const data: FatturaData = {
+        docType,
         from,
         to,
         logoBase64,
@@ -152,7 +201,7 @@ export default function FatturaGenerator() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `BurZero-Fattura-${invoiceNumber}.pdf`;
+      a.download = `BurZero-ProForma-${invoiceNumber}.pdf`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -186,7 +235,6 @@ export default function FatturaGenerator() {
 
       <main className="min-h-screen bg-stone-50 pt-20 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-
           {/* Page header */}
           <div className="mb-8 pt-4">
             <div className="flex items-center gap-3 mb-2">
@@ -196,18 +244,18 @@ export default function FatturaGenerator() {
               </p>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-zinc-950 leading-none mb-2">
-              Generatore Fattura
+              Pro-Forma /{" "}
+              <span className="text-zinc-400 font-normal">Avviso di Parcella</span>
             </h1>
             <p className="text-zinc-500 text-sm">
-              Compila i campi, scarica il PDF. Nessun account, nessun dato salvato.
+              Documento di richiesta pagamento — non è una fattura fiscale. La
+              fattura elettronica parte solo a incasso avvenuto.
             </p>
           </div>
 
           <div className="space-y-6">
-
             {/* ── FROM / TO / LOGO ─────────────────────────────── */}
             <div className="grid md:grid-cols-2 gap-4">
-
               {/* From */}
               <div className="bg-white border border-zinc-200 p-5">
                 <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
@@ -216,7 +264,9 @@ export default function FatturaGenerator() {
                 <textarea
                   value={from}
                   onChange={(e) => setFrom(e.target.value)}
-                  placeholder={"Ragione Sociale / Nome\nPartita IVA / CF\nIndirizzo\nCodice SDI / PEC"}
+                  placeholder={
+                    "Ragione Sociale / Nome\nPartita IVA / CF\nIndirizzo\nCodice SDI / PEC"
+                  }
                   rows={5}
                   className="w-full text-sm text-zinc-800 placeholder:text-zinc-300 resize-none focus:outline-none leading-relaxed"
                 />
@@ -230,7 +280,9 @@ export default function FatturaGenerator() {
                 <textarea
                   value={to}
                   onChange={(e) => setTo(e.target.value)}
-                  placeholder={"Ragione Sociale / Nome\nPartita IVA / CF\nIndirizzo\nCodice SDI / PEC"}
+                  placeholder={
+                    "Ragione Sociale / Nome\nPartita IVA / CF\nIndirizzo\nCodice SDI / PEC"
+                  }
                   rows={5}
                   className="w-full text-sm text-zinc-800 placeholder:text-zinc-300 resize-none focus:outline-none leading-relaxed"
                 />
@@ -290,13 +342,38 @@ export default function FatturaGenerator() {
 
             {/* ── INVOICE META ─────────────────────────────────── */}
             <div className="bg-white border border-zinc-200 p-5">
-              <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
-                Dati fattura
-              </label>
+              <div className="flex items-center justify-between mb-4">
+                <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-400">
+                  Dati documento
+                </label>
+                {/* Doc type selector */}
+                <div className="flex border border-zinc-200 overflow-hidden">
+                  <button
+                    onClick={() => setDocType("avviso_di_parcella")}
+                    className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-editorial transition-colors ${
+                      docType === "avviso_di_parcella"
+                        ? "bg-zinc-950 text-white"
+                        : "text-zinc-400 hover:text-zinc-700"
+                    }`}
+                  >
+                    Avviso di Parcella
+                  </button>
+                  <button
+                    onClick={() => setDocType("pro_forma")}
+                    className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-editorial transition-colors ${
+                      docType === "pro_forma"
+                        ? "bg-zinc-950 text-white"
+                        : "text-zinc-400 hover:text-zinc-700"
+                    }`}
+                  >
+                    Pro-Forma
+                  </button>
+                </div>
+              </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div>
                   <p className="text-[9px] uppercase tracking-editorial text-zinc-400 mb-1.5">
-                    N. Fattura
+                    N. Documento
                   </p>
                   <input
                     type="text"
@@ -406,7 +483,11 @@ export default function FatturaGenerator() {
                       step={1}
                       value={item.quantity}
                       onChange={(e) =>
-                        updateItem(idx, "quantity", parseFloat(e.target.value) || 0)
+                        updateItem(
+                          idx,
+                          "quantity",
+                          parseFloat(e.target.value) || 0,
+                        )
                       }
                       className="col-span-1 text-sm text-zinc-800 text-right focus:outline-none border-b border-zinc-200 focus:border-zinc-400"
                     />
@@ -429,7 +510,11 @@ export default function FatturaGenerator() {
                         step={0.01}
                         value={item.price}
                         onChange={(e) =>
-                          updateItem(idx, "price", parseFloat(e.target.value) || 0)
+                          updateItem(
+                            idx,
+                            "price",
+                            parseFloat(e.target.value) || 0,
+                          )
                         }
                         className="w-full text-sm text-zinc-800 text-right focus:outline-none border-b border-zinc-200 focus:border-zinc-400"
                       />
@@ -442,7 +527,11 @@ export default function FatturaGenerator() {
                         step={1}
                         value={item.discount}
                         onChange={(e) =>
-                          updateItem(idx, "discount", parseFloat(e.target.value) || 0)
+                          updateItem(
+                            idx,
+                            "discount",
+                            parseFloat(e.target.value) || 0,
+                          )
                         }
                         className="w-full text-sm text-zinc-800 text-right focus:outline-none border-b border-zinc-200 focus:border-zinc-400"
                       />
@@ -503,8 +592,8 @@ export default function FatturaGenerator() {
                     </p>
                     <p className="text-xs text-zinc-400 mt-0.5">
                       Aggiunge automaticamente la dicitura legale di esenzione
-                      IVA (art. 1, commi 54-89, L. 190/2014). Il campo IVA
-                      viene disabilitato.
+                      IVA (art. 1, commi 54-89, L. 190/2014). Il campo IVA viene
+                      disabilitato.
                     </p>
                   </div>
                 </div>
@@ -522,7 +611,9 @@ export default function FatturaGenerator() {
                         max={30}
                         step={1}
                         value={taxRate}
-                        onChange={(e) => setTaxRate(parseFloat(e.target.value) || 0)}
+                        onChange={(e) =>
+                          setTaxRate(parseFloat(e.target.value) || 0)
+                        }
                         className="border border-zinc-200 px-2.5 py-2 text-sm font-bold text-zinc-800 w-24 focus:outline-none focus:border-zinc-400"
                       />
                     </div>
@@ -561,8 +652,8 @@ export default function FatturaGenerator() {
                       Marca da bollo richiesta — €2,00
                     </p>
                     <p className="text-xs text-amber-600 mt-0.5">
-                      L'importo supera €77,47. In Regime Forfettario la marca
-                      da bollo da €2 è obbligatoria. Verrà inclusa nel PDF.
+                      L'importo supera €77,47. In Regime Forfettario la marca da
+                      bollo da €2 è obbligatoria. Verrà inclusa nel PDF.
                     </p>
                   </div>
                 )}
@@ -590,7 +681,9 @@ export default function FatturaGenerator() {
                 <textarea
                   value={bankDetails}
                   onChange={(e) => setBankDetails(e.target.value)}
-                  placeholder={"IBAN: IT00 X000 0000 0000 0000 0000 000\nBIC/SWIFT: XXXXXXXX\nBanca: Nome Istituto"}
+                  placeholder={
+                    "IBAN: IT00 X000 0000 0000 0000 0000 000\nBIC/SWIFT: XXXXXXXX\nBanca: Nome Istituto"
+                  }
                   rows={4}
                   className="w-full text-sm text-zinc-800 placeholder:text-zinc-300 resize-none focus:outline-none leading-relaxed"
                 />
@@ -663,7 +756,7 @@ export default function FatturaGenerator() {
                   }`}
                 >
                   <FileText className="w-4 h-4" />
-                  {pdfStatus === "idle" && "Scarica Fattura PDF"}
+                  {pdfStatus === "idle" && "Scarica Pro-Forma PDF"}
                   {pdfStatus === "generating" && "Generazione..."}
                   {pdfStatus === "done" && "✓ Download Avviato"}
                 </button>
@@ -672,9 +765,10 @@ export default function FatturaGenerator() {
 
             {/* Disclaimer */}
             <p className="text-[10px] text-zinc-400 leading-relaxed text-center pb-2">
-              Questo strumento genera un documento PDF a scopo informativo. Non
-              costituisce consulenza fiscale. Verifica sempre con il tuo
-              commercialista la conformità alla normativa vigente.
+              Il Pro-Forma / Avviso di Parcella non è una fattura elettronica ai
+              sensi del D.P.R. 633/72 e non ha valore fiscale. Dati salvati
+              automaticamente nel browser. Verifica sempre con il tuo
+              commercialista.
             </p>
           </div>
         </div>

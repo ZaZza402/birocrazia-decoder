@@ -16,7 +16,10 @@ export interface FatturaItem {
   discount: number;
 }
 
+export type DocType = "avviso_di_parcella" | "pro_forma";
+
 export interface FatturaData {
+  docType: DocType;
   from: string;
   to: string;
   logoBase64: string | null;
@@ -215,17 +218,34 @@ const s = StyleSheet.create({
     color: "#52525b",
     lineHeight: 1.6,
   },
-  forfettarioNote: {
+  nonFiscalBadge: {
+    marginTop: 6,
+    marginBottom: 2,
+    paddingVertical: 3,
+    paddingHorizontal: 8,
+    backgroundColor: "#fef3c7",
+    borderWidth: 1,
+    borderColor: "#fbbf24",
+    alignSelf: "flex-start",
+  },
+  nonFiscalBadgeText: {
+    fontSize: 7,
+    fontFamily: "Helvetica-Bold",
+    color: "#92400e",
+    letterSpacing: 1,
+    textTransform: "uppercase",
+  },
+  disclaimerBox: {
     marginTop: 20,
     padding: 10,
     borderWidth: 1,
     borderColor: "#e4e4e7",
     backgroundColor: "#f9f9f8",
   },
-  forfettarioNoteText: {
+  disclaimerText: {
     fontSize: 8,
     color: "#71717a",
-    lineHeight: 1.5,
+    lineHeight: 1.6,
     fontStyle: "italic",
   },
   footer: {
@@ -271,9 +291,12 @@ export default function FatturaDocument({ data }: Props) {
 
   const sym = CURRENCY_SYMBOLS[data.currency] ?? data.currency;
 
+  const docLabel =
+    data.docType === "pro_forma" ? "Pro-Forma" : "Avviso di Parcella";
+
   return (
     <Document
-      title={`Fattura ${data.invoiceNumber}`}
+      title={`${docLabel} ${data.invoiceNumber}`}
       author="BurZero"
       creator="BurZero.it"
     >
@@ -281,10 +304,11 @@ export default function FatturaDocument({ data }: Props) {
         {/* ─── HEADER ─────────────────────────────────── */}
         <View style={s.header}>
           <View style={s.headerLeft}>
-            {data.logoBase64 && (
-              <Image style={s.logo} src={data.logoBase64} />
-            )}
-            <Text style={s.invoiceTitle}>Fattura</Text>
+            {data.logoBase64 && <Image style={s.logo} src={data.logoBase64} />}
+            <Text style={s.invoiceTitle}>{docLabel}</Text>
+            <View style={s.nonFiscalBadge}>
+              <Text style={s.nonFiscalBadgeText}>Non è una fattura fiscale</Text>
+            </View>
             <Text style={[s.sectionLabel, { marginTop: 10 }]}>Da</Text>
             <Text style={s.addressText}>
               {data.from || "Inserisci i tuoi dati"}
@@ -301,7 +325,7 @@ export default function FatturaDocument({ data }: Props) {
         {/* ─── META ROW ────────────────────────────────── */}
         <View style={s.metaRow}>
           <View style={s.metaCell}>
-            <Text style={s.metaLabel}>N. Fattura</Text>
+            <Text style={s.metaLabel}>N. Documento</Text>
             <Text style={s.metaValue}>{data.invoiceNumber || "—"}</Text>
           </View>
           <View style={s.metaCell}>
@@ -354,9 +378,7 @@ export default function FatturaDocument({ data }: Props) {
             <Text style={[s.cellText, s.colDiscount, { textAlign: "right" }]}>
               {item.discount > 0 ? `${item.discount}%` : "—"}
             </Text>
-            <Text
-              style={[s.cellTextBold, s.colAmount, { textAlign: "right" }]}
-            >
+            <Text style={[s.cellTextBold, s.colAmount, { textAlign: "right" }]}>
               {fmt(itemSubtotals[idx], data.currency)}
             </Text>
           </View>
@@ -388,7 +410,9 @@ export default function FatturaDocument({ data }: Props) {
           {marcaDaBollo > 0 && (
             <View style={s.totalRow}>
               <Text style={s.totalLabel}>Marca da bollo</Text>
-              <Text style={s.totalValue}>{fmt(marcaDaBollo, data.currency)}</Text>
+              <Text style={s.totalValue}>
+                {fmt(marcaDaBollo, data.currency)}
+              </Text>
             </View>
           )}
 
@@ -426,25 +450,29 @@ export default function FatturaDocument({ data }: Props) {
           </View>
         )}
 
-        {/* ─── FORFETTARIO LEGAL NOTE ──────────────────── */}
-        {data.isForfettario && (
-          <View style={s.forfettarioNote}>
-            <Text style={s.forfettarioNoteText}>
-              Operazione non soggetta a IVA ai sensi dell'art. 1, commi 54-89,
-              Legge 23 dicembre 2014, n. 190 (Regime Forfettario).
-              {marcaDaBollo > 0
-                ? " Imposta di bollo assolta sull'originale ai sensi del D.P.R. 642/1972."
-                : ""}
-            </Text>
-          </View>
-        )}
+        {/* ─── DISCLAIMER BOX (always shown) ───────────── */}
+        <View style={s.disclaimerBox}>
+          <Text style={s.disclaimerText}>
+            Il presente documento NON costituisce fattura fiscale ai sensi del
+            D.P.R. 633/72 e successive modificazioni. La fattura elettronica
+            verrà emessa all'atto del ricevimento del pagamento.
+            {data.isForfettario
+              ? " Operazione non soggetta a IVA ai sensi dell'art. 1, commi 54-89, Legge 23 dicembre 2014, n. 190 (Regime Forfettario)."
+              : ""}
+            {marcaDaBollo > 0
+              ? " Imposta di bollo assolta sull'originale ai sensi del D.P.R. 642/1972."
+              : ""}
+          </Text>
+        </View>
 
         {/* ─── FOOTER ──────────────────────────────────── */}
         <View style={s.footer} fixed>
           <Text style={s.footerText}>
             Documento generato il {new Date().toLocaleDateString("it-IT")}
           </Text>
-          <Text style={s.footerBrand}>BurZero.it — Strumenti Fiscali Gratuiti</Text>
+          <Text style={s.footerBrand}>
+            BurZero.it — Strumenti Fiscali Gratuiti
+          </Text>
         </View>
       </Page>
     </Document>

@@ -69,7 +69,7 @@ export default function Navigation() {
                 href="/calcolatori/fattura"
                 className="text-[11px] font-bold uppercase tracking-editorial text-zinc-500 hover:text-zinc-950 px-3 py-1.5 transition-colors whitespace-nowrap"
               >
-                Fattura
+                Pro-Forma
               </Link>
               {isInstallable && (
                 <button

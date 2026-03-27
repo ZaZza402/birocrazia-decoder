@@ -60,8 +60,8 @@ const STEPS: Step[] = [
   {
     num: "05",
     label: "Emetti",
-    title: "Generatore Fattura",
-    desc: "Crea e scarica la tua fattura PDF",
+    title: "Pro-Forma / Avviso di Parcella",
+    desc: "Documento di pagamento — fattura solo a incasso",
     href: "/calcolatori/fattura",
     Icon: FileText,
   },

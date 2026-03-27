@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Generatore Fattura Freelance 2025 - Crea e Scarica PDF | BurZero",
+  title: "Generatore Pro-Forma / Avviso di Parcella 2025 - PDF Gratuito | BurZero",
   description:
-    "Crea fatture professionali in PDF gratis. Supporta Regime Forfettario (esenzione IVA), ritenuta d'acconto 20%, marca da bollo automatica. Logo drag & drop. Nessun account richiesto.",
+    "Crea un Avviso di Parcella (Pro-Forma) in PDF gratis. Non è una fattura elettronica: la fattura viene emessa solo a pagamento ricevuto. Forfettario, ritenuta d'acconto, marca da bollo. Nessun account.",
   keywords:
-    "generatore fattura freelance, fattura regime forfettario, fattura senza iva, ritenuta d'acconto 20%, marca da bollo, generatore fattura pdf, fattura partita iva, crea fattura gratis",
+    "avviso di parcella, pro-forma freelance, generatore pro-forma pdf, fattura pro-forma partita iva, avviso parcella regime forfettario, ritenuta d'acconto 20%, marca da bollo, documento non fiscale freelance",
   alternates: {
     canonical: "/calcolatori/fattura",
   },
   openGraph: {
-    title: "Generatore Fattura Freelance 2025 | BurZero",
+    title: "Generatore Pro-Forma / Avviso di Parcella | BurZero",
     description:
-      "Crea fatture professionali in PDF. Forfettario, ritenuta d'acconto, marca da bollo. Gratis, nessun account.",
+      "Avviso di Parcella PDF gratis. La fattura ufficiale parte solo a pagamento ricevuto.",
     url: "https://bur0.click/calcolatori/fattura",
     type: "website",
   },
@@ -26,7 +26,7 @@ export default function FatturaLayout({
   const schema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Generatore Fattura BurZero",
+    name: "Generatore Pro-Forma / Avviso di Parcella BurZero",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web Browser",
     offers: {
@@ -35,14 +35,15 @@ export default function FatturaLayout({
       priceCurrency: "EUR",
     },
     description:
-      "Genera fatture PDF professionali con supporto per Regime Forfettario, ritenuta d'acconto e marca da bollo automatica.",
+      "Genera un Avviso di Parcella (Pro-Forma) PDF. Documento non fiscale: la fattura elettronica viene emessa solo all'atto del pagamento.",
     featureList: [
-      "Fattura PDF scaricabile",
+      "Pro-Forma PDF scaricabile",
+      "Avviso di Parcella professionale",
       "Supporto Regime Forfettario (esenzione IVA)",
       "Ritenuta d'acconto 20%",
       "Marca da bollo automatica >€77.47",
       "Upload logo drag & drop",
-      "Nessun account richiesto",
+      "Dati salvati in localStorage",
     ],
   };
 

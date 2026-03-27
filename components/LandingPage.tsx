@@ -333,18 +333,18 @@ export default function LandingPage() {
                     05 — Emetti
                   </span>
                   <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
-                    Generatore
+                    Pro-Forma &
                     <br />
-                    Fattura PDF
+                    Avviso di Parcella
                   </h2>
                   <p className="text-sm text-zinc-400 leading-relaxed">
-                    Crea fatture professionali. Forfettario, ritenuta d'acconto,
-                    marca da bollo, logo drag & drop.
+                    Documento di pagamento non fiscale. La fattura parte solo a
+                    incasso. Forfettario, ritenuta, logo drag & drop.
                   </p>
                 </div>
                 <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
                   <FileText className="w-3.5 h-3.5" />
-                  Crea fattura
+                  Crea Pro-Forma
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
