@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { SCENARIOS } from "@/lib/scenarios";
 
+export const dynamic = "force-dynamic";
+
 const BASE = "https://bur0.click";
 
 export default function sitemap(): MetadataRoute.Sitemap {

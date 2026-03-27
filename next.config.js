@@ -43,7 +43,7 @@ const nextConfig = {
           },
           {
             key: "Cache-Control",
-            value: "public, max-age=3600, s-maxage=3600",
+            value: "no-cache, no-store, must-revalidate",
           },
         ],
       },
@@ -56,7 +56,7 @@ const nextConfig = {
           },
           {
             key: "Cache-Control",
-            value: "public, max-age=3600, s-maxage=3600",
+            value: "no-cache, no-store, must-revalidate",
           },
         ],
       },
