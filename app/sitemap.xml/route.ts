@@ -142,6 +142,7 @@ export async function GET() {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
       "Cache-Control": "no-cache, no-store, must-revalidate",
+      "Vary": "Accept-Encoding",
     },
   });
 }
