@@ -20,12 +20,6 @@ export function usePWAInstall() {
     };
 
     window.addEventListener("beforeinstallprompt", handler);
-
-    // Check if app is already installed
-    if (window.matchMedia("(display-mode: standalone)").matches) {
-      setIsInstallable(false);
-    }
-
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 

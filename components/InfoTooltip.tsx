@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 
 interface InfoTooltipProps {
@@ -11,10 +11,13 @@ interface PopupPos {
   top: number;
   left: number;
   arrowLeft: number;
+  width: number;
   openUp: boolean;
 }
 
 const POPUP_W = 256;
+const POPUP_MIN_W = 180;
+const ESTIMATED_POPUP_H = 168;
 const MARGIN = 8;
 
 export default function InfoTooltip({
@@ -23,19 +26,21 @@ export default function InfoTooltip({
 }: InfoTooltipProps) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<PopupPos | null>(null);
-  const [mounted, setMounted] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const popupRef = useRef<HTMLSpanElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Close on outside click / tap-away
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent | TouchEvent) => {
-      if (buttonRef.current && !buttonRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(target) &&
+        popupRef.current &&
+        !popupRef.current.contains(target)
+      ) {
         setOpen(false);
       }
     };
@@ -54,37 +59,40 @@ export default function InfoTooltip({
     if (closeTimer.current) clearTimeout(closeTimer.current);
   };
 
-  const computePos = (): PopupPos | null => {
+  const computePos = useCallback((): PopupPos | null => {
     if (!buttonRef.current) return null;
     const rect = buttonRef.current.getBoundingClientRect();
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+    const popupW = Math.max(POPUP_MIN_W, Math.min(POPUP_W, vw - MARGIN * 2));
 
-    // Horizontal: clamp so popup stays inside viewport with MARGIN on each side
-    let left = rect.left;
-    left = Math.min(left, vw - POPUP_W - MARGIN);
+    // Center around trigger and clamp into viewport.
+    let left = rect.left + rect.width / 2 - popupW / 2;
+    left = Math.min(left, vw - popupW - MARGIN);
     left = Math.max(left, MARGIN);
 
-    // Arrow position relative to popup left edge (points at the button center)
+    // Arrow points to trigger center, still clamped within popup body.
     const arrowLeft = Math.max(
       6,
-      Math.min(rect.left + rect.width / 2 - left - 4, POPUP_W - 14),
+      Math.min(rect.left + rect.width / 2 - left - 4, popupW - 14),
     );
 
-    // Vertical: prefer side prop, but flip if not enough space
-    const spaceBelow = vh - rect.bottom;
-    const spaceAbove = rect.top;
-    const openUp =
-      side === "top"
-        ? spaceAbove >= 120 || spaceAbove > spaceBelow
-        : spaceBelow < 120 && spaceAbove > spaceBelow;
+    const spaceBelow = vh - rect.bottom - MARGIN;
+    const spaceAbove = rect.top - MARGIN;
+    const preferUp = side === "top";
 
-    const top = openUp
-      ? rect.top - 8 // will be shifted up by CSS (bottom: calc(100vh - top))
-      : rect.bottom + 8;
+    const canOpenUp = spaceAbove >= ESTIMATED_POPUP_H;
+    const canOpenDown = spaceBelow >= ESTIMATED_POPUP_H;
 
-    return { top, left, arrowLeft, openUp };
-  };
+    let openUp = preferUp;
+    if (preferUp && !canOpenUp) openUp = spaceAbove > spaceBelow;
+    if (!preferUp && !canOpenDown) openUp = spaceAbove > spaceBelow;
+
+    let top = openUp ? rect.top - 10 - ESTIMATED_POPUP_H : rect.bottom + 10;
+    top = Math.max(MARGIN, Math.min(top, vh - ESTIMATED_POPUP_H - MARGIN));
+
+    return { top, left, arrowLeft, width: popupW, openUp };
+  }, [side]);
 
   const handleOpen = () => {
     const p = computePos();
@@ -92,21 +100,36 @@ export default function InfoTooltip({
     setOpen(true);
   };
 
+  useEffect(() => {
+    if (!open) return;
+    const syncPosition = () => {
+      const next = computePos();
+      if (next) setPos(next);
+    };
+    window.addEventListener("resize", syncPosition);
+    window.addEventListener("scroll", syncPosition, true);
+    return () => {
+      window.removeEventListener("resize", syncPosition);
+      window.removeEventListener("scroll", syncPosition, true);
+    };
+  }, [open, computePos]);
+
   const popup =
-    open && pos && mounted
+    open && pos
       ? createPortal(
           <span
+            ref={popupRef}
             role="tooltip"
             style={{
               position: "fixed",
               zIndex: 9999,
-              width: POPUP_W,
+              width: pos.width,
               left: pos.left,
-              ...(pos.openUp
-                ? { bottom: window.innerHeight - pos.top }
-                : { top: pos.top }),
+              top: pos.top,
+              maxHeight: `calc(100vh - ${MARGIN * 2}px)`,
+              overflowY: "auto",
             }}
-            className="bg-zinc-950 text-white text-[11px] leading-relaxed p-3 shadow-xl pointer-events-none"
+            className="bg-zinc-950 text-white text-[11px] leading-relaxed p-3 shadow-xl"
             onMouseEnter={cancelClose}
             onMouseLeave={startClose}
           >
@@ -126,7 +149,11 @@ export default function InfoTooltip({
         ref={buttonRef}
         type="button"
         onClick={() => {
-          open ? setOpen(false) : handleOpen();
+          if (open) {
+            setOpen(false);
+            return;
+          }
+          handleOpen();
         }}
         onMouseEnter={() => {
           cancelClose();

@@ -9,7 +9,9 @@ export default async function AccontoPage({
 }) {
   const resolved = await (searchParams ??
     Promise.resolve({} as { tax?: string }));
-  const initialTax = resolved.tax ? parseFloat(resolved.tax) : undefined;
+  const initialTax = resolved.tax
+    ? parseFloat(resolved.tax.replace(",", "."))
+    : undefined;
   const validTax =
     initialTax !== undefined && isFinite(initialTax) && initialTax > 0
       ? initialTax

@@ -366,14 +366,14 @@ export default function LandingPage() {
               <p className="text-zinc-600 leading-relaxed mb-4">
                 Quando superi gli{" "}
                 <strong className="text-zinc-900">€85.000 di fatturato</strong>,
-                perdi automaticamente il regime forfettario l'anno successivo.
-                Se superi
+                perdi automaticamente il regime forfettario l&apos;anno
+                successivo. Se superi
                 <strong className="text-zinc-900"> €100.000</strong>, esci con
-                effetto retroattivo sull'intero anno.
+                effetto retroattivo sull&apos;intero anno.
               </p>
               <p className="text-zinc-600 leading-relaxed">
-                Nel regime ordinario l'IRPEF progressiva (23%, 35%, 43%) e le
-                addizionali regionali ti mangiano quasi il doppio rispetto al
+                Nel regime ordinario l&apos;IRPEF progressiva (23%, 35%, 43%) e
+                le addizionali regionali ti mangiano quasi il doppio rispetto al
                 forfettario. Pochissimi lo calcolano <em>prima</em> di trovarsi
                 nella trappola.
               </p>
@@ -389,8 +389,8 @@ export default function LandingPage() {
                 </h3>
                 <p className="text-zinc-600 leading-relaxed mb-4">
                   Se lavori con clienti privati (B2C), in regime ordinario devi
-                  applicare l'IVA al 22% e girarla allo stato. Nel forfettario,
-                  l'IVA non si applica.
+                  applicare l&apos;IVA al 22% e girarla allo stato. Nel
+                  forfettario, l&apos;IVA non si applica.
                 </p>
                 <p className="text-zinc-600 leading-relaxed">
                   Su €50.000 di fatturato B2C, questa differenza aggiunte alle

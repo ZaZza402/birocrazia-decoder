@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useMemo,
+  useEffect,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 import dynamic from "next/dynamic";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import {
-  AlertTriangle,
-  Loader2,
-  Download,
-  FileText,
-  Share2,
-} from "lucide-react";
+import { AlertTriangle, Loader2, FileText, Share2 } from "lucide-react";
 import { ForfettarioReport } from "@/components/ForfettarioReport";
 
 import AtecoCombobox from "@/components/AtecoCombobox";
@@ -38,6 +38,39 @@ interface InitialInputs {
   previousYearINPS?: number;
   realExpenses?: number;
   clientType?: "b2b" | "b2c";
+}
+
+interface DownloadNotice {
+  url: string;
+  fileName: string;
+}
+
+function parseLooseNumber(raw: string): number | null {
+  const normalized = raw
+    .replace(",", ".")
+    .replace(/[^0-9.-]/g, "")
+    .trim();
+  if (
+    normalized === "" ||
+    normalized === "." ||
+    normalized === "-" ||
+    normalized === "-."
+  ) {
+    return null;
+  }
+  const parsed = parseFloat(normalized);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function pad2(value: number): string {
+  return String(value).padStart(2, "0");
+}
+
+function buildForfettarioReportFileName(expectedRevenue: number): string {
+  const now = new Date();
+  const timestamp = `${now.getFullYear()}${pad2(now.getMonth() + 1)}${pad2(now.getDate())}-${pad2(now.getHours())}${pad2(now.getMinutes())}${pad2(now.getSeconds())}`;
+  const revenueToken = Math.round(expectedRevenue).toString();
+  return `BurZero-Report-Forfettario-${revenueToken}-${timestamp}.pdf`;
 }
 
 export default function ForfettarioCalculator({
@@ -72,12 +105,24 @@ export default function ForfettarioCalculator({
   const [prevINPSStr, setPrevINPSStr] = useState(
     String(inputs.previousYearINPS),
   );
+  const [customCassaRateDraft, setCustomCassaRateDraft] = useState<
+    string | null
+  >(null);
 
   const router = useRouter();
   const pathname = usePathname();
   const didMount = useRef(false);
   const urlSyncReady = useRef(true);
   const [copied, setCopied] = useState(false);
+  const [downloadNotice, setDownloadNotice] = useState<DownloadNotice | null>(
+    null,
+  );
+  const canShareApi = useSyncExternalStore(
+    () => () => {},
+    () => typeof navigator !== "undefined" && "share" in navigator,
+    () => false,
+  );
+  const revokeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const comparison = useMemo(() => {
     try {
@@ -113,17 +158,29 @@ export default function ForfettarioCalculator({
 
   const chartData = useMemo(() => {
     try {
-      const data = [];
+      const roundToCents = (value: number) => Math.round(value * 100) / 100;
+      const revenues = new Set<number>();
+
       for (let rev = 30000; rev <= 120000; rev += 5000) {
+        revenues.add(rev);
+      }
+
+      // Always include the currently selected revenue so chart point and verdict match.
+      revenues.add(inputs.expectedRevenue);
+
+      const sortedRevenues = Array.from(revenues).sort((a, b) => a - b);
+      const data = [];
+
+      for (const rev of sortedRevenues) {
         const simInput = { ...inputs, expectedRevenue: rev };
         const res = compareRegimes(simInput);
         data.push({
           revenue: rev,
           forfettarioNet:
             rev <= 100000 && res.forfettario.netIncome > 0
-              ? Math.max(0, res.forfettario.netIncome)
+              ? roundToCents(Math.max(0, res.forfettario.netIncome))
               : undefined,
-          ordinarioNet: Math.max(0, res.ordinario.netIncome),
+          ordinarioNet: roundToCents(Math.max(0, res.ordinario.netIncome)),
         });
       }
       return data;
@@ -158,20 +215,68 @@ export default function ForfettarioCalculator({
       const blob = await pdf(
         <ForfettarioReport inputs={inputs} results={comparison} />,
       ).toBlob();
+      const fileName = buildForfettarioReportFileName(inputs.expectedRevenue);
       const url = URL.createObjectURL(blob);
       // Trigger download / iOS share sheet directly—no popup
       const a = document.createElement("a");
       a.href = url;
-      a.download = "BurZero-Report-Forfettario.pdf";
+      a.download = fileName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      setDownloadNotice({ url, fileName });
+
+      if (revokeTimerRef.current) clearTimeout(revokeTimerRef.current);
+      revokeTimerRef.current = setTimeout(() => {
+        URL.revokeObjectURL(url);
+      }, 120000);
+
       setPdfStatus("done");
       setTimeout(() => setPdfStatus("idle"), 2500);
     } catch (e) {
       console.error("PDF generation failed:", e);
       setPdfStatus("idle");
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (revokeTimerRef.current) clearTimeout(revokeTimerRef.current);
+      if (downloadNotice?.url) URL.revokeObjectURL(downloadNotice.url);
+    };
+  }, [downloadNotice]);
+
+  const handleOpenDownloadedPdf = () => {
+    if (!downloadNotice) return;
+    window.open(downloadNotice.url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleShareDownloadedPdf = async () => {
+    if (!downloadNotice || !canShareApi) return;
+    try {
+      const response = await fetch(downloadNotice.url);
+      const blob = await response.blob();
+      const file = new File([blob], downloadNotice.fileName, {
+        type: "application/pdf",
+      });
+      const canShareFiles =
+        typeof navigator.canShare === "function" &&
+        navigator.canShare({ files: [file] });
+
+      if (canShareFiles) {
+        await navigator.share({
+          files: [file],
+          title: downloadNotice.fileName,
+        });
+      } else {
+        await navigator.share({
+          title: downloadNotice.fileName,
+          text: "PDF pronto: aprilo subito da qui.",
+          url: downloadNotice.url,
+        });
+      }
+    } catch {
+      // User canceled share or browser blocked it.
     }
   };
 
@@ -293,14 +398,37 @@ export default function ForfettarioCalculator({
                       % Cassa
                     </label>
                     <input
-                      type="number"
-                      value={inputs.customCassaRate || 0}
-                      onChange={(e) =>
-                        setInputs({
-                          ...inputs,
-                          customCassaRate: parseFloat(e.target.value),
-                        })
+                      type="text"
+                      inputMode="decimal"
+                      value={
+                        customCassaRateDraft !== null
+                          ? customCassaRateDraft
+                          : inputs.customCassaRate === undefined
+                            ? ""
+                            : String(inputs.customCassaRate)
                       }
+                      onChange={(e) => {
+                        const raw = e.target.value;
+                        setCustomCassaRateDraft(raw);
+                        if (raw.trim() === "") {
+                          setInputs({
+                            ...inputs,
+                            customCassaRate: undefined,
+                          });
+                          return;
+                        }
+                        const parsed = parseLooseNumber(raw);
+                        if (parsed !== null) {
+                          setInputs({
+                            ...inputs,
+                            customCassaRate: Math.max(0, parsed),
+                          });
+                        }
+                      }}
+                      onBlur={() => {
+                        setCustomCassaRateDraft(null);
+                      }}
+                      placeholder="0"
                       className="w-full px-3 py-2.5 border border-zinc-300 text-sm text-zinc-900 font-medium focus:outline-none focus:border-zinc-700"
                     />
                   </div>
@@ -351,11 +479,10 @@ export default function ForfettarioCalculator({
                         value={realExpensesStr}
                         onChange={(e) => setRealExpensesStr(e.target.value)}
                         onBlur={() => {
-                          const v = parseFloat(realExpensesStr) || 0;
+                          const v = parseLooseNumber(realExpensesStr) ?? 0;
                           setRealExpensesStr(String(v));
                           setInputs((prev) => ({ ...prev, realExpenses: v }));
                         }}
-                        onFocus={(e) => e.target.select()}
                         className="w-full px-3 py-2.5 border-b border-zinc-300 bg-transparent text-sm text-zinc-900 font-mono tabular focus:outline-none focus:border-zinc-700"
                       />
                     </div>
@@ -373,14 +500,13 @@ export default function ForfettarioCalculator({
                         value={prevINPSStr}
                         onChange={(e) => setPrevINPSStr(e.target.value)}
                         onBlur={() => {
-                          const v = parseFloat(prevINPSStr) || 0;
+                          const v = parseLooseNumber(prevINPSStr) ?? 0;
                           setPrevINPSStr(String(v));
                           setInputs((prev) => ({
                             ...prev,
                             previousYearINPS: v,
                           }));
                         }}
-                        onFocus={(e) => e.target.select()}
                         className="w-full px-3 py-2.5 border-b border-zinc-300 bg-transparent text-sm text-zinc-900 font-mono tabular focus:outline-none focus:border-zinc-700"
                       />
                     </div>
@@ -737,6 +863,39 @@ export default function ForfettarioCalculator({
                       : "Scarica Report"}
                 </button>
               </div>
+
+              {downloadNotice && (
+                <div className="w-full sm:w-auto sm:min-w-[280px] border border-emerald-200 bg-emerald-50 p-3">
+                  <p className="text-xs font-bold text-emerald-700 uppercase tracking-editorial">
+                    PDF pronto
+                  </p>
+                  <p className="text-xs text-emerald-700 mt-1">
+                    Download avviato. Aprilo subito o condividilo dal telefono.
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <button
+                      onClick={handleOpenDownloadedPdf}
+                      className="text-[11px] font-bold uppercase tracking-editorial bg-white border border-emerald-300 text-emerald-700 px-2.5 py-1.5 hover:bg-emerald-100 transition-colors"
+                    >
+                      Apri PDF
+                    </button>
+                    {canShareApi && (
+                      <button
+                        onClick={handleShareDownloadedPdf}
+                        className="text-[11px] font-bold uppercase tracking-editorial bg-white border border-emerald-300 text-emerald-700 px-2.5 py-1.5 hover:bg-emerald-100 transition-colors"
+                      >
+                        Condividi
+                      </button>
+                    )}
+                    <button
+                      onClick={() => setDownloadNotice(null)}
+                      className="text-[11px] font-bold uppercase tracking-editorial text-emerald-700 px-2 py-1.5"
+                    >
+                      Chiudi
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

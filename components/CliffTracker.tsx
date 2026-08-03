@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Lock } from "lucide-react";
 import { formatCurrency } from "@/lib/forfettario-utils";
@@ -26,26 +26,40 @@ const CLIFF = 100_000;
 const WARN_RED = 85_000;
 const WARN_AMBER = 70_000;
 
+function readStoredMonths(): Record<number, number | undefined> {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const stored = raw ? (JSON.parse(raw) as Record<number, number>) : {};
+    const normalized: Record<number, number | undefined> = {};
+    for (let m = 1; m <= 12; m++) {
+      if (stored[m] !== undefined) normalized[m] = stored[m];
+    }
+    return normalized;
+  } catch {
+    return {};
+  }
+}
+
+function buildInitialInputVals(
+  stored: Record<number, number | undefined>,
+): Record<number, string> {
+  const vals: Record<number, string> = {};
+  for (let m = 1; m <= 12; m++) {
+    vals[m] = stored[m] !== undefined ? String(stored[m]) : "";
+  }
+  return vals;
+}
+
 export default function CliffTracker() {
-  const [months, setMonths] = useState<Record<number, number | undefined>>({});
-  const [inputVals, setInputVals] = useState<Record<number, string>>({});
-  const [loaded, setLoaded] = useState(false);
+  const [months, setMonths] = useState<Record<number, number | undefined>>(() =>
+    readStoredMonths(),
+  );
+  const [inputVals, setInputVals] = useState<Record<number, string>>(() =>
+    buildInitialInputVals(readStoredMonths()),
+  );
 
   const currentMonth = new Date().getMonth() + 1;
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const stored: Record<number, number> = raw ? JSON.parse(raw) : {};
-      const vals: Record<number, string> = {};
-      for (let m = 1; m <= 12; m++) {
-        vals[m] = stored[m] !== undefined ? String(stored[m]) : "";
-      }
-      setMonths(stored);
-      setInputVals(vals);
-    } catch {}
-    setLoaded(true);
-  }, []);
 
   const persist = (newMonths: Record<number, number | undefined>) => {
     const toSave: Record<number, number> = {};
@@ -66,7 +80,7 @@ export default function CliffTracker() {
 
   const updateMonth = (m: number, raw: string) => {
     setInputVals((prev) => ({ ...prev, [m]: raw }));
-    const trimmed = raw.trim();
+    const trimmed = raw.trim().replace(",", ".");
     const num = parseFloat(trimmed);
     const val = trimmed === "" ? undefined : Math.max(0, isNaN(num) ? 0 : num);
     const newMonths = { ...months, [m]: val };
@@ -116,8 +130,6 @@ export default function CliffTracker() {
 
   const clampRev = (v: number) =>
     Math.round(Math.max(20000, Math.min(120000, v || 50000)));
-
-  if (!loaded) return null;
 
   return (
     <div className="min-h-screen bg-stone-50 pt-20 pb-10 px-4 sm:px-6 lg:px-8">
@@ -300,7 +312,9 @@ export default function CliffTracker() {
                           value={inputVals[m] ?? ""}
                           onChange={(e) => updateMonth(m, e.target.value)}
                           onBlur={(e) => {
-                            const num = parseFloat(e.target.value);
+                            const num = parseFloat(
+                              e.target.value.replace(",", "."),
+                            );
                             if (!isNaN(num)) {
                               setInputVals((prev) => ({
                                 ...prev,
@@ -308,7 +322,6 @@ export default function CliffTracker() {
                               }));
                             }
                           }}
-                          onFocus={(e) => e.target.select()}
                           placeholder="0"
                           className={`flex-1 min-w-0 py-1 border-b bg-transparent text-sm font-mono tabular focus:outline-none ${
                             isCurrent

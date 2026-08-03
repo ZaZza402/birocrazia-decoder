@@ -1,7 +1,14 @@
 "use client";
 
-import React, { useState, useRef, useCallback, useEffect } from "react";
-import { Plus, Trash2, Upload, X, FileText, Info } from "lucide-react";
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useSyncExternalStore,
+} from "react";
+import { Plus, Trash2, Upload, X, FileText } from "lucide-react";
 import type {
   FatturaData,
   FatturaItem,
@@ -11,6 +18,11 @@ import type {
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type PdfStatus = "idle" | "generating" | "done";
+
+interface DownloadNotice {
+  url: string;
+  fileName: string;
+}
 
 const LS_KEY = "burzero_proforma_v1";
 
@@ -25,6 +37,35 @@ const EMPTY_ITEM = (): FatturaItem => ({
 const CURRENCIES = ["EUR", "USD", "GBP"];
 const UNITS = ["pc", "ore", "giorni", "mese", "progetto", "km"];
 
+interface SavedDraft {
+  docType?: DocType;
+  from?: string;
+  to?: string;
+  invoiceNumber?: string;
+  currency?: string;
+  invoiceDate?: string;
+  dueDate?: string;
+  interest?: string;
+  items?: FatturaItem[];
+  notes?: string;
+  bankDetails?: string;
+  isForfettario?: boolean;
+  ritenuta?: boolean;
+  taxRate?: number;
+  roundingAmount?: number;
+}
+
+function readSavedDraft(): SavedDraft {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return {};
+    return JSON.parse(raw) as SavedDraft;
+  } catch {
+    return {};
+  }
+}
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function fmtCurrency(val: number, currency: string): string {
@@ -38,58 +79,112 @@ function itemNet(item: FatturaItem): number {
   return gross - gross * (item.discount / 100);
 }
 
+function parseLooseNumber(raw: string, integer = false): number | null {
+  const normalized = raw
+    .replace(",", ".")
+    .replace(/[^0-9.-]/g, "")
+    .trim();
+  if (
+    normalized === "" ||
+    normalized === "." ||
+    normalized === "-" ||
+    normalized === "-."
+  ) {
+    return null;
+  }
+  const parsed = integer ? parseInt(normalized, 10) : parseFloat(normalized);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function asInputValue(value: number): string {
+  return value === 0 ? "" : String(value);
+}
+
+function sanitizeFileToken(value: string): string {
+  return value
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-zA-Z0-9-_]/g, "")
+    .slice(0, 40);
+}
+
+function pad2(value: number): string {
+  return String(value).padStart(2, "0");
+}
+
+function buildFatturaPdfFileName(
+  docType: DocType,
+  invoiceNumber: string,
+  invoiceDate: string,
+): string {
+  const now = new Date();
+  const timestamp = `${now.getFullYear()}${pad2(now.getMonth() + 1)}${pad2(now.getDate())}-${pad2(now.getHours())}${pad2(now.getMinutes())}${pad2(now.getSeconds())}`;
+  const docLabel = docType === "pro_forma" ? "ProForma" : "AvvisoParcella";
+  const invoiceToken = sanitizeFileToken(invoiceNumber) || "NDoc";
+  const dateToken = invoiceDate ? invoiceDate.replace(/-/g, "") : "NoData";
+  return `BurZero-${docLabel}-${invoiceToken}-${dateToken}-${timestamp}.pdf`;
+}
+
+type NumericItemField = "quantity" | "price" | "discount";
+
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function FatturaGenerator() {
   const today = new Date().toISOString().split("T")[0];
+  const savedDraft = useMemo(() => readSavedDraft(), []);
 
   // Form state
-  const [docType, setDocType] = useState<DocType>("avviso_di_parcella");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [docType, setDocType] = useState<DocType>(
+    savedDraft.docType ?? "avviso_di_parcella",
+  );
+  const [from, setFrom] = useState(savedDraft.from ?? "");
+  const [to, setTo] = useState(savedDraft.to ?? "");
   const [logoBase64, setLogoBase64] = useState<string | null>(null);
-  const [invoiceNumber, setInvoiceNumber] = useState("1");
-  const [currency, setCurrency] = useState("EUR");
-  const [invoiceDate, setInvoiceDate] = useState(today);
-  const [dueDate, setDueDate] = useState("");
-  const [interest, setInterest] = useState("");
-  const [items, setItems] = useState<FatturaItem[]>([EMPTY_ITEM()]);
-  const [notes, setNotes] = useState("");
-  const [bankDetails, setBankDetails] = useState("");
-  const [isForfettario, setIsForfettario] = useState(false);
-  const [ritenuta, setRitenuta] = useState(false);
-  const [taxRate, setTaxRate] = useState(22);
-  const [roundingAmount, setRoundingAmount] = useState(0);
+  const [invoiceNumber, setInvoiceNumber] = useState(
+    savedDraft.invoiceNumber ?? "1",
+  );
+  const [currency, setCurrency] = useState(savedDraft.currency ?? "EUR");
+  const [invoiceDate, setInvoiceDate] = useState(
+    savedDraft.invoiceDate ?? today,
+  );
+  const [dueDate, setDueDate] = useState(savedDraft.dueDate ?? "");
+  const [interest, setInterest] = useState(savedDraft.interest ?? "");
+  const [items, setItems] = useState<FatturaItem[]>(
+    savedDraft.items?.length ? savedDraft.items : [EMPTY_ITEM()],
+  );
+  const [notes, setNotes] = useState(savedDraft.notes ?? "");
+  const [bankDetails, setBankDetails] = useState(savedDraft.bankDetails ?? "");
+  const [isForfettario, setIsForfettario] = useState(
+    savedDraft.isForfettario ?? false,
+  );
+  const [ritenuta, setRitenuta] = useState(savedDraft.ritenuta ?? false);
+  const [taxRate, setTaxRate] = useState(savedDraft.taxRate ?? 22);
+  const [roundingAmount] = useState(savedDraft.roundingAmount ?? 0);
 
   // UI state
   const [pdfStatus, setPdfStatus] = useState<PdfStatus>("idle");
   const [isDragging, setIsDragging] = useState(false);
+  const [downloadNotice, setDownloadNotice] = useState<DownloadNotice | null>(
+    null,
+  );
+  const [itemNumericDrafts, setItemNumericDrafts] = useState<
+    Record<string, string>
+  >({});
+  const [taxRateDraft, setTaxRateDraft] = useState<string | null>(null);
+  const canShareApi = useSyncExternalStore(
+    () => () => {},
+    () => typeof navigator !== "undefined" && "share" in navigator,
+    () => false,
+  );
+  const isClient = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const revokeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ─── localStorage persistence ────────────────────────────────────────────
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(LS_KEY);
-      if (!saved) return;
-      const d = JSON.parse(saved);
-      if (d.docType) setDocType(d.docType);
-      if (d.from !== undefined) setFrom(d.from);
-      if (d.to !== undefined) setTo(d.to);
-      if (d.invoiceNumber !== undefined) setInvoiceNumber(d.invoiceNumber);
-      if (d.currency) setCurrency(d.currency);
-      if (d.invoiceDate) setInvoiceDate(d.invoiceDate);
-      if (d.dueDate !== undefined) setDueDate(d.dueDate);
-      if (d.interest !== undefined) setInterest(d.interest);
-      if (d.items?.length) setItems(d.items);
-      if (d.notes !== undefined) setNotes(d.notes);
-      if (d.bankDetails !== undefined) setBankDetails(d.bankDetails);
-      if (d.isForfettario !== undefined) setIsForfettario(d.isForfettario);
-      if (d.ritenuta !== undefined) setRitenuta(d.ritenuta);
-      if (d.taxRate !== undefined) setTaxRate(d.taxRate);
-      if (d.roundingAmount !== undefined) setRoundingAmount(d.roundingAmount);
-    } catch {}
-  }, []);
 
   useEffect(() => {
     try {
@@ -197,6 +292,71 @@ export default function FatturaGenerator() {
     );
   };
 
+  const itemNumericKey = (idx: number, field: NumericItemField) =>
+    `${idx}:${field}`;
+
+  const getItemNumericValue = (
+    idx: number,
+    field: NumericItemField,
+    currentValue: number,
+  ) => {
+    const key = itemNumericKey(idx, field);
+    if (Object.prototype.hasOwnProperty.call(itemNumericDrafts, key)) {
+      return itemNumericDrafts[key];
+    }
+    return asInputValue(currentValue);
+  };
+
+  const setItemNumericDraft = (
+    idx: number,
+    field: NumericItemField,
+    raw: string,
+  ) => {
+    const key = itemNumericKey(idx, field);
+    setItemNumericDrafts((prev) => ({ ...prev, [key]: raw }));
+  };
+
+  const clearItemNumericDraft = (idx: number, field: NumericItemField) => {
+    const key = itemNumericKey(idx, field);
+    setItemNumericDrafts((prev) => {
+      if (!Object.prototype.hasOwnProperty.call(prev, key)) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  };
+
+  const parseItemNumeric = (
+    raw: string,
+    options: { integer?: boolean; min?: number; max?: number } = {},
+  ) => {
+    const parsed = parseLooseNumber(raw, options.integer);
+    if (parsed === null) return null;
+    let next = parsed;
+    if (options.integer) next = Math.trunc(next);
+    if (options.min !== undefined) next = Math.max(options.min, next);
+    if (options.max !== undefined) next = Math.min(options.max, next);
+    return next;
+  };
+
+  const updateItemNumericDraft = (
+    idx: number,
+    field: NumericItemField,
+    raw: string,
+    options: { integer?: boolean; min?: number; max?: number } = {},
+  ) => {
+    setItemNumericDraft(idx, field, raw);
+    const trimmed = raw.trim();
+    if (trimmed === "") {
+      updateItem(idx, field, 0);
+      return;
+    }
+    const next = parseItemNumeric(raw, options);
+    if (next !== null) {
+      updateItem(idx, field, next);
+    }
+  };
+
   // ─── PDF generation ──────────────────────────────────────────────────────
 
   const generatePdf = async () => {
@@ -228,14 +388,26 @@ export default function FatturaGenerator() {
       };
 
       const blob = await pdf(<FatturaDocument data={data} />).toBlob();
+      const fileName = buildFatturaPdfFileName(
+        docType,
+        invoiceNumber,
+        invoiceDate,
+      );
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `BurZero-ProForma-${invoiceNumber}.pdf`;
+      a.download = fileName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 2000);
+
+      setDownloadNotice({ url, fileName });
+
+      if (revokeTimerRef.current) clearTimeout(revokeTimerRef.current);
+      revokeTimerRef.current = setTimeout(() => {
+        URL.revokeObjectURL(url);
+      }, 120000);
+
       setPdfStatus("done");
       setTimeout(() => setPdfStatus("idle"), 2500);
     } catch (e) {
@@ -244,12 +416,53 @@ export default function FatturaGenerator() {
     }
   };
 
+  useEffect(() => {
+    return () => {
+      if (revokeTimerRef.current) clearTimeout(revokeTimerRef.current);
+      if (downloadNotice?.url) URL.revokeObjectURL(downloadNotice.url);
+    };
+  }, [downloadNotice]);
+
+  const handleOpenDownloadedPdf = () => {
+    if (!downloadNotice) return;
+    window.open(downloadNotice.url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleShareDownloadedPdf = async () => {
+    if (!downloadNotice) return;
+    if (!canShareApi) return;
+    try {
+      const response = await fetch(downloadNotice.url);
+      const blob = await response.blob();
+      const file = new File([blob], downloadNotice.fileName, {
+        type: "application/pdf",
+      });
+      const canShareFiles =
+        typeof navigator.canShare === "function" &&
+        navigator.canShare({ files: [file] });
+      if (canShareFiles) {
+        await navigator.share({
+          files: [file],
+          title: downloadNotice.fileName,
+        });
+      } else {
+        await navigator.share({
+          title: downloadNotice.fileName,
+          text: "PDF pronto: aprilo subito da qui.",
+          url: downloadNotice.url,
+        });
+      }
+    } catch {
+      // User canceled share or browser blocked it.
+    }
+  };
+
   // ─── Render ──────────────────────────────────────────────────────────────
 
   const sym: Record<string, string> = { EUR: "€", USD: "$", GBP: "£" };
   const currSym = sym[currency] ?? currency;
 
-  return (
+  return isClient ? (
     <>
       {/* Generating overlay */}
       {pdfStatus === "generating" && (
@@ -458,9 +671,8 @@ export default function FatturaGenerator() {
                   Interessi di mora (%)
                 </p>
                 <input
-                  type="number"
-                  min={0}
-                  step={0.1}
+                  type="text"
+                  inputMode="decimal"
                   value={interest}
                   onChange={(e) => setInterest(e.target.value)}
                   placeholder="0"
@@ -471,118 +683,302 @@ export default function FatturaGenerator() {
 
             {/* ── LINE ITEMS ───────────────────────────────────── */}
             <div className="bg-white border border-zinc-200 overflow-hidden">
-              {/* Table header */}
-              <div className="bg-zinc-950 px-5 py-3 grid grid-cols-12 gap-2">
-                <p className="col-span-4 text-[9px] uppercase tracking-editorial font-semibold text-white">
-                  Descrizione
-                </p>
-                <p className="col-span-1 text-[9px] uppercase tracking-editorial font-semibold text-white text-right">
-                  Qtà
-                </p>
-                <p className="col-span-2 text-[9px] uppercase tracking-editorial font-semibold text-white">
-                  Unità
-                </p>
-                <p className="col-span-2 text-[9px] uppercase tracking-editorial font-semibold text-white text-right">
-                  Prezzo
-                </p>
-                <p className="col-span-1 text-[9px] uppercase tracking-editorial font-semibold text-white text-right">
-                  Sc.%
-                </p>
-                <p className="col-span-2 text-[9px] uppercase tracking-editorial font-semibold text-white text-right">
-                  Importo
-                </p>
-              </div>
-
-              {/* Item rows */}
-              <div className="divide-y divide-zinc-100">
+              {/* Mobile cards */}
+              <div className="md:hidden divide-y divide-zinc-100">
                 {items.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="px-5 py-3 grid grid-cols-12 gap-2 items-center"
-                  >
-                    <input
-                      type="text"
-                      value={item.description}
-                      onChange={(e) =>
-                        updateItem(idx, "description", e.target.value)
-                      }
-                      placeholder="Descrizione prestazione..."
-                      className="col-span-4 text-sm text-zinc-800 placeholder:text-zinc-300 focus:outline-none"
-                    />
-                    <input
-                      type="number"
-                      min={0}
-                      step={1}
-                      value={item.quantity}
-                      onChange={(e) =>
-                        updateItem(
-                          idx,
-                          "quantity",
-                          parseFloat(e.target.value) || 0,
-                        )
-                      }
-                      className="col-span-1 text-sm text-zinc-800 text-right focus:outline-none border-b border-zinc-200 focus:border-zinc-400"
-                    />
-                    <select
-                      value={item.unit}
-                      onChange={(e) => updateItem(idx, "unit", e.target.value)}
-                      className="col-span-2 text-sm text-zinc-800 bg-white focus:outline-none border border-zinc-200 px-1.5 py-0.5 focus:border-zinc-400"
-                    >
-                      {UNITS.map((u) => (
-                        <option key={u} value={u}>
-                          {u}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="col-span-2 flex items-center gap-0.5">
-                      <span className="text-xs text-zinc-400">{currSym}</span>
-                      <input
-                        type="number"
-                        min={0}
-                        step={0.01}
-                        value={item.price}
-                        onChange={(e) =>
-                          updateItem(
-                            idx,
-                            "price",
-                            parseFloat(e.target.value) || 0,
-                          )
-                        }
-                        className="w-full text-sm text-zinc-800 text-right focus:outline-none border-b border-zinc-200 focus:border-zinc-400"
-                      />
-                    </div>
-                    <div className="col-span-1 flex items-center gap-0.5">
-                      <input
-                        type="number"
-                        min={0}
-                        max={100}
-                        step={1}
-                        value={item.discount}
-                        onChange={(e) =>
-                          updateItem(
-                            idx,
-                            "discount",
-                            parseFloat(e.target.value) || 0,
-                          )
-                        }
-                        className="w-full text-sm text-zinc-800 text-right focus:outline-none border-b border-zinc-200 focus:border-zinc-400"
-                      />
-                    </div>
-                    <div className="col-span-2 flex items-center justify-end gap-2">
-                      <span className="text-sm font-bold text-zinc-950">
-                        {fmtCurrency(itemNet(item), currency)}
-                      </span>
+                  <div key={idx} className="p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400">
+                        Voce {idx + 1}
+                      </p>
                       {items.length > 1 && (
                         <button
                           onClick={() => removeItem(idx)}
-                          className="text-zinc-300 hover:text-red-500 transition-colors flex-shrink-0"
+                          className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-editorial text-zinc-400 hover:text-red-600 transition-colors"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
+                          Rimuovi
                         </button>
                       )}
                     </div>
+
+                    <div>
+                      <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                        Descrizione
+                      </p>
+                      <input
+                        type="text"
+                        value={item.description}
+                        onChange={(e) =>
+                          updateItem(idx, "description", e.target.value)
+                        }
+                        placeholder="Descrizione prestazione..."
+                        className="w-full border border-zinc-200 px-3 py-2.5 text-sm text-zinc-800 placeholder:text-zinc-300 focus:outline-none focus:border-zinc-400"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                          Qtà
+                        </p>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          value={getItemNumericValue(
+                            idx,
+                            "quantity",
+                            item.quantity,
+                          )}
+                          onChange={(e) =>
+                            updateItemNumericDraft(
+                              idx,
+                              "quantity",
+                              e.target.value,
+                              {
+                                integer: true,
+                                min: 0,
+                              },
+                            )
+                          }
+                          onBlur={() => clearItemNumericDraft(idx, "quantity")}
+                          placeholder="0"
+                          className="w-full border border-zinc-200 px-3 py-2.5 text-sm text-zinc-800 focus:outline-none focus:border-zinc-400"
+                        />
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                          Unità
+                        </p>
+                        <select
+                          value={item.unit}
+                          onChange={(e) =>
+                            updateItem(idx, "unit", e.target.value)
+                          }
+                          className="w-full border border-zinc-200 px-3 py-2.5 text-sm text-zinc-800 bg-white focus:outline-none focus:border-zinc-400"
+                        >
+                          {UNITS.map((u) => (
+                            <option key={u} value={u}>
+                              {u}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                          Prezzo
+                        </p>
+                        <div className="flex items-center border border-zinc-200 px-3 py-2.5">
+                          <span className="text-xs text-zinc-400 mr-1">
+                            {currSym}
+                          </span>
+                          <input
+                            type="text"
+                            inputMode="decimal"
+                            value={getItemNumericValue(
+                              idx,
+                              "price",
+                              item.price,
+                            )}
+                            onChange={(e) =>
+                              updateItemNumericDraft(
+                                idx,
+                                "price",
+                                e.target.value,
+                                {
+                                  min: 0,
+                                },
+                              )
+                            }
+                            onBlur={() => clearItemNumericDraft(idx, "price")}
+                            placeholder="0"
+                            className="w-full text-sm text-zinc-800 focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                          Sconto %
+                        </p>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          value={getItemNumericValue(
+                            idx,
+                            "discount",
+                            item.discount,
+                          )}
+                          onChange={(e) =>
+                            updateItemNumericDraft(
+                              idx,
+                              "discount",
+                              e.target.value,
+                              {
+                                integer: true,
+                                min: 0,
+                                max: 100,
+                              },
+                            )
+                          }
+                          onBlur={() => clearItemNumericDraft(idx, "discount")}
+                          placeholder="0"
+                          className="w-full border border-zinc-200 px-3 py-2.5 text-sm text-zinc-800 focus:outline-none focus:border-zinc-400"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="pt-1 border-t border-zinc-100 flex items-center justify-between">
+                      <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400">
+                        Importo
+                      </p>
+                      <p className="text-base font-black font-mono text-zinc-950">
+                        {fmtCurrency(itemNet(item), currency)}
+                      </p>
+                    </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Desktop table */}
+              <div className="hidden md:block">
+                <div className="bg-zinc-950 px-5 py-3 grid grid-cols-12 gap-2">
+                  <p className="col-span-4 text-[9px] uppercase tracking-editorial font-semibold text-white">
+                    Descrizione
+                  </p>
+                  <p className="col-span-1 text-[9px] uppercase tracking-editorial font-semibold text-white text-right">
+                    Qtà
+                  </p>
+                  <p className="col-span-2 text-[9px] uppercase tracking-editorial font-semibold text-white">
+                    Unità
+                  </p>
+                  <p className="col-span-2 text-[9px] uppercase tracking-editorial font-semibold text-white text-right">
+                    Prezzo
+                  </p>
+                  <p className="col-span-1 text-[9px] uppercase tracking-editorial font-semibold text-white text-right">
+                    Sc.%
+                  </p>
+                  <p className="col-span-2 text-[9px] uppercase tracking-editorial font-semibold text-white text-right">
+                    Importo
+                  </p>
+                </div>
+
+                <div className="divide-y divide-zinc-100">
+                  {items.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="px-5 py-3 grid grid-cols-12 gap-2 items-center"
+                    >
+                      <input
+                        type="text"
+                        value={item.description}
+                        onChange={(e) =>
+                          updateItem(idx, "description", e.target.value)
+                        }
+                        placeholder="Descrizione prestazione..."
+                        className="col-span-4 text-sm text-zinc-800 placeholder:text-zinc-300 focus:outline-none"
+                      />
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        value={getItemNumericValue(
+                          idx,
+                          "quantity",
+                          item.quantity,
+                        )}
+                        onChange={(e) =>
+                          updateItemNumericDraft(
+                            idx,
+                            "quantity",
+                            e.target.value,
+                            {
+                              integer: true,
+                              min: 0,
+                            },
+                          )
+                        }
+                        onBlur={() => clearItemNumericDraft(idx, "quantity")}
+                        placeholder="0"
+                        className="col-span-1 text-sm text-zinc-800 text-right focus:outline-none border-b border-zinc-200 focus:border-zinc-400"
+                      />
+                      <select
+                        value={item.unit}
+                        onChange={(e) =>
+                          updateItem(idx, "unit", e.target.value)
+                        }
+                        className="col-span-2 text-sm text-zinc-800 bg-white focus:outline-none border border-zinc-200 px-1.5 py-0.5 focus:border-zinc-400"
+                      >
+                        {UNITS.map((u) => (
+                          <option key={u} value={u}>
+                            {u}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="col-span-2 flex items-center gap-0.5">
+                        <span className="text-xs text-zinc-400">{currSym}</span>
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          value={getItemNumericValue(idx, "price", item.price)}
+                          onChange={(e) =>
+                            updateItemNumericDraft(
+                              idx,
+                              "price",
+                              e.target.value,
+                              {
+                                min: 0,
+                              },
+                            )
+                          }
+                          onBlur={() => clearItemNumericDraft(idx, "price")}
+                          placeholder="0"
+                          className="w-full text-sm text-zinc-800 text-right focus:outline-none border-b border-zinc-200 focus:border-zinc-400"
+                        />
+                      </div>
+                      <div className="col-span-1 flex items-center gap-0.5">
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          value={getItemNumericValue(
+                            idx,
+                            "discount",
+                            item.discount,
+                          )}
+                          onChange={(e) =>
+                            updateItemNumericDraft(
+                              idx,
+                              "discount",
+                              e.target.value,
+                              {
+                                integer: true,
+                                min: 0,
+                                max: 100,
+                              },
+                            )
+                          }
+                          onBlur={() => clearItemNumericDraft(idx, "discount")}
+                          placeholder="0"
+                          className="w-full text-sm text-zinc-800 text-right focus:outline-none border-b border-zinc-200 focus:border-zinc-400"
+                        />
+                      </div>
+                      <div className="col-span-2 flex items-center justify-end gap-2">
+                        <span className="text-sm font-bold text-zinc-950">
+                          {fmtCurrency(itemNet(item), currency)}
+                        </span>
+                        {items.length > 1 && (
+                          <button
+                            onClick={() => removeItem(idx)}
+                            className="text-zinc-300 hover:text-red-500 transition-colors flex-shrink-0"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Add item */}
@@ -642,14 +1038,26 @@ export default function FatturaGenerator() {
                         Aliquota IVA (%)
                       </p>
                       <input
-                        type="number"
-                        min={0}
-                        max={30}
-                        step={1}
-                        value={taxRate}
-                        onChange={(e) =>
-                          setTaxRate(parseFloat(e.target.value) || 0)
-                        }
+                        type="text"
+                        inputMode="numeric"
+                        value={taxRateDraft ?? asInputValue(taxRate)}
+                        onChange={(e) => {
+                          const raw = e.target.value;
+                          setTaxRateDraft(raw);
+                          if (raw.trim() === "") {
+                            setTaxRate(0);
+                            return;
+                          }
+                          const parsed = parseLooseNumber(raw, true);
+                          if (parsed !== null) {
+                            const next = Math.max(0, Math.trunc(parsed));
+                            setTaxRate(Math.min(30, next));
+                          }
+                        }}
+                        onBlur={() => {
+                          setTaxRateDraft(null);
+                        }}
+                        placeholder="0"
                         className="border border-zinc-200 px-2.5 py-2 text-sm font-bold text-zinc-800 w-24 focus:outline-none focus:border-zinc-400"
                       />
                     </div>
@@ -677,11 +1085,11 @@ export default function FatturaGenerator() {
                   </button>
                   <div>
                     <p className="text-sm font-bold text-zinc-800">
-                      Ritenuta d'acconto (20%)
+                      Ritenuta d&apos;acconto (20%)
                     </p>
                     <p className="text-xs text-zinc-400 mt-0.5">
                       {isForfettario
-                        ? "Non applicabile in Regime Forfettario — il contribuente è escluso dalla qualifica di sostituto d'imposta."
+                        ? "Non applicabile in Regime Forfettario — il contribuente è escluso dalla qualifica di sostituto d imposta."
                         : "Deduce automaticamente il 20% dal totale. Il cliente trattiene questa quota e la versa al fisco per tuo conto."}
                     </p>
                   </div>
@@ -694,8 +1102,9 @@ export default function FatturaGenerator() {
                       Marca da bollo richiesta — €2,00
                     </p>
                     <p className="text-xs text-amber-600 mt-0.5">
-                      L'importo supera €77,47. In Regime Forfettario la marca da
-                      bollo da €2 è obbligatoria. Verrà inclusa nel PDF.
+                      L&apos;importo supera €77,47. In Regime Forfettario la
+                      marca da bollo da €2 è obbligatoria. Verrà inclusa nel
+                      PDF.
                     </p>
                   </div>
                 )}
@@ -754,7 +1163,7 @@ export default function FatturaGenerator() {
                   {ritenuta && (
                     <div className="flex justify-between text-sm">
                       <span className="text-zinc-500">
-                        Ritenuta d'acconto (20%)
+                        Ritenuta d&apos;acconto (20%)
                       </span>
                       <span className="font-bold text-red-600">
                         -{fmtCurrency(ritenutaAmount, currency)}
@@ -783,7 +1192,7 @@ export default function FatturaGenerator() {
                       <strong>{fmtCurrency(total, currency)}</strong>. Il
                       cliente trattiene{" "}
                       <strong>{fmtCurrency(ritenutaAmount, currency)}</strong> e
-                      li versa all'Agenzia delle Entrate per tuo conto.
+                      li versa all&apos;Agenzia delle Entrate per tuo conto.
                     </p>
                   )}
                 </div>
@@ -804,6 +1213,39 @@ export default function FatturaGenerator() {
                   {pdfStatus === "done" && "✓ Download Avviato"}
                 </button>
               </div>
+
+              {downloadNotice && (
+                <div className="mt-4 border border-emerald-200 bg-emerald-50 p-3">
+                  <p className="text-xs font-bold text-emerald-700 uppercase tracking-editorial">
+                    PDF pronto
+                  </p>
+                  <p className="text-xs text-emerald-700 mt-1">
+                    Download avviato. Aprilo subito o condividilo dal telefono.
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <button
+                      onClick={handleOpenDownloadedPdf}
+                      className="text-[11px] font-bold uppercase tracking-editorial bg-white border border-emerald-300 text-emerald-700 px-2.5 py-1.5 hover:bg-emerald-100 transition-colors"
+                    >
+                      Apri PDF
+                    </button>
+                    {canShareApi && (
+                      <button
+                        onClick={handleShareDownloadedPdf}
+                        className="text-[11px] font-bold uppercase tracking-editorial bg-white border border-emerald-300 text-emerald-700 px-2.5 py-1.5 hover:bg-emerald-100 transition-colors"
+                      >
+                        Condividi
+                      </button>
+                    )}
+                    <button
+                      onClick={() => setDownloadNotice(null)}
+                      className="text-[11px] font-bold uppercase tracking-editorial text-emerald-700 px-2 py-1.5"
+                    >
+                      Chiudi
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Disclaimer */}
@@ -817,5 +1259,5 @@ export default function FatturaGenerator() {
         </div>
       </main>
     </>
-  );
+  ) : null;
 }

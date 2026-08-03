@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from "react";
 import { Search, X, ChevronDown } from "lucide-react";
-import { ATECO_DATA, searchAteco, type AtecoEntry } from "@/lib/ateco-data";
+import { searchAteco, type AtecoEntry } from "@/lib/ateco-data";
 
 interface Props {
   value: AtecoEntry | null;
@@ -100,7 +100,7 @@ export default function AtecoCombobox({ value, onChange }: Props) {
           <div className="max-h-64 overflow-y-auto">
             {results.length === 0 ? (
               <p className="px-4 py-4 text-xs text-zinc-400 text-center">
-                Nessun risultato per "{query}"
+                Nessun risultato per &ldquo;{query}&rdquo;
               </p>
             ) : (
               <>

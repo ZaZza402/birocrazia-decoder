@@ -1,19 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { X } from "lucide-react";
 import Link from "next/link";
 
 export default function CookieBanner() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    // Check if user already accepted
-    const accepted = localStorage.getItem("buro_cookie_consent");
-    if (!accepted) {
-      setIsVisible(true);
-    }
-  }, []);
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !localStorage.getItem("buro_cookie_consent");
+  });
 
   const acceptCookies = () => {
     localStorage.setItem("buro_cookie_consent", "true");
@@ -37,7 +32,7 @@ export default function CookieBanner() {
       </div>
       <p className="text-sm text-slate-300 mb-6 leading-relaxed">
         Non ci interessa tracciarti. Usiamo cookie e local storage solo per
-        salvare i tuoi calcoli sul dispositivo e far funzionare l'app.
+        salvare i tuoi calcoli sul dispositivo e far funzionare l&apos;app.
       </p>
       <div className="flex gap-3">
         <button

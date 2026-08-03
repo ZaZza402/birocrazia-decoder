@@ -7,6 +7,11 @@ function str(v: string | string[] | undefined): string | undefined {
   return Array.isArray(v) ? v[0] : v;
 }
 
+function num(v: string | undefined): number {
+  if (!v) return NaN;
+  return parseFloat(v.replace(",", "."));
+}
+
 export default async function ForfettarioPage({
   searchParams,
 }: {
@@ -14,9 +19,9 @@ export default async function ForfettarioPage({
 }) {
   const p = await searchParams;
 
-  const rev = parseFloat(str(p.rev) ?? "");
-  const spese = parseFloat(str(p.spese) ?? "");
-  const inps = parseFloat(str(p.inps) ?? "");
+  const rev = num(str(p.rev));
+  const spese = num(str(p.spese));
+  const inps = num(str(p.inps));
 
   const cassaRaw = str(p.cassa);
   const validCassas: CassaType[] = [

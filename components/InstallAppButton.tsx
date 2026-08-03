@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Download, Share } from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -10,22 +10,22 @@ interface BeforeInstallPromptEvent extends Event {
 
 export default function InstallAppButton() {
   const [prompt, setPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isIOS, setIsIOS] = useState(false);
-  const [isStandalone, setIsStandalone] = useState(false);
+  const isIOS = useSyncExternalStore(
+    () => () => {},
+    () =>
+      /iphone|ipad|ipod/i.test(navigator.userAgent) && !("MSStream" in window),
+    () => false,
+  );
+  const isStandalone = useSyncExternalStore(
+    () => () => {},
+    () => window.matchMedia("(display-mode: standalone)").matches,
+    () => false,
+  );
   const [showIOSHint, setShowIOSHint] = useState(false);
   const [installed, setInstalled] = useState(false);
 
   useEffect(() => {
-    // Already installed as PWA
-    if (window.matchMedia("(display-mode: standalone)").matches) {
-      setIsStandalone(true);
-      return;
-    }
-
-    // Detect iOS (no beforeinstallprompt support)
-    const ios =
-      /iphone|ipad|ipod/i.test(navigator.userAgent) && !("MSStream" in window);
-    setIsIOS(ios);
+    if (isStandalone) return;
 
     const handler = (e: Event) => {
       e.preventDefault();
@@ -33,7 +33,7 @@ export default function InstallAppButton() {
     };
     window.addEventListener("beforeinstallprompt", handler);
     return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, []);
+  }, [isStandalone]);
 
   const handleInstall = async () => {
     if (isIOS) {

@@ -48,8 +48,9 @@ export default function EmbedDocsPage() {
             Versione con Brand Bur0
           </h2>
           <p className="text-gray-700 mb-4">
-            Include footer con logo e link "Powered by Bur0" - gratuita per uso
-            illimitato. Ottima per blog, community e risorse gratuite.
+            Include footer con logo e link &ldquo;Powered by Bur0&rdquo; -
+            gratuita per uso illimitato. Ottima per blog, community e risorse
+            gratuite.
           </p>
 
           <div className="bg-gray-50 rounded-md p-4 mb-4">
@@ -85,7 +86,9 @@ export default function EmbedDocsPage() {
               <span className="text-green-600 font-bold">✓</span>
               <span>
                 <strong>Responsive:</strong> Usa{" "}
-                <code className="bg-white px-2 py-1 rounded">width="100%"</code>
+                <code className="bg-white px-2 py-1 rounded">
+                  width=&quot;100%&quot;
+                </code>
                 per adattamento automatico ai dispositivi mobili
               </span>
             </li>

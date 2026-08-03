@@ -138,7 +138,6 @@ export default function AccontoCalculator({
                   inputMode="decimal"
                   value={prevTaxStr}
                   onChange={(e) => setPrevTaxStr(e.target.value)}
-                  onFocus={(e) => e.target.select()}
                   placeholder="0"
                   className="w-full pl-7 pr-4 py-3 border border-zinc-300 text-base font-mono tabular text-zinc-900 font-semibold focus:outline-none focus:border-zinc-700 bg-transparent"
                 />
@@ -165,7 +164,6 @@ export default function AccontoCalculator({
                       inputMode="decimal"
                       value={stimaStr}
                       onChange={(e) => setStimaStr(e.target.value)}
-                      onFocus={(e) => e.target.select()}
                       placeholder="0"
                       className="w-full pl-7 pr-4 py-3 border border-zinc-300 text-base font-mono tabular text-zinc-900 font-semibold focus:outline-none focus:border-zinc-700 bg-transparent"
                     />

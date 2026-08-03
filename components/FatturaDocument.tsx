@@ -289,8 +289,6 @@ export default function FatturaDocument({ data }: Props) {
   const total =
     subtotal + taxAmount - ritenutaAmount + data.roundingAmount + marcaDaBollo;
 
-  const sym = CURRENCY_SYMBOLS[data.currency] ?? data.currency;
-
   const docLabel =
     data.docType === "pro_forma" ? "Pro-Forma" : "Avviso di Parcella";
 
@@ -304,6 +302,7 @@ export default function FatturaDocument({ data }: Props) {
         {/* ─── HEADER ─────────────────────────────────── */}
         <View style={s.header}>
           <View style={s.headerLeft}>
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
             {data.logoBase64 && <Image style={s.logo} src={data.logoBase64} />}
             <Text style={s.invoiceTitle}>{docLabel}</Text>
             <View style={s.nonFiscalBadge}>
@@ -402,7 +401,7 @@ export default function FatturaDocument({ data }: Props) {
 
           {data.ritenuta && (
             <View style={s.totalRow}>
-              <Text style={s.totalLabel}>Ritenuta d'acconto (20%)</Text>
+              <Text style={s.totalLabel}>Ritenuta d&apos;acconto (20%)</Text>
               <Text style={s.totalValue}>
                 -{fmt(ritenutaAmount, data.currency)}
               </Text>
@@ -457,12 +456,12 @@ export default function FatturaDocument({ data }: Props) {
           <Text style={s.disclaimerText}>
             Il presente documento NON costituisce fattura fiscale ai sensi del
             D.P.R. 633/72 e successive modificazioni. La fattura elettronica
-            verrà emessa all'atto del ricevimento del pagamento.
+            verrà emessa al momento del ricevimento del pagamento.
             {data.isForfettario
-              ? " Operazione non soggetta a IVA ai sensi dell'art. 1, commi 54-89, Legge 23 dicembre 2014, n. 190 (Regime Forfettario)."
+              ? " Operazione non soggetta a IVA ai sensi dell art. 1, commi 54-89, Legge 23 dicembre 2014, n. 190 (Regime Forfettario)."
               : ""}
             {marcaDaBollo > 0
-              ? " Imposta di bollo assolta sull'originale ai sensi del D.P.R. 642/1972."
+              ? " Imposta di bollo assolta sull originale ai sensi del D.P.R. 642/1972."
               : ""}
           </Text>
         </View>

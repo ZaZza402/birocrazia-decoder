@@ -116,8 +116,8 @@ export function compareRegimes(inputs: ForfettarioInputs): {
 } {
   // 1. Calculate Forfettario Scenario
   // ---------------------------------
-  let f_warnings: string[] = [];
-  let f_gross = inputs.expectedRevenue;
+  const f_warnings: string[] = [];
+  const f_gross = inputs.expectedRevenue;
 
   // THE 100K TRAP: If > 100k, you are NOT Forfettario anymore. Immediate exit.
   const isForcedOrdinario = inputs.expectedRevenue > 100000;
@@ -149,7 +149,7 @@ export function compareRegimes(inputs: ForfettarioInputs): {
   // that were physically paid in the previous fiscal year. If previousYearINPS = 0
   // (first year or no prior payment), the full ATECO-adjusted base is taxed.
   const deductible_inps_f = inputs.previousYearINPS;
-  let f_taxable_net = Math.max(0, f_taxable - deductible_inps_f);
+  const f_taxable_net = Math.max(0, f_taxable - deductible_inps_f);
   let f_tax = f_taxable_net * (inputs.isNewBusiness ? 0.05 : 0.15);
 
   // CORRECTION #1: Subtract Real Expenses from Net Income
@@ -172,7 +172,7 @@ export function compareRegimes(inputs: ForfettarioInputs): {
 
   // 2. Calculate Ordinario Scenario
   // -------------------------------
-  let o_warnings: string[] = [];
+  const o_warnings: string[] = [];
   let o_gross = inputs.expectedRevenue;
   let o_iva = 0;
 
@@ -195,7 +195,7 @@ export function compareRegimes(inputs: ForfettarioInputs): {
   }
 
   // Costs are fully deductible in Ordinario
-  let o_taxable = Math.max(0, o_gross - inputs.realExpenses);
+  const o_taxable = Math.max(0, o_gross - inputs.realExpenses);
 
   let o_inps = 0;
   // INPS Calculation (Ordinario: no 35% reduction)
