@@ -1,3 +1,4 @@
+import "../LandingPage.css";
 import Link from "next/link";
 import {
   ArrowRight,
