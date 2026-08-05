@@ -10,6 +10,7 @@ import {
   Calendar,
   Download,
   FileText,
+  BookOpen,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
@@ -51,6 +52,14 @@ const STEPS: Step[] = [
   },
   {
     num: "04",
+    label: "Registra",
+    title: "Registro Incassi",
+    desc: "Logga ogni incasso, vedi il netto istantaneo",
+    href: "/calcolatori/giornale",
+    Icon: BookOpen,
+  },
+  {
+    num: "05",
     label: "Pianifica",
     title: "Acconto Imposta",
     desc: "Calcola le rate di Novembre",
@@ -58,7 +67,7 @@ const STEPS: Step[] = [
     Icon: Calendar,
   },
   {
-    num: "05",
+    num: "06",
     label: "Emetti",
     title: "Pro-Forma / Avviso di Parcella",
     desc: "Documento di pagamento - fattura solo a incasso",

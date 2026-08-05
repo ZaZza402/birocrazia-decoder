@@ -7,6 +7,9 @@ import {
   TrendingUp,
   Calendar,
   FileText,
+  BookOpen,
+  Calculator,
+  ChevronDown,
 } from "lucide-react";
 import InstallAppButton from "@/components/InstallAppButton";
 
@@ -219,136 +222,191 @@ export default function LandingPage() {
         <section className="bg-zinc-950 text-white">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-500 mb-10">
-              Cinque passi - dal profilo alla fattura
+              Sei strumenti — dal profilo alla fattura
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-zinc-800">
-              {/* Step 1 - ATECO */}
-              <Link
-                href="/calcolatori/ateco"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
-              >
-                <div>
-                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
-                    01 - Identifica
-                  </span>
-                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
-                    Trova il tuo
-                    <br />
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-800">
+              {/* 01 — ATECO */}
+              <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
+                  01 — Identifica
+                </span>
+                <Link
+                  href="/calcolatori/ateco"
+                  className="group/l flex-1 block"
+                >
+                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
                     Codice ATECO 2026
                   </h2>
-                  <p className="text-sm text-zinc-400 leading-relaxed">
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                    <Search className="w-3 h-3 flex-shrink-0" />
+                    Cerca
+                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
+                  </span>
+                </Link>
+                <details className="mt-3 group">
+                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
+                    Dettagli{" "}
+                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
                     Cerca per attività e trova il codice ufficiale più il
                     coefficiente di redditività corretto per il Forfettario.
                   </p>
-                </div>
-                <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
-                  <Search className="w-3.5 h-3.5" />
-                  Cerca il tuo codice
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
+                </details>
+              </div>
 
-              {/* Step 2 - Simulatore */}
-              <Link
-                href="/calcolatori/forfettario"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
-              >
-                <div>
-                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
-                    02 - Simula
-                  </span>
-                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
-                    Simulatore
-                    <br />
+              {/* 02 — SIMULATORE */}
+              <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
+                  02 — Simula
+                </span>
+                <Link
+                  href="/calcolatori/forfettario"
+                  className="group/l flex-1 block"
+                >
+                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
                     Forfettario vs Ordinario
                   </h2>
-                  <p className="text-sm text-zinc-400 leading-relaxed">
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                    <Calculator className="w-3 h-3 flex-shrink-0" />
+                    Simula
+                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
+                  </span>
+                </Link>
+                <details className="mt-3 group">
+                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
+                    Dettagli{" "}
+                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
                     Calcola il netto con i tuoi numeri reali. Tax cliff a €100k.
                     Report PDF per il commercialista.
                   </p>
-                </div>
-                <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
-                  Avvia simulazione
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
+                </details>
+              </div>
 
-              {/* Step 3 - Tax Cliff Monitor */}
-              <Link
-                href="/calcolatori/cliff"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
-              >
-                <div>
-                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
-                    03 - Monitora
-                  </span>
-                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
-                    Tax Cliff
-                    <br />
-                    Monitor {new Date().getFullYear()}
+              {/* 03 — TAX CLIFF MONITOR */}
+              <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
+                  03 — Monitora
+                </span>
+                <Link
+                  href="/calcolatori/cliff"
+                  className="group/l flex-1 block"
+                >
+                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
+                    Tax Cliff Monitor
                   </h2>
-                  <p className="text-sm text-zinc-400 leading-relaxed">
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                    <TrendingUp className="w-3 h-3 flex-shrink-0" />
+                    Monitora
+                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
+                  </span>
+                </Link>
+                <details className="mt-3 group">
+                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
+                    Dettagli{" "}
+                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
                     Traccia il fatturato mensile e monitora quanto sei lontano
                     dalla soglia di €100.000.
                   </p>
-                </div>
-                <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
-                  <TrendingUp className="w-3.5 h-3.5" />
-                  Monitora il fatturato
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
+                </details>
+              </div>
 
-              {/* Step 4 - Acconto */}
-              <Link
-                href="/calcolatori/acconto"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
-              >
-                <div>
-                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
-                    04 - Pianifica
+              {/* 04 — REGISTRO INCASSI */}
+              <div className="bg-zinc-900 p-5 md:p-6 flex flex-col min-h-[150px]">
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 flex items-center gap-2">
+                  04 — Registra
+                  <span className="text-[8px] bg-red-600 text-white px-1.5 py-0.5 font-black tracking-wider leading-tight">
+                    NUOVO
                   </span>
-                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
-                    Acconto
-                    <br />
-                    Imposta Sostitutiva
+                </span>
+                <Link
+                  href="/calcolatori/giornale"
+                  className="group/l flex-1 block"
+                >
+                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
+                    Registro Incassi
                   </h2>
-                  <p className="text-sm text-zinc-400 leading-relaxed">
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                    <BookOpen className="w-3 h-3 flex-shrink-0" />
+                    Registra
+                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
+                  </span>
+                </Link>
+                <details className="mt-3 group">
+                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
+                    Dettagli{" "}
+                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
+                    Logga ogni incasso, vedi il netto spendibile e quanto
+                    accantonare. Aggiorna il Tax Cliff automaticamente.
+                  </p>
+                </details>
+              </div>
+
+              {/* 05 — ACCONTO */}
+              <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
+                  05 — Pianifica
+                </span>
+                <Link
+                  href="/calcolatori/acconto"
+                  className="group/l flex-1 block"
+                >
+                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
+                    Acconto Imposta Sostitutiva
+                  </h2>
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                    <Calendar className="w-3 h-3 flex-shrink-0" />
+                    Calcola
+                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
+                  </span>
+                </Link>
+                <details className="mt-3 group">
+                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
+                    Dettagli{" "}
+                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
                     Calcola quanto pagare di acconto entro il 30 Novembre. Rate,
                     scadenze e codice F24.
                   </p>
-                </div>
-                <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
-                  <Calendar className="w-3.5 h-3.5" />
-                  Calcola le rate
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-              {/* Step 5 - Fattura */}
-              <Link
-                href="/calcolatori/fattura"
-                className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
-              >
-                <div>
-                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
-                    05 - Emetti
-                  </span>
-                  <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
-                    Pro-Forma &
-                    <br />
-                    Avviso di Parcella
+                </details>
+              </div>
+
+              {/* 06 — PRO-FORMA */}
+              <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
+                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
+                  06 — Emetti
+                </span>
+                <Link
+                  href="/calcolatori/fattura"
+                  className="group/l flex-1 block"
+                >
+                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
+                    Pro-Forma &amp; Avviso di Parcella
                   </h2>
-                  <p className="text-sm text-zinc-400 leading-relaxed">
-                    Documento di pagamento non fiscale. La fattura parte solo a
-                    incasso. Forfettario, ritenuta, logo drag & drop.
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                    <FileText className="w-3 h-3 flex-shrink-0" />
+                    Crea
+                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
+                  </span>
+                </Link>
+                <details className="mt-3 group">
+                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
+                    Dettagli{" "}
+                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
+                    Documento di pagamento non fiscale. Forfettario, ritenuta,
+                    logo drag &amp; drop. La fattura parte solo a incasso.
                   </p>
-                </div>
-                <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">
-                  <FileText className="w-3.5 h-3.5" />
-                  Crea Pro-Forma
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
+                </details>
+              </div>
             </div>
           </div>
         </section>

@@ -1,7 +1,9 @@
 ﻿"use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Lock } from "lucide-react";
+import { GIORNALE_ENTRIES_KEY } from "@/lib/giornale-utils";
+import type { GiornaleData } from "@/lib/giornale-utils";
 import { formatCurrency } from "@/lib/forfettario-utils";
 import {
   FORFETTARIO_ENTRY_LIMIT,
@@ -55,15 +57,41 @@ function buildInitialInputVals(
   return vals;
 }
 
+function readGiornaleMonths(): Set<number> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const raw = localStorage.getItem(GIORNALE_ENTRIES_KEY);
+    if (!raw) return new Set();
+    const data = JSON.parse(raw) as GiornaleData;
+    const months = new Set<number>();
+    for (const [k, v] of Object.entries(data)) {
+      if (Array.isArray(v) && v.length > 0) months.add(Number(k));
+    }
+    return months;
+  } catch {
+    return new Set();
+  }
+}
+
 export default function CliffTracker() {
-  const [months, setMonths] = useState<Record<number, number | undefined>>(() =>
-    readStoredMonths(),
-  );
-  const [inputVals, setInputVals] = useState<Record<number, string>>(() =>
-    buildInitialInputVals(readStoredMonths()),
-  );
+  const [months, setMonths] = useState<Record<number, number | undefined>>({});
+  const [inputVals, setInputVals] = useState<Record<number, string>>(() => {
+    const empty: Record<number, string> = {};
+    for (let m = 1; m <= 12; m++) empty[m] = "";
+    return empty;
+  });
 
   const currentMonth = new Date().getMonth() + 1;
+  const [giornaleMonths, setGiornaleMonths] = useState<Set<number>>(new Set());
+  const [warnedMonth, setWarnedMonth] = useState<number | null>(null);
+
+  // Defer localStorage reads to avoid SSR/client hydration mismatch
+  useEffect(() => {
+    const stored = readStoredMonths();
+    setMonths(stored);
+    setInputVals(buildInitialInputVals(stored));
+    setGiornaleMonths(readGiornaleMonths());
+  }, []);
 
   const persist = (newMonths: Record<number, number | undefined>) => {
     const toSave: Record<number, number> = {};
@@ -299,7 +327,7 @@ export default function CliffTracker() {
                     >
                       <label
                         htmlFor={`month-${m}`}
-                        className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial mb-2 cursor-pointer ${
+                        className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial mb-1 cursor-pointer ${
                           isCurrent ? "text-zinc-950" : "text-zinc-400"
                         }`}
                       >
@@ -310,6 +338,11 @@ export default function CliffTracker() {
                           </span>
                         )}
                       </label>
+                      {giornaleMonths.has(m) && (
+                        <span className="inline-block text-[8px] bg-blue-50 text-blue-500 border border-blue-200 px-1 py-0.5 leading-tight font-semibold mb-1.5">
+                          da Giornale
+                        </span>
+                      )}
                       <div className="relative flex items-center">
                         <span className="text-xs text-zinc-400 font-mono mr-1">
                           €
@@ -320,7 +353,11 @@ export default function CliffTracker() {
                           inputMode="numeric"
                           value={inputVals[m] ?? ""}
                           onChange={(e) => updateMonth(m, e.target.value)}
+                          onFocus={() => {
+                            if (giornaleMonths.has(m)) setWarnedMonth(m);
+                          }}
                           onBlur={(e) => {
+                            setWarnedMonth(null);
                             const num = parseFloat(
                               e.target.value.replace(",", "."),
                             );
@@ -339,12 +376,20 @@ export default function CliffTracker() {
                           }`}
                         />
                       </div>
+                      {warnedMonth === m && (
+                        <p className="mt-1 text-[9px] text-amber-600 leading-tight font-medium">
+                          Gestito dal Registro Incassi — modificando qui
+                          sovrascriverai il totale automatico.
+                        </p>
+                      )}
                       {hasValue && (
                         <div
                           className={`absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full ${
-                            (months[m] ?? 0) > 0
-                              ? "bg-emerald-400"
-                              : "bg-zinc-300"
+                            giornaleMonths.has(m)
+                              ? "bg-blue-400"
+                              : (months[m] ?? 0) > 0
+                                ? "bg-emerald-400"
+                                : "bg-zinc-300"
                           }`}
                         />
                       )}

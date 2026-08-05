@@ -27,6 +27,12 @@ const XML = `<?xml version="1.0" encoding="UTF-8"?>
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://www.bur0.click/calcolatori/giornale</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://www.bur0.click/calcolatori/acconto</loc>
     <lastmod>2026-03-27</lastmod>
     <changefreq>monthly</changefreq>

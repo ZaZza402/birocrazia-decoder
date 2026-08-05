@@ -65,6 +65,17 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/calcolatori/giornale"
+                  className="text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  Registro Incassi{" "}
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500">
+                    Live
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/calcolatori/acconto"
                   className="text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-2"
                 >

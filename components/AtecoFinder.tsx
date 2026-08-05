@@ -194,8 +194,7 @@ function DetailSheet({
           </Link>
         </div>
       </div>
-    </>
-    ,
+    </>,
     document.body,
   );
 }
