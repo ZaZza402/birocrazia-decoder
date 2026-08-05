@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "Calcola Acconto Imposta Sostitutiva 2026 — Scadenza 30 Novembre | Bur0",
+    "Calcola Acconto Imposta Sostitutiva 2026 - Scadenza 30 Novembre | Bur0",
   description:
     "Calcola l'acconto dell'imposta sostitutiva del Regime Forfettario. Scopri quanto pagare entro il 30 giugno e il 30 novembre. Metodo storico e previsionale.",
   keywords:

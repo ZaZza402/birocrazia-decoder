@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Download, Share } from "lucide-react";
@@ -49,7 +49,7 @@ export default function InstallAppButton() {
     }
   };
 
-  // Already installed — show nothing
+  // Already installed - show nothing
   if (isStandalone || installed) return null;
 
   // Chrome/Android/desktop: show only when browser has stashed the prompt
@@ -66,7 +66,7 @@ export default function InstallAppButton() {
         ) : (
           <Download className="w-3.5 h-3.5 flex-shrink-0" />
         )}
-        Installa l&apos;app — gratis
+        Installa l&apos;app - gratis
       </button>
 
       {/* iOS instruction tooltip */}

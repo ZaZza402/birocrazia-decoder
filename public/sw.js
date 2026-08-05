@@ -1,4 +1,4 @@
-// BurZero Service Worker
+﻿// BurZero Service Worker
 // Bump CACHE_VERSION on each release to purge old caches
 const CACHE_VERSION = "burzero-v1";
 
@@ -24,6 +24,6 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// No fetch interception — all requests go to the network normally.
+// No fetch interception - all requests go to the network normally.
 // Next.js handles chunk hashing and HTTP caching; this SW exists
 // only to ensure the update lifecycle fires correctly on new deploys.

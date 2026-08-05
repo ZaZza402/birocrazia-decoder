@@ -1,4 +1,4 @@
-import "../LandingPage.css";
+﻿import "../LandingPage.css";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -82,7 +82,7 @@ export default function LandingPage() {
             <div className="flex items-center gap-2 mb-6">
               <AlertTriangle className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
               <span className="text-xs uppercase tracking-editorial font-semibold text-red-400">
-                Il Salto degli €85.000 — Regime Forfettario 2026
+                Il Salto degli €85.000 - Regime Forfettario 2026
               </span>
             </div>
 
@@ -95,7 +95,7 @@ export default function LandingPage() {
 
             <p className="text-lg text-zinc-400 max-w-xl mb-10 leading-relaxed">
               Simula il passaggio di regime con i tuoi numeri reali. Pianifica
-              la crescita senza sorprese fiscali — report PDF pronto per il
+              la crescita senza sorprese fiscali - report PDF pronto per il
               commercialista.
             </p>
 
@@ -118,11 +118,11 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ── NUMBERS — THE EVIDENCE ── */}
+        {/* ── NUMBERS - THE EVIDENCE ── */}
         <section className="bg-white border-b border-zinc-200">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-10">
-              Esempio reale — Fatturato €50.000, ATECO 67%, senza spese
+              Esempio reale - Fatturato €50.000, ATECO 67%, senza spese
               aziendali
             </p>
 
@@ -189,7 +189,7 @@ export default function LandingPage() {
                 </p>
                 <p className="text-sm text-zinc-500 leading-relaxed">
                   Niente registrazione, niente email, niente password. Apri il
-                  sito e inizia — basta.
+                  sito e inizia - basta.
                 </p>
               </div>
               <div className="bg-stone-50 px-6 py-7">
@@ -219,17 +219,17 @@ export default function LandingPage() {
         <section className="bg-zinc-950 text-white">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-500 mb-10">
-              Cinque passi — dal profilo alla fattura
+              Cinque passi - dal profilo alla fattura
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-zinc-800">
-              {/* Step 1 — ATECO */}
+              {/* Step 1 - ATECO */}
               <Link
                 href="/calcolatori/ateco"
                 className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
-                    01 — Identifica
+                    01 - Identifica
                   </span>
                   <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Trova il tuo
@@ -248,14 +248,14 @@ export default function LandingPage() {
                 </div>
               </Link>
 
-              {/* Step 2 — Simulatore */}
+              {/* Step 2 - Simulatore */}
               <Link
                 href="/calcolatori/forfettario"
                 className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
-                    02 — Simula
+                    02 - Simula
                   </span>
                   <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Simulatore
@@ -273,14 +273,14 @@ export default function LandingPage() {
                 </div>
               </Link>
 
-              {/* Step 3 — Tax Cliff Monitor */}
+              {/* Step 3 - Tax Cliff Monitor */}
               <Link
                 href="/calcolatori/cliff"
                 className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
-                    03 — Monitora
+                    03 - Monitora
                   </span>
                   <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Tax Cliff
@@ -299,14 +299,14 @@ export default function LandingPage() {
                 </div>
               </Link>
 
-              {/* Step 4 — Acconto */}
+              {/* Step 4 - Acconto */}
               <Link
                 href="/calcolatori/acconto"
                 className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
-                    04 — Pianifica
+                    04 - Pianifica
                   </span>
                   <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Acconto
@@ -324,14 +324,14 @@ export default function LandingPage() {
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
-              {/* Step 5 — Fattura */}
+              {/* Step 5 - Fattura */}
               <Link
                 href="/calcolatori/fattura"
                 className="group bg-zinc-950 hover:bg-zinc-900 transition-colors p-5 sm:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[200px]"
               >
                 <div>
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-500 mb-3 block">
-                    05 — Emetti
+                    05 - Emetti
                   </span>
                   <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Pro-Forma &
@@ -399,7 +399,7 @@ export default function LandingPage() {
                 </p>
                 <p className="text-xs text-zinc-500 leading-relaxed mt-3 pt-3 border-t border-zinc-100">
                   Il regime ordinario apre però la deducibilità dei costi
-                  aziendali e la detrazione IVA sugli acquisti — variabili che
+                  aziendali e la detrazione IVA sugli acquisti - variabili che
                   il simulatore include nel campo <em>Spese Reali</em>.
                 </p>
                 <Link

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, {
   useState,
@@ -483,7 +483,7 @@ export default function FatturaGenerator() {
             <div className="flex items-center gap-3 mb-2">
               <FileText className="w-5 h-5 text-zinc-400" />
               <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400">
-                Strumento 05 — Emetti
+                Strumento 05 - Emetti
               </p>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-zinc-950 leading-none mb-2">
@@ -493,7 +493,7 @@ export default function FatturaGenerator() {
               </span>
             </h1>
             <p className="text-zinc-500 text-sm">
-              Documento di richiesta pagamento — non è una fattura fiscale. La
+              Documento di richiesta pagamento - non è una fattura fiscale. La
               fattura elettronica parte solo a incasso avvenuto.
             </p>
           </div>
@@ -537,7 +537,7 @@ export default function FatturaGenerator() {
             {/* Logo upload */}
             <div className="bg-white border border-zinc-200 p-5">
               <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
-                Logo (opzionale — JPG, PNG, max 5MB)
+                Logo (opzionale - JPG, PNG, max 5MB)
               </label>
               {logoBase64 ? (
                 <div className="flex items-center gap-4">
@@ -1030,7 +1030,7 @@ export default function FatturaGenerator() {
                   </div>
                 </div>
 
-                {/* IVA rate — shown only when NOT forfettario */}
+                {/* IVA rate - shown only when NOT forfettario */}
                 {!isForfettario && (
                   <div className="flex items-center gap-4 pl-13">
                     <div className="ml-[52px]">
@@ -1064,7 +1064,7 @@ export default function FatturaGenerator() {
                   </div>
                 )}
 
-                {/* Ritenuta — incompatible with Forfettario */}
+                {/* Ritenuta - incompatible with Forfettario */}
                 <div
                   className={`flex items-start gap-3 ${
                     isForfettario ? "opacity-40 pointer-events-none" : ""
@@ -1089,7 +1089,7 @@ export default function FatturaGenerator() {
                     </p>
                     <p className="text-xs text-zinc-400 mt-0.5">
                       {isForfettario
-                        ? "Non applicabile in Regime Forfettario — il contribuente è escluso dalla qualifica di sostituto d imposta."
+                        ? "Non applicabile in Regime Forfettario - il contribuente è escluso dalla qualifica di sostituto d imposta."
                         : "Deduce automaticamente il 20% dal totale. Il cliente trattiene questa quota e la versa al fisco per tuo conto."}
                     </p>
                   </div>
@@ -1099,7 +1099,7 @@ export default function FatturaGenerator() {
                 {subtotal > 77.47 && isForfettario && (
                   <div className="ml-[52px] border border-amber-200 bg-amber-50 px-4 py-3">
                     <p className="text-xs font-bold text-amber-700">
-                      Marca da bollo richiesta — €2,00
+                      Marca da bollo richiesta - €2,00
                     </p>
                     <p className="text-xs text-amber-600 mt-0.5">
                       L&apos;importo supera €77,47. In Regime Forfettario la

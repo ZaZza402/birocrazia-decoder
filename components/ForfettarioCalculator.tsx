@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, {
   useState,
@@ -217,7 +217,7 @@ export default function ForfettarioCalculator({
       ).toBlob();
       const fileName = buildForfettarioReportFileName(inputs.expectedRevenue);
       const url = URL.createObjectURL(blob);
-      // Trigger download / iOS share sheet directly—no popup
+      // Trigger download / iOS share sheet directly-no popup
       const a = document.createElement("a");
       a.href = url;
       a.download = fileName;
@@ -366,7 +366,7 @@ export default function ForfettarioCalculator({
                 <div>
                   <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                     Cassa Previdenziale
-                    <InfoTooltip content="Gestione Separata INPS: la maggior parte dei freelance (sviluppatori, consulenti, ecc.) senza un albo professionale. Artigiani/Commercianti: attività con partita IVA in commercio o artigianato. Cassa Professionale: ordini con cassa propria (medici, avvocati, ingegneri, ecc.) — inserisci la % indicata dal tuo ordine." />
+                    <InfoTooltip content="Gestione Separata INPS: la maggior parte dei freelance (sviluppatori, consulenti, ecc.) senza un albo professionale. Artigiani/Commercianti: attività con partita IVA in commercio o artigianato. Cassa Professionale: ordini con cassa propria (medici, avvocati, ingegneri, ecc.) - inserisci la % indicata dal tuo ordine." />
                   </label>
                   <select
                     value={inputs.cassaType}
@@ -471,7 +471,7 @@ export default function ForfettarioCalculator({
                     <div>
                       <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                         Spese Reali
-                        <InfoTooltip content="Solo in Regime Ordinario: le spese aziendali documentate (hardware, software, abbonamenti, affitto ufficio, formazione) riducono il reddito imponibile. Nel forfettario non contano — si usa solo il coefficiente ATECO. Inserisci la stima annuale." />
+                        <InfoTooltip content="Solo in Regime Ordinario: le spese aziendali documentate (hardware, software, abbonamenti, affitto ufficio, formazione) riducono il reddito imponibile. Nel forfettario non contano - si usa solo il coefficiente ATECO. Inserisci la stima annuale." />
                       </label>
                       <input
                         type="text"
@@ -518,7 +518,7 @@ export default function ForfettarioCalculator({
                   <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-2">
                     Tipo Clientela
                     <InfoTooltip
-                      content="B2B (aziende): il cliente recupera l'IVA, quindi il prezzo netto non cambia. B2C (privati): il cliente non può recuperare l'IVA — in Regime Ordinario devi applicare il 22% e versarlo allo Stato, il che erode il tuo margine se non riesci ad alzare i prezzi."
+                      content="B2B (aziende): il cliente recupera l'IVA, quindi il prezzo netto non cambia. B2C (privati): il cliente non può recuperare l'IVA - in Regime Ordinario devi applicare il 22% e versarlo allo Stato, il che erode il tuo margine se non riesci ad alzare i prezzi."
                       side="top"
                     />
                   </label>
@@ -533,7 +533,7 @@ export default function ForfettarioCalculator({
                           : "bg-white text-zinc-500 hover:text-zinc-900"
                       }`}
                     >
-                      B2B — Aziende
+                      B2B - Aziende
                     </button>
                     <button
                       onClick={() =>
@@ -545,7 +545,7 @@ export default function ForfettarioCalculator({
                           : "bg-white text-zinc-500 hover:text-zinc-900"
                       }`}
                     >
-                      B2C — Privati
+                      B2C - Privati
                     </button>
                   </div>
                   {inputs.clientType === "b2c" && (
@@ -601,7 +601,7 @@ export default function ForfettarioCalculator({
                 <span className="text-red-600 flex items-center">
                   €100k cliff
                   <InfoTooltip
-                    content="€85k: se superi questo importo nell'anno N, perdi il forfettario dall'anno N+1. €100k (cliff): se superi questo importo nell'anno corrente, esci dal forfettario con effetto retroattivo — tutte le tasse dell'anno vengono ricalcolate in Regime Ordinario."
+                    content="€85k: se superi questo importo nell'anno N, perdi il forfettario dall'anno N+1. €100k (cliff): se superi questo importo nell'anno corrente, esci dal forfettario con effetto retroattivo - tutte le tasse dell'anno vengono ricalcolate in Regime Ordinario."
                     side="top"
                   />
                 </span>
@@ -627,7 +627,7 @@ export default function ForfettarioCalculator({
             {/* CHART */}
             <div className="bg-white border border-zinc-200 p-6">
               <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
-                Netto Disponibile — Proiezione €30k → €120k
+                Netto Disponibile - Proiezione €30k → €120k
               </p>
               <ForfettarioChart
                 chartData={chartData}
@@ -635,14 +635,14 @@ export default function ForfettarioCalculator({
               />
             </div>
 
-            {/* ── VERDICT — THE ANCHOR ── */}
+            {/* ── VERDICT - THE ANCHOR ── */}
             <div
               className={`border-l-4 ${forfettarioWins ? "border-l-zinc-950 bg-white" : isOverCliff ? "border-l-red-600 bg-red-50" : "border-l-red-600 bg-white"} border border-zinc-200 p-6`}
             >
               {isOverCliff ? (
                 <div>
                   <p className="text-xs uppercase tracking-editorial font-semibold text-red-600 mb-1">
-                    Regime Forfettario — Non disponibile
+                    Regime Forfettario - Non disponibile
                   </p>
                   <p className="text-sm text-zinc-600">
                     Sopra €100.000 si esce dal forfettario con effetto
@@ -655,8 +655,8 @@ export default function ForfettarioCalculator({
                     <div>
                       <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
                         {forfettarioWins
-                          ? "Forfettario — Regime Consigliato"
-                          : "Ordinario — Regime Consigliato"}
+                          ? "Forfettario - Regime Consigliato"
+                          : "Ordinario - Regime Consigliato"}
                       </p>
                       <p className="text-5xl font-black font-mono tabular text-zinc-950 leading-none">
                         {formatCurrency(
@@ -729,7 +729,7 @@ export default function ForfettarioCalculator({
                         label: "Aliquota Eff.",
                         value: isFinite(comparison.forfettario.effectiveTaxRate)
                           ? `${comparison.forfettario.effectiveTaxRate.toFixed(1)}%`
-                          : "—",
+                          : "-",
                       },
                     ].map((row) => (
                       <div
@@ -750,7 +750,7 @@ export default function ForfettarioCalculator({
                   {inputs.realExpenses > 0 && (
                     <p className="text-[10px] text-zinc-400 mt-3 leading-relaxed">
                       Spese ({formatCurrency(inputs.realExpenses)}) incluse nel
-                      netto — nel forfettario non sono deducibili fiscalmente ma
+                      netto - nel forfettario non sono deducibili fiscalmente ma
                       le paghi comunque.
                     </p>
                   )}
@@ -795,7 +795,7 @@ export default function ForfettarioCalculator({
                       label: "Aliquota Eff.",
                       value: isFinite(comparison.ordinario.effectiveTaxRate)
                         ? `${comparison.ordinario.effectiveTaxRate.toFixed(1)}%`
-                        : "—",
+                        : "-",
                     },
                   ].map((row) => (
                     <div
@@ -822,7 +822,7 @@ export default function ForfettarioCalculator({
                   <span className="font-bold font-mono">
                     {formatCurrency(comparison.forfettario.taxAmount)}
                   </span>{" "}
-                  — devi versare l&apos;acconto?
+                  - devi versare l&apos;acconto?
                 </p>
                 <Link
                   href={`/calcolatori/acconto?tax=${Math.round(comparison.forfettario.taxAmount)}`}

@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 import {
   ForfettarioInputs,
@@ -179,7 +179,7 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
           <View>
             <Text style={styles.title}>Bur0</Text>
             <Text style={styles.subtitle}>
-              Simulazione Fiscale — Forfettario vs Ordinario
+              Simulazione Fiscale - Forfettario vs Ordinario
             </Text>
           </View>
           <View style={{ alignItems: "flex-end" }}>
@@ -221,8 +221,8 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
             [
               "Regime Start-up",
               inputs.isNewBusiness
-                ? "Sì — Aliquota 5% (primi 5 anni)"
-                : "No — Aliquota 15%",
+                ? "Sì - Aliquota 5% (primi 5 anni)"
+                : "No - Aliquota 15%",
             ],
           ].map(([label, value]) => (
             <View key={label} style={styles.row}>
@@ -252,7 +252,7 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
               .filter((w) => w && typeof w === "string")
               .map((warning, idx) => (
                 <Text key={idx} style={styles.warningText}>
-                  — {warning}
+                  - {warning}
                 </Text>
               ))}
           </View>
@@ -296,7 +296,7 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
                     "Aliquota Effettiva",
                     isFinite(results.forfettario.effectiveTaxRate)
                       ? `${results.forfettario.effectiveTaxRate.toFixed(1)}%`
-                      : "—",
+                      : "-",
                   ],
                 ].map(([label, value]) => (
                   <View key={label} style={styles.row}>
@@ -354,7 +354,7 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
                   "Aliquota Effettiva",
                   isFinite(results.ordinario.effectiveTaxRate)
                     ? `${results.ordinario.effectiveTaxRate.toFixed(1)}%`
-                    : "—",
+                    : "-",
                 ],
               ].map(([label, value]) => (
                 <View key={label} style={styles.row}>

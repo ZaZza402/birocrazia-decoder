@@ -1,4 +1,4 @@
-import AtecoFinder from "@/components/AtecoFinder";
+﻿import AtecoFinder from "@/components/AtecoFinder";
 
 export default function AtecoPage() {
   return (
@@ -32,18 +32,18 @@ export default function AtecoPage() {
             </p>
             <ul className="mt-3 space-y-1 text-stone-600">
               <li>
-                <strong>86%</strong> — Commercio al dettaglio (es. ATECO 47.xx)
+                <strong>86%</strong> - Commercio al dettaglio (es. ATECO 47.xx)
               </li>
               <li>
-                <strong>78%</strong> — Professioni tecniche, informatiche,
+                <strong>78%</strong> - Professioni tecniche, informatiche,
                 scientifiche (es. sviluppatori, ingegneri, architetti)
               </li>
               <li>
-                <strong>67%</strong> — Professioni sanitarie, insegnamento,
+                <strong>67%</strong> - Professioni sanitarie, insegnamento,
                 attività professionali generali
               </li>
               <li>
-                <strong>40%</strong> — Commercio all&#8217;ingrosso e al
+                <strong>40%</strong> - Commercio all&#8217;ingrosso e al
                 dettaglio, intermediari
               </li>
             </ul>

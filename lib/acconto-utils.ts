@@ -1,10 +1,10 @@
-export const SOGLIA_ESENZIONE = 51.65; // no payment if below
+﻿export const SOGLIA_ESENZIONE = 51.65; // no payment if below
 export const SOGLIA_UNICA = 257.52; // single November payment if below
 
 export interface AccontoResult {
   totale: number;
-  primaRata: number; // 40% — June 30
-  secondaRata: number; // 60% — November 30 (or full 100% if unica)
+  primaRata: number; // 40% - June 30
+  secondaRata: number; // 60% - November 30 (or full 100% if unica)
   unicaRata: boolean; // single November payment
   nessunPagamento: boolean; // exempt (< €51.65)
 }

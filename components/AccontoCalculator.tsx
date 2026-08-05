@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { AlertTriangle, Clock } from "lucide-react";
@@ -126,7 +126,7 @@ export default function AccontoCalculator({
                 />
               </label>
               <p className="text-[11px] text-zinc-400 mb-3">
-                Trovata nella tua dichiarazione dei redditi {YEAR - 1} — riga
+                Trovata nella tua dichiarazione dei redditi {YEAR - 1} - riga
                 &ldquo;Imposta sostitutiva&rdquo;.
               </p>
               <div className="relative">
@@ -147,7 +147,7 @@ export default function AccontoCalculator({
                   <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
                     Imposta Sostitutiva Stimata {YEAR}
                     <InfoTooltip
-                      content={`La stima dell'imposta che pagherai quest'anno. Usa il Simulatore Forfettario con il fatturato previsto per il ${YEAR} — il valore nella riga "Imposta" del riepilogo. Se prevedi un reddito più basso dell'anno scorso, il metodo previsionale può ridurre l'acconto da versare.`}
+                      content={`La stima dell'imposta che pagherai quest'anno. Usa il Simulatore Forfettario con il fatturato previsto per il ${YEAR} - il valore nella riga "Imposta" del riepilogo. Se prevedi un reddito più basso dell'anno scorso, il metodo previsionale può ridurre l'acconto da versare.`}
                       side="top"
                     />
                   </label>
@@ -213,7 +213,7 @@ export default function AccontoCalculator({
                     Esente
                   </p>
                   <p className="text-xs text-zinc-500 mt-1">
-                    Importo inferiore a {formatCurrency(SOGLIA_ESENZIONE)} —
+                    Importo inferiore a {formatCurrency(SOGLIA_ESENZIONE)} -
                     nessun versamento richiesto.
                   </p>
                 </div>
@@ -223,7 +223,7 @@ export default function AccontoCalculator({
                     {formatCurrency(result.totale)}
                   </p>
                   <p className="text-xs text-zinc-500 mt-2">
-                    100% dell&apos;imposta sostitutiva {YEAR - 1} — metodo{" "}
+                    100% dell&apos;imposta sostitutiva {YEAR - 1} - metodo{" "}
                     {metodo}
                   </p>
                 </div>
@@ -294,7 +294,7 @@ export default function AccontoCalculator({
                     )}
                     {result.unicaRata && (
                       <p className="text-[11px] text-zinc-400 mt-1">
-                        Importo ≤ {formatCurrency(SOGLIA_UNICA)} — pagamento
+                        Importo ≤ {formatCurrency(SOGLIA_UNICA)} - pagamento
                         unico in novembre.
                       </p>
                     )}
@@ -308,18 +308,18 @@ export default function AccontoCalculator({
                   </p>
                   <ul className="space-y-1.5 text-xs text-zinc-500 leading-relaxed">
                     <li>
-                      — Modello F24, codice tributo{" "}
+                      - Modello F24, codice tributo{" "}
                       <span className="font-mono font-bold text-zinc-700">
                         1791
                       </span>{" "}
                       (acconto imposta sostitutiva regime forfettario)
                     </li>
                     <li>
-                      — Pagamento tramite home banking, intermediario, F24
+                      - Pagamento tramite home banking, intermediario, F24
                       telematico
                     </li>
                     <li>
-                      — Se usi un commercialista, passa questi numeri con le
+                      - Se usi un commercialista, passa questi numeri con le
                       scadenze
                     </li>
                   </ul>

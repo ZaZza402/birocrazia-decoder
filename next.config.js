@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+﻿/** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
   compress: true,
@@ -10,7 +10,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        // Service worker must never be cached — browser uses byte-diff to detect updates
+        // Service worker must never be cached - browser uses byte-diff to detect updates
         source: "/sw.js",
         headers: [
           {

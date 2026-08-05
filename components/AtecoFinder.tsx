@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -83,7 +83,7 @@ function DetailSheet({
   entry: AtecoEntry;
   onClose: () => void;
 }) {
-  // Prevent body scroll while sheet is open — mobile only (lg breakpoint = 1024px)
+  // Prevent body scroll while sheet is open - mobile only (lg breakpoint = 1024px)
   useEffect(() => {
     if (!window.matchMedia("(max-width: 1023px)").matches) return;
     document.body.style.overflow = "hidden";
@@ -205,7 +205,7 @@ export default function AtecoFinder() {
   return (
     <div className="min-h-screen bg-stone-50 pt-20 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
-        {/* ── HEADER — compact on mobile ── */}
+        {/* ── HEADER - compact on mobile ── */}
         <div className="mb-6 border-b border-zinc-200 pb-5">
           {/* Breadcrumb */}
           <div className="flex items-center gap-1.5 mb-3">
@@ -224,7 +224,7 @@ export default function AtecoFinder() {
             Trova il tuo Codice ATECO
           </h1>
           <p className="mt-2 text-sm text-zinc-500 max-w-xl">
-            Cerca per professione — ottieni codice + coefficiente forfettario.
+            Cerca per professione - ottieni codice + coefficiente forfettario.
           </p>
         </div>
 
@@ -256,7 +256,7 @@ export default function AtecoFinder() {
               )}
             </div>
 
-            {/* Sector filter pills — horizontal scroll on mobile, no wrapping */}
+            {/* Sector filter pills - horizontal scroll on mobile, no wrapping */}
             {!isSearching && (
               <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none -mx-4 px-4 lg:mx-0 lg:px-0 lg:flex-wrap">
                 <button
@@ -308,7 +308,7 @@ export default function AtecoFinder() {
                       Nessun risultato per &ldquo;{query}&rdquo;
                     </p>
                     <p className="text-xs text-zinc-400 mt-1">
-                      Prova con sinonimi — es. &ldquo;commercio&rdquo; invece di
+                      Prova con sinonimi - es. &ldquo;commercio&rdquo; invece di
                       &ldquo;vendita&rdquo;
                     </p>
                   </div>
@@ -529,7 +529,7 @@ export default function AtecoFinder() {
                 <strong className="text-zinc-900">
                   coefficiente di redditività
                 </strong>{" "}
-                — cioè la percentuale del tuo fatturato considerata reddito
+                - cioè la percentuale del tuo fatturato considerata reddito
                 imponibile.
               </p>
               <p className="text-sm text-zinc-600 leading-relaxed">

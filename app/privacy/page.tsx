@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
   title: "Privacy Policy | Bur0",
-  description: "Informativa Privacy — Local-First, Zero Tracking",
+  description: "Informativa Privacy - Local-First, Zero Tracking",
 };
 
 export default function PrivacyPage() {
@@ -13,7 +13,7 @@ export default function PrivacyPage() {
         {/* â”€â”€ HEADER â”€â”€ */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
           <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
-            Privacy Policy — bur0.click
+            Privacy Policy - bur0.click
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
             I tuoi dati restano tuoi
@@ -46,7 +46,7 @@ export default function PrivacyPage() {
               Titolare del Trattamento
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed">
-              <strong className="text-zinc-900">Bur0</strong> — per qualsiasi
+              <strong className="text-zinc-900">Bur0</strong> - per qualsiasi
               richiesta:{" "}
               <a
                 href="mailto:info@alecsdesign.xyz?subject=Privacy%20Bur0"
@@ -119,7 +119,7 @@ export default function PrivacyPage() {
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed">
               Non conserviamo i tuoi dati personali sui nostri server, quindi
-              non possiamo modificarli o cancellarli a richiesta — semplicemente
+              non possiamo modificarli o cancellarli a richiesta - semplicemente
               non esistono da noi. Puoi eliminarli in autonomia cancellando i
               dati del sito nelle impostazioni del browser.
             </p>

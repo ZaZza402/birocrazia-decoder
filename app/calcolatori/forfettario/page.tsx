@@ -1,4 +1,4 @@
-import ForfettarioCalculator from "@/components/ForfettarioCalculator";
+﻿import ForfettarioCalculator from "@/components/ForfettarioCalculator";
 import type { CassaType } from "@/lib/forfettario-utils";
 
 type SP = Promise<{ [key: string]: string | string[] | undefined }>;
@@ -131,8 +131,8 @@ export default async function ForfettarioPage({
               Il forfettario conviene quando le spese reali sono basse
               (inferiori alla quota forfettizzata non imponibile) e i ricavi
               sono ben al di sotto di €85.000. Il regime ordinario diventa
-              conveniente al crescere dei costi deducibili—spese per dipendenti,
-              affitti professionali, ammortamenti—o quando si avvicina la soglia
+              conveniente al crescere dei costi deducibili-spese per dipendenti,
+              affitti professionali, ammortamenti-o quando si avvicina la soglia
               cliff. Il simulatore qui sopra calcola entrambe le opzioni con i
               tuoi dati reali.
             </p>

@@ -1,4 +1,4 @@
-// ATECO 2025 — Curated data for Italian Partita IVA holders
+﻿// ATECO 2025 - Curated data for Italian Partita IVA holders
 // Coefficients from L.190/2014 Allegato 4 (forfettario redditività)
 // Only leaf-level codes (8-char format) included.
 
@@ -1510,7 +1510,7 @@ export const ATECO_BY_CODE: Record<string, AtecoEntry> = Object.fromEntries(
   ATECO_DATA.map((e) => [e.code, e]),
 );
 
-// Search function — matches code, description, sector, tags
+// Search function - matches code, description, sector, tags
 export function searchAteco(query: string): AtecoEntry[] {
   const q = query.trim().toLowerCase();
   if (!q) return ATECO_DATA.slice(0, 8);

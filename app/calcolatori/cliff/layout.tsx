@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Tax Cliff Monitor 2026 — Traccia il Fatturato Mensile | Bur0",
+  title: "Tax Cliff Monitor 2026 - Traccia il Fatturato Mensile | Bur0",
   description:
     "Monitora mese per mese quanto sei lontano dalla Tax Cliff di €100.000 del Regime Forfettario. Gratuito, dati solo nel browser, nessun account.",
   keywords:

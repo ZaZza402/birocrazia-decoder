@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+﻿import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ForfettarioCalculator from "@/components/ForfettarioCalculator";
 import { SCENARIOS } from "@/lib/scenarios";
@@ -42,7 +42,7 @@ export default async function ScenarioPage({ params }: { params: Params }) {
 
   return (
     <ForfettarioCalculator
-      scenarioLabel={`${scenario.profession} — ${formatCurrency(scenario.inputs.expectedRevenue)}/anno`}
+      scenarioLabel={`${scenario.profession} - ${formatCurrency(scenario.inputs.expectedRevenue)}/anno`}
       initialInputs={{
         atecoCode: scenario.atecoCode,
         cassaType: scenario.inputs.cassaType,

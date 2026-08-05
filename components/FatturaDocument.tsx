@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import {
   Page,
   Text,
@@ -44,7 +44,7 @@ const CURRENCY_SYMBOLS: Record<string, string> = {
 };
 
 function formatItalianDate(value: string): string {
-  if (!value) return "—";
+  if (!value) return "-";
   const parts = value.split("-");
   if (parts.length !== 3) return value;
 
@@ -321,10 +321,8 @@ export default function FatturaDocument({ data }: Props) {
 
   const docLabel =
     data.docType === "pro_forma" ? "Pro-Forma" : "Avviso di Parcella";
-  const invoiceTitleLead =
-    data.docType === "pro_forma" ? "Pro-" : "Avviso di";
-  const invoiceTitleMain =
-    data.docType === "pro_forma" ? "Forma" : "Parcella";
+  const invoiceTitleLead = data.docType === "pro_forma" ? "Pro-" : "Avviso di";
+  const invoiceTitleMain = data.docType === "pro_forma" ? "Forma" : "Parcella";
 
   return (
     <Document
@@ -364,11 +362,13 @@ export default function FatturaDocument({ data }: Props) {
         <View style={s.metaRow}>
           <View style={s.metaCell}>
             <Text style={s.metaLabel}>N. Documento</Text>
-            <Text style={s.metaValue}>{data.invoiceNumber || "—"}</Text>
+            <Text style={s.metaValue}>{data.invoiceNumber || "-"}</Text>
           </View>
           <View style={s.metaCell}>
             <Text style={s.metaLabel}>Data</Text>
-            <Text style={s.metaValue}>{formatItalianDate(data.invoiceDate)}</Text>
+            <Text style={s.metaValue}>
+              {formatItalianDate(data.invoiceDate)}
+            </Text>
           </View>
           <View style={s.metaCell}>
             <Text style={s.metaLabel}>Scadenza</Text>
@@ -402,7 +402,7 @@ export default function FatturaDocument({ data }: Props) {
             style={[s.tableRow, idx % 2 === 1 ? s.tableRowAlt : {}]}
           >
             <Text style={[s.cellText, s.colDesc]}>
-              {item.description || "—"}
+              {item.description || "-"}
             </Text>
             <Text style={[s.cellText, s.colQty, { textAlign: "right" }]}>
               {item.quantity}
@@ -414,7 +414,7 @@ export default function FatturaDocument({ data }: Props) {
               {fmt(item.price, data.currency)}
             </Text>
             <Text style={[s.cellText, s.colDiscount, { textAlign: "right" }]}>
-              {item.discount > 0 ? `${item.discount}%` : "—"}
+              {item.discount > 0 ? `${item.discount}%` : "-"}
             </Text>
             <Text style={[s.cellTextBold, s.colAmount, { textAlign: "right" }]}>
               {fmt(itemSubtotals[idx], data.currency)}
@@ -509,7 +509,7 @@ export default function FatturaDocument({ data }: Props) {
             Documento generato il {new Date().toLocaleDateString("it-IT")}
           </Text>
           <Text style={s.footerBrand}>
-            BurZero.it — Strumenti Fiscali Gratuiti
+            BurZero.it - Strumenti Fiscali Gratuiti
           </Text>
         </View>
       </Page>

@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
   title: "Termini e Condizioni | Bur0",
-  description: "Termini di Utilizzo — Strumento di Simulazione Fiscale",
+  description: "Termini di Utilizzo - Strumento di Simulazione Fiscale",
 };
 
 export default function TermsPage() {
@@ -13,7 +13,7 @@ export default function TermsPage() {
         {/* â”€â”€ HEADER â”€â”€ */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
           <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
-            Termini di Utilizzo — bur0.click
+            Termini di Utilizzo - bur0.click
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
             Termini e Condizioni
@@ -74,7 +74,7 @@ export default function TermsPage() {
               ].map((text, i) => (
                 <div key={i} className="flex gap-3">
                   <span className="text-zinc-300 font-mono font-black flex-shrink-0 pt-0.5">
-                    &mdash;
+                    -
                   </span>
                   <p className="text-sm text-zinc-600 leading-relaxed">
                     {text}
@@ -169,7 +169,7 @@ export default function TermsPage() {
         {/* â”€â”€ FOOTER ROW â”€â”€ */}
         <div className="mt-8 pt-6 border-t border-zinc-200 flex items-center justify-between gap-4">
           <p className="text-xs text-zinc-400">
-            Ultima revisione: Marzo 2026 &mdash; Utilizzando Bur0 accetti questi
+            Ultima revisione: Marzo 2026 - Utilizzando Bur0 accetti questi
             Termini.
           </p>
           <Link

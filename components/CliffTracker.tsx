@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import Link from "next/link";
 import { Lock } from "lucide-react";
@@ -112,11 +112,11 @@ export default function CliffTracker() {
 
   const statusLabel =
     total >= CLIFF
-      ? "Limite superato — valuta il Regime Ordinario"
+      ? "Limite superato - valuta il Regime Ordinario"
       : total >= WARN_RED
-        ? `Zona rossa — ${formatCurrency(CLIFF - total)} al limite`
+        ? `Zona rossa - ${formatCurrency(CLIFF - total)} al limite`
         : total >= WARN_AMBER
-          ? "Zona attenzione — crescita sostenuta"
+          ? "Zona attenzione - crescita sostenuta"
           : "In zona sicura";
 
   const statusColor =
@@ -198,14 +198,14 @@ export default function CliffTracker() {
                 <p className="text-xs text-zinc-400 mt-0.5 flex items-center">
                   rimangono alla cliff
                   <InfoTooltip
-                    content="La \u201ccliff\u201d è il precipizio fiscale a €100.000. Se superi questa soglia nell'anno corrente, esci dal Regime Forfettario con effetto retroattivo — tutte le tasse dell'intero anno vengono ricalcolate in Regime Ordinario, non solo il surplus."
+                    content="La \u201ccliff\u201d è il precipizio fiscale a €100.000. Se superi questa soglia nell'anno corrente, esci dal Regime Forfettario con effetto retroattivo - tutte le tasse dell'intero anno vengono ricalcolate in Regime Ordinario, non solo il surplus."
                     side="top"
                   />
                 </p>
               </div>
             </div>
 
-            {/* Projection — show when at least 2 months entered */}
+            {/* Projection - show when at least 2 months entered */}
             {enteredCount >= 2 && (
               <div className="bg-white border border-zinc-200 p-6">
                 <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
@@ -260,7 +260,7 @@ export default function CliffTracker() {
             <div className="flex items-start gap-2 border border-zinc-200 bg-zinc-50 p-4">
               <Lock className="w-3.5 h-3.5 text-zinc-400 mt-0.5 flex-shrink-0" />
               <p className="text-[11px] text-zinc-400 leading-relaxed">
-                I tuoi dati rimangono solo nel tuo browser — nessun server,
+                I tuoi dati rimangono solo nel tuo browser - nessun server,
                 nessun account. Si azzerano se svuoti la cache.
               </p>
             </div>
@@ -270,7 +270,7 @@ export default function CliffTracker() {
           <div className="lg:col-span-2">
             <div className="bg-white border border-zinc-200 p-6">
               <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-5">
-                Fatturato Mensile — {YEAR}
+                Fatturato Mensile - {YEAR}
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {MONTHS_IT.map((name, idx) => {

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect } from "react";
 import Link from "next/link";
@@ -61,7 +61,7 @@ const STEPS: Step[] = [
     num: "05",
     label: "Emetti",
     title: "Pro-Forma / Avviso di Parcella",
-    desc: "Documento di pagamento — fattura solo a incasso",
+    desc: "Documento di pagamento - fattura solo a incasso",
     href: "/calcolatori/fattura",
     Icon: FileText,
   },

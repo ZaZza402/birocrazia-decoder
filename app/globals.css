@@ -1,4 +1,4 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -48,7 +48,7 @@ body {
   }
 }
 
-/* Styled native select — removes browser default, adds custom arrow */
+/* Styled native select - removes browser default, adds custom arrow */
 .select-styled {
   appearance: none;
   -webkit-appearance: none;
