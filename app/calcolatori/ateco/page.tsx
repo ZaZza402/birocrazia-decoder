@@ -61,7 +61,7 @@ export default function AtecoPage() {
             <p className="text-stone-600 leading-relaxed">
               Cerca la tua attività nella barra qui sopra: il motore di ricerca
               confronta la descrizione che inserisci con la tabella ufficiale
-              ATECO 2025. Una volta trovato il codice, potrai usare il
+              ATECO 2026. Una volta trovato il codice, potrai usare il
               simulatore forfettario per stimare le tue tasse con il
               coefficiente esatto. In caso di dubbio su quale codice usare, ti
               consigliamo di consultare un commercialista o il tuo CAF: è la

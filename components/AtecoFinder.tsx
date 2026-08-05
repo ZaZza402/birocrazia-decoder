@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
   Search,
@@ -9,7 +10,16 @@ import {
   ExternalLink,
   ChevronRight,
 } from "lucide-react";
-import { ATECO_DATA, searchAteco, type AtecoEntry } from "@/lib/ateco-data";
+import {
+  ATECO_CATALOG_NOMENCLATURE_YEAR,
+  ATECO_DATA,
+  type AtecoEntry,
+} from "@/lib/ateco-data";
+import {
+  ATECO_RULESET_YEAR,
+  resolveAtecoCoefficient,
+} from "@/lib/ateco-rules-2026";
+import { searchAtecoWithCuratedDictionary } from "@/lib/tools/ateco";
 
 const COEFFICIENT_LABELS: Record<number, { label: string; color: string }> = {
   0.4: { label: "40%", color: "text-blue-600" },
@@ -19,6 +29,10 @@ const COEFFICIENT_LABELS: Record<number, { label: string; color: string }> = {
 };
 
 const SECTORS = Array.from(new Set(ATECO_DATA.map((e) => e.sector))).sort();
+
+function displayCoefficient(entry: AtecoEntry): number {
+  return resolveAtecoCoefficient(entry);
+}
 
 function groupBySector(entries: AtecoEntry[]) {
   const map: Record<string, AtecoEntry[]> = {};
@@ -70,7 +84,7 @@ function EntryRow({
           {entry.description}
         </p>
       </div>
-      <CoefficientBadge coefficient={entry.coefficient} />
+      <CoefficientBadge coefficient={displayCoefficient(entry)} />
     </button>
   );
 }
@@ -92,16 +106,18 @@ function DetailSheet({
     };
   }, []);
 
-  return (
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        className="fixed inset-0 bg-black/50 z-[70] lg:hidden"
         onClick={onClose}
       />
       {/* Sheet */}
       <div
-        className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-zinc-950 text-white rounded-t-2xl shadow-2xl"
+        className="fixed bottom-0 left-0 right-0 z-[80] lg:hidden bg-zinc-950 text-white rounded-t-2xl shadow-2xl"
         style={{ animation: "slide-up 0.28s ease-out" }}
       >
         {/* Handle */}
@@ -142,7 +158,7 @@ function DetailSheet({
                 Coeff.
               </p>
               <p className="text-2xl font-black font-mono">
-                {(entry.coefficient * 100).toFixed(0)}%
+                {(displayCoefficient(entry) * 100).toFixed(0)}%
               </p>
             </div>
             <div>
@@ -156,14 +172,16 @@ function DetailSheet({
                 Su €50k
               </p>
               <p className="text-2xl font-black font-mono">
-                €{((50000 * entry.coefficient * 0.15) / 1000).toFixed(1)}k
+                €
+                {((50000 * displayCoefficient(entry) * 0.15) / 1000).toFixed(1)}
+                k
               </p>
             </div>
           </div>
 
           <p className="text-[11px] text-zinc-500 mb-5">
-            = €50.000 × {(entry.coefficient * 100).toFixed(0)}% × 15% solo
-            imposta sostitutiva, escluso INPS
+            = €50.000 × {(displayCoefficient(entry) * 100).toFixed(0)}% × 15%
+            solo imposta sostitutiva, escluso INPS
           </p>
 
           <Link
@@ -177,6 +195,8 @@ function DetailSheet({
         </div>
       </div>
     </>
+    ,
+    document.body,
   );
 }
 
@@ -186,7 +206,10 @@ export default function AtecoFinder() {
   const [activeSector, setActiveSector] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const searchResults = useMemo(() => searchAteco(query), [query]);
+  const searchResults = useMemo(
+    () => searchAtecoWithCuratedDictionary(query),
+    [query],
+  );
   const grouped = useMemo(() => groupBySector(ATECO_DATA), []);
 
   const isSearching = query.trim().length > 0;
@@ -217,7 +240,7 @@ export default function AtecoFinder() {
             </Link>
             <ChevronRight className="w-2.5 h-2.5 text-zinc-300" />
             <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-700">
-              ATECO 2025
+              ATECO {ATECO_RULESET_YEAR}
             </span>
           </div>
           <h1 className="text-3xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
@@ -225,6 +248,10 @@ export default function AtecoFinder() {
           </h1>
           <p className="mt-2 text-sm text-zinc-500 max-w-xl">
             Cerca per professione - ottieni codice + coefficiente forfettario.
+          </p>
+          <p className="mt-1 text-[11px] text-zinc-400 max-w-xl">
+            Catalogo codici: nomenclatura {ATECO_CATALOG_NOMENCLATURE_YEAR}.
+            Regole fiscali applicate: {ATECO_RULESET_YEAR}.
           </p>
         </div>
 
@@ -370,7 +397,7 @@ export default function AtecoFinder() {
                         Coeff. redditività
                       </p>
                       <p className="text-3xl font-black font-mono leading-none text-white">
-                        {(selected.coefficient * 100).toFixed(0)}%
+                        {(displayCoefficient(selected) * 100).toFixed(0)}%
                       </p>
                       <p className="text-[11px] text-zinc-500 mt-1">
                         del fatturato è tassabile
@@ -396,14 +423,19 @@ export default function AtecoFinder() {
                     </p>
                     <p className="text-2xl font-black font-mono leading-none">
                       €
-                      {(50000 * selected.coefficient * 0.15).toLocaleString(
-                        "it-IT",
-                        { minimumFractionDigits: 0, maximumFractionDigits: 0 },
-                      )}
+                      {(
+                        50000 *
+                        displayCoefficient(selected) *
+                        0.15
+                      ).toLocaleString("it-IT", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })}
                     </p>
                     <p className="text-[11px] text-zinc-500 mt-1">
-                      = €50.000 × {(selected.coefficient * 100).toFixed(0)}% ×
-                      15% (solo imposta sostitutiva, senza INPS)
+                      = €50.000 ×{" "}
+                      {(displayCoefficient(selected) * 100).toFixed(0)}% × 15%
+                      (solo imposta sostitutiva, senza INPS)
                     </p>
                   </div>
                 </div>

@@ -1,5 +1,5 @@
 Struttura (codici e titoli) della classificazione delle attività economiche
-ATECO 2025
+ATECO 2025 (nomenclatura catalogo)
 A AGRICOLTURA, SILVICOLTURA E PESCA
 01 Produzioni vegetali e animali, caccia e servizi connessi
 01.1 Coltivazione di colture agricole non permanenti

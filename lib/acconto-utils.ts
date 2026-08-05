@@ -1,5 +1,8 @@
-﻿export const SOGLIA_ESENZIONE = 51.65; // no payment if below
-export const SOGLIA_UNICA = 257.52; // single November payment if below
+﻿import {
+  ACCONTO_ESENZIONE,
+  ACCONTO_PRIMA_RATA_SHARE,
+  ACCONTO_SINGOLA_RATA_LIMIT,
+} from "@/lib/tax-constants-2026";
 
 export interface AccontoResult {
   totale: number;
@@ -7,32 +10,55 @@ export interface AccontoResult {
   secondaRata: number; // 60% - November 30 (or full 100% if unica)
   unicaRata: boolean; // single November payment
   nessunPagamento: boolean; // exempt (< €51.65)
+  isFirstYear: boolean;
 }
 
-export function calcolaAcconto(tassaBase: number): AccontoResult {
-  const totale = Math.max(0, Math.round(tassaBase * 100) / 100);
+export interface AccontoOptions {
+  activityYear?: number;
+}
 
-  if (totale < SOGLIA_ESENZIONE) {
+export function calcolaAcconto(
+  tassaBase: number,
+  options: AccontoOptions = {},
+): AccontoResult {
+  const activityYear = options.activityYear ?? 2;
+
+  if (activityYear <= 1) {
     return {
       totale: 0,
       primaRata: 0,
       secondaRata: 0,
       unicaRata: false,
       nessunPagamento: true,
+      isFirstYear: true,
     };
   }
 
-  if (totale <= SOGLIA_UNICA) {
+  const totale = Math.max(0, Math.round(tassaBase * 100) / 100);
+
+  if (totale < ACCONTO_ESENZIONE) {
+    return {
+      totale: 0,
+      primaRata: 0,
+      secondaRata: 0,
+      unicaRata: false,
+      nessunPagamento: true,
+      isFirstYear: false,
+    };
+  }
+
+  if (totale <= ACCONTO_SINGOLA_RATA_LIMIT) {
     return {
       totale,
       primaRata: 0,
       secondaRata: totale,
       unicaRata: true,
       nessunPagamento: false,
+      isFirstYear: false,
     };
   }
 
-  const primaRata = Math.round(totale * 0.4 * 100) / 100;
+  const primaRata = Math.round(totale * ACCONTO_PRIMA_RATA_SHARE * 100) / 100;
   const secondaRata = Math.round((totale - primaRata) * 100) / 100;
 
   return {
@@ -41,5 +67,6 @@ export function calcolaAcconto(tassaBase: number): AccontoResult {
     secondaRata,
     unicaRata: false,
     nessunPagamento: false,
+    isFirstYear: false,
   };
 }

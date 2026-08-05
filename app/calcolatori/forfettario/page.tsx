@@ -1,5 +1,10 @@
 ﻿import ForfettarioCalculator from "@/components/ForfettarioCalculator";
 import type { CassaType } from "@/lib/forfettario-utils";
+import {
+  FORFETTARIO_ENTRY_LIMIT,
+  FORFETTARIO_EXIT_CLIFF,
+  INPS_GESTIONE_SEPARATA_RATE,
+} from "@/lib/tax-constants-2026";
 
 type SP = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -68,13 +73,15 @@ export default async function ForfettarioPage({
             <p className="text-stone-600 leading-relaxed">
               Il regime forfettario è un regime fiscale agevolato per i titolari
               di Partita IVA con ricavi o compensi fino a{" "}
-              <strong>€85.000 annui</strong>. Sostituisce IRPEF, addizionali
-              regionali e comunali con un&#8217;unica{" "}
-              <strong>imposta sostitutiva del 15%</strong> (ridotta al{" "}
-              <strong>5% per i primi cinque anni</strong> di attività, se si
-              avvia un&#8217;impresa ex novo senza aver esercitato attività
-              artistica, professionale o d&#8217;impresa nei tre anni
-              precedenti).
+              <strong>
+                €{FORFETTARIO_ENTRY_LIMIT.toLocaleString("it-IT")} annui
+              </strong>
+              . Sostituisce IRPEF, addizionali regionali e comunali con
+              un&#8217;unica <strong>imposta sostitutiva del 15%</strong>{" "}
+              (ridotta al <strong>5% per i primi cinque anni</strong> di
+              attività, se si avvia un&#8217;impresa ex novo senza aver
+              esercitato attività artistica, professionale o d&#8217;impresa nei
+              tre anni precedenti).
             </p>
           </div>
 
@@ -101,25 +108,33 @@ export default async function ForfettarioPage({
               I contribuenti forfettari versano i contributi previdenziali sul
               reddito forfettizzato. La <strong>Gestione Separata INPS</strong>{" "}
               (professionisti senza cassa) applica un&#8217;aliquota intorno al
-              26,23%. Artigiani e commercianti applicano aliquote leggermente
-              diverse con un minimale contributivo anche a redditi bassi. I
-              contributi INPS versati nell&#8217;anno precedente si deducono
+              {(INPS_GESTIONE_SEPARATA_RATE * 100).toFixed(2)}%. Artigiani e
+              commercianti applicano aliquote leggermente diverse con un
+              minimale contributivo anche a redditi bassi. I contributi INPS
+              versati nell&#8217;anno precedente si deducono
               dall&#8217;imponibile (principio di cassa).
             </p>
           </div>
 
           <div>
             <h3 className="text-base font-black text-stone-900 mb-2">
-              La tax cliff a €85.000 e l&#8217;uscita a €100.000
+              La tax cliff a €{FORFETTARIO_ENTRY_LIMIT.toLocaleString("it-IT")}{" "}
+              e l&#8217;uscita a €
+              {FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")}
             </h3>
             <p className="text-stone-600 leading-relaxed">
-              Se i ricavi superano €85.000 in un anno, si esce dal forfettario
-              dall&#8217;<strong>anno successivo</strong> e si passa al regime
-              ordinario, con IRPEF progressiva (23%–43%) e deduzione analitica
-              delle spese. Se si supera la soglia di{" "}
-              <strong>€100.000 nello stesso anno</strong>, l&#8217;uscita è
-              immediata: si transita al regime ordinario già dall&#8217;anno in
-              corso, con obbligo di applicare IVA sulle fatture successive.
+              Se i ricavi superano €
+              {FORFETTARIO_ENTRY_LIMIT.toLocaleString("it-IT")} in un anno, si
+              esce dal forfettario dall&#8217;<strong>anno successivo</strong> e
+              si passa al regime ordinario, con IRPEF progressiva (23%–43%) e
+              deduzione analitica delle spese. Se si supera la soglia di{" "}
+              <strong>
+                €{FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")} nello stesso
+                anno
+              </strong>
+              , l&#8217;uscita è immediata: si transita al regime ordinario già
+              dall&#8217;anno in corso, con obbligo di applicare IVA sulle
+              fatture successive.
             </p>
           </div>
 

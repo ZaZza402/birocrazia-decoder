@@ -19,7 +19,7 @@ export default function LoadingScreen({
 
   const calculatorSteps = [
     { icon: Calculator, text: "Caricamento motore fiscale...", progress: 25 },
-    { icon: Shield, text: "Verifica normativa 2025...", progress: 50 },
+    { icon: Shield, text: "Verifica normativa 2026...", progress: 50 },
     { icon: TrendingUp, text: "Preparazione algoritmi IRPEF...", progress: 75 },
     { icon: Sparkles, text: "Ottimizzazione interfaccia...", progress: 100 },
   ];
@@ -108,7 +108,7 @@ export default function LoadingScreen({
         {/* Security Badge */}
         <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-lg rounded-full text-xs text-white/60">
           <Shield className="w-3 h-3" />
-          <span>Calcoli verificati • Normativa 2025</span>
+          <span>Calcoli verificati • Normativa 2026</span>
         </div>
       </div>
     </div>

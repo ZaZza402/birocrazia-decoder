@@ -27,6 +27,12 @@ import {
   formatCurrency,
 } from "@/lib/forfettario-utils";
 import { ATECO_DATA, type AtecoEntry } from "@/lib/ateco-data";
+import { resolveAtecoCoefficient } from "@/lib/ateco-rules-2026";
+import {
+  FORFETTARIO_ENTRY_LIMIT,
+  FORFETTARIO_EXIT_CLIFF,
+  INPS_GESTIONE_SEPARATA_RATE,
+} from "@/lib/tax-constants-2026";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -84,9 +90,10 @@ export default function ForfettarioCalculator({
     ? (ATECO_DATA.find((e) => e.code === initialInputs.atecoCode) ??
       ATECO_DATA[0])
     : ATECO_DATA[0];
+  const initialAtecoCoefficient = resolveAtecoCoefficient(initialAteco);
 
   const [inputs, setInputs] = useState<ForfettarioInputs>({
-    atecoCoefficient: initialAteco.coefficient,
+    atecoCoefficient: initialAtecoCoefficient,
     cassaType: initialInputs?.cassaType ?? "gestione_separata",
     isNewBusiness: initialInputs?.isNewBusiness ?? false,
     expectedRevenue: initialInputs?.expectedRevenue ?? 50000,
@@ -289,7 +296,10 @@ export default function ForfettarioCalculator({
 
   const handleAtecoChange = (entry: AtecoEntry) => {
     setSelectedAteco(entry);
-    setInputs({ ...inputs, atecoCoefficient: entry.coefficient });
+    setInputs({
+      ...inputs,
+      atecoCoefficient: resolveAtecoCoefficient(entry),
+    });
   };
 
   const handleShare = async () => {
@@ -299,7 +309,7 @@ export default function ForfettarioCalculator({
   };
 
   const forfettarioWins = comparison.difference > 0;
-  const isOverCliff = inputs.expectedRevenue > 100000;
+  const isOverCliff = inputs.expectedRevenue > FORFETTARIO_EXIT_CLIFF;
   const allWarnings = [
     ...comparison.forfettario.warnings,
     ...comparison.ordinario.warnings,
@@ -356,7 +366,10 @@ export default function ForfettarioCalculator({
                   <p className="mt-1.5 text-[11px] text-zinc-400 flex items-center">
                     Coefficiente di redditività:{" "}
                     <span className="font-mono font-bold text-zinc-700 ml-1">
-                      {(selectedAteco.coefficient * 100).toFixed(0)}%
+                      {(resolveAtecoCoefficient(selectedAteco) * 100).toFixed(
+                        0,
+                      )}
+                      %
                     </span>
                     <InfoTooltip content="Solo questa percentuale del tuo fatturato è considerata reddito tassabile. Es: coefficiente 67% su €50.000 → base imponibile €33.500. Un coefficiente più basso significa meno tasse." />
                   </p>
@@ -379,7 +392,8 @@ export default function ForfettarioCalculator({
                     className="select-styled w-full px-3 py-2.5 bg-white border border-zinc-300 text-sm text-zinc-900 font-medium focus:outline-none focus:border-zinc-700"
                   >
                     <option value="gestione_separata">
-                      Gestione Separata INPS (26.07%)
+                      Gestione Separata INPS (
+                      {(INPS_GESTIONE_SEPARATA_RATE * 100).toFixed(2)}%)
                     </option>
                     <option value="artigiani">
                       Artigiani (contributi fissi + variabili)
@@ -597,11 +611,13 @@ export default function ForfettarioCalculator({
 
               <div className="flex justify-between text-xs font-semibold text-zinc-400 mt-3">
                 <span>€20k</span>
-                <span className="text-amber-600">€85k limite</span>
+                <span className="text-amber-600">
+                  €{FORFETTARIO_ENTRY_LIMIT.toLocaleString("it-IT")} limite
+                </span>
                 <span className="text-red-600 flex items-center">
-                  €100k cliff
+                  €{FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")} cliff
                   <InfoTooltip
-                    content="€85k: se superi questo importo nell'anno N, perdi il forfettario dall'anno N+1. €100k (cliff): se superi questo importo nell'anno corrente, esci dal forfettario con effetto retroattivo - tutte le tasse dell'anno vengono ricalcolate in Regime Ordinario."
+                    content={`€${FORFETTARIO_ENTRY_LIMIT.toLocaleString("it-IT")}: se superi questo importo nell'anno N, perdi il forfettario dall'anno N+1. €${FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")} (cliff): se superi questo importo nell'anno corrente, esci dal forfettario con effetto retroattivo - tutte le tasse dell'anno vengono ricalcolate in Regime Ordinario.`}
                     side="top"
                   />
                 </span>
@@ -645,8 +661,8 @@ export default function ForfettarioCalculator({
                     Regime Forfettario - Non disponibile
                   </p>
                   <p className="text-sm text-zinc-600">
-                    Sopra €100.000 si esce dal forfettario con effetto
-                    retroattivo.
+                    Sopra €{FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")} si
+                    esce dal forfettario con effetto retroattivo.
                   </p>
                 </div>
               ) : (
@@ -685,7 +701,9 @@ export default function ForfettarioCalculator({
                     <p className="text-xs text-zinc-500 mt-3 border-t border-zinc-100 pt-3">
                       A{" "}
                       <span className="font-bold text-zinc-700">
-                        {formatCurrency(100000 - inputs.expectedRevenue)}
+                        {formatCurrency(
+                          FORFETTARIO_EXIT_CLIFF - inputs.expectedRevenue,
+                        )}
                       </span>{" "}
                       dalla Tax Cliff.{" "}
                       <Link

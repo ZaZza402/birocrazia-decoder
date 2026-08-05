@@ -5,6 +5,10 @@ import {
   RegimeResult,
   formatCurrency,
 } from "@/lib/forfettario-utils";
+import {
+  FORFETTARIO_EXIT_CLIFF,
+  INPS_GESTIONE_SEPARATA_RATE,
+} from "@/lib/tax-constants-2026";
 
 const styles = StyleSheet.create({
   page: {
@@ -169,7 +173,7 @@ interface ReportProps {
 
 export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
   const forfettarioWins = results.difference > 0;
-  const isOverCliff = inputs.expectedRevenue > 100000;
+  const isOverCliff = inputs.expectedRevenue > FORFETTARIO_EXIT_CLIFF;
 
   return (
     <Document>
@@ -211,7 +215,7 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
             [
               "Cassa Previdenziale",
               inputs.cassaType === "gestione_separata"
-                ? "Gestione Separata INPS (26.07%)"
+                ? `Gestione Separata INPS (${(INPS_GESTIONE_SEPARATA_RATE * 100).toFixed(2)}%)`
                 : inputs.cassaType === "artigiani"
                   ? "Artigiani"
                   : inputs.cassaType === "commercianti"

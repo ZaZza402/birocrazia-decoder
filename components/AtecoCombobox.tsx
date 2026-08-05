@@ -2,7 +2,9 @@
 
 import { useState, useRef, useEffect, useMemo } from "react";
 import { Search, X, ChevronDown } from "lucide-react";
-import { searchAteco, type AtecoEntry } from "@/lib/ateco-data";
+import { type AtecoEntry } from "@/lib/ateco-data";
+import { resolveAtecoCoefficient } from "@/lib/ateco-rules-2026";
+import { searchAtecoWithCuratedDictionary } from "@/lib/tools/ateco";
 
 interface Props {
   value: AtecoEntry | null;
@@ -17,7 +19,10 @@ export default function AtecoCombobox({ value, onChange }: Props) {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [opensUpward, setOpensUpward] = useState(false);
 
-  const results = useMemo(() => searchAteco(query), [query]);
+  const results = useMemo(
+    () => searchAtecoWithCuratedDictionary(query),
+    [query],
+  );
 
   // Close on click outside
   useEffect(() => {
@@ -128,7 +133,7 @@ export default function AtecoCombobox({ value, onChange }: Props) {
                       </p>
                     </div>
                     <span className="text-xs font-mono font-bold text-zinc-700 flex-shrink-0 pt-0.5">
-                      {(entry.coefficient * 100).toFixed(0)}%
+                      {(resolveAtecoCoefficient(entry) * 100).toFixed(0)}%
                     </span>
                   </button>
                 ))}

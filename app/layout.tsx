@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description:
     "Scopri quanto risparmi con il Regime Forfettario vs Ordinario. Simulazione reale con i tuoi numeri, report PDF gratuito. Evita la trappola degli €85k.",
   keywords:
-    "conviene forfettario o ordinario, regime forfettario simulatore, calcolo tasse partita iva, forfettario vs ordinario, limite 85k forfettario, regime forfettario 2025, calcolo netto partita iva, simulatore fiscale freelance, commercialista online",
+    "conviene forfettario o ordinario, regime forfettario simulatore, calcolo tasse partita iva, forfettario vs ordinario, limite 85k forfettario, regime forfettario 2026, calcolo netto partita iva, simulatore fiscale freelance, commercialista online",
   authors: [{ name: "Bur0" }],
   creator: "Bur0",
   publisher: "Bur0",

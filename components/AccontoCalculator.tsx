@@ -4,15 +4,15 @@ import Link from "next/link";
 import { AlertTriangle, Clock } from "lucide-react";
 import { formatCurrency } from "@/lib/forfettario-utils";
 import InfoTooltip from "@/components/InfoTooltip";
+import { calcolaAcconto } from "@/lib/acconto-utils";
 import {
-  calcolaAcconto,
-  SOGLIA_ESENZIONE,
-  SOGLIA_UNICA,
-} from "@/lib/acconto-utils";
+  ACCONTO_ESENZIONE,
+  ACCONTO_SINGOLA_RATA_LIMIT,
+  TAX_YEAR,
+} from "@/lib/tax-constants-2026";
 
-const YEAR = new Date().getFullYear();
-const PRIMA_RATA_DEADLINE = new Date(YEAR, 5, 30); // June 30
-const SECONDA_RATA_DEADLINE = new Date(YEAR, 10, 30); // November 30
+const PRIMA_RATA_DEADLINE = new Date(TAX_YEAR, 5, 30); // June 30
+const SECONDA_RATA_DEADLINE = new Date(TAX_YEAR, 10, 30); // November 30
 
 function daysUntil(date: Date): number {
   return Math.ceil((date.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
@@ -28,12 +28,16 @@ export default function AccontoCalculator({
   );
   const [stimaStr, setStimaStr] = useState("");
   const [metodo, setMetodo] = useState<"storico" | "previsionale">("storico");
+  const [activityYear, setActivityYear] = useState(2);
 
   const prevTax = parseFloat(prevTaxStr.replace(",", ".")) || 0;
   const stimaTax = parseFloat(stimaStr.replace(",", ".")) || 0;
   const baseTax = metodo === "storico" ? prevTax : stimaTax;
 
-  const result = useMemo(() => calcolaAcconto(baseTax), [baseTax]);
+  const result = useMemo(
+    () => calcolaAcconto(baseTax, { activityYear }),
+    [baseTax, activityYear],
+  );
 
   const daysToFirstRata = daysUntil(PRIMA_RATA_DEADLINE);
   const daysToSecondRata = daysUntil(SECONDA_RATA_DEADLINE);
@@ -56,7 +60,7 @@ export default function AccontoCalculator({
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
-                Acconto Imposta Sostitutiva {YEAR}
+                Acconto Imposta Sostitutiva {TAX_YEAR}
               </p>
               <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
                 Calcola il tuo Acconto
@@ -117,17 +121,40 @@ export default function AccontoCalculator({
               </p>
             </div>
 
+            <div className="bg-white border border-zinc-200 p-6">
+              <label className="flex items-center justify-between gap-3 text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
+                <span>Anno di attività</span>
+                <InfoTooltip content="Se sei al primo anno di attività, l'acconto non è dovuto. Dal secondo anno in poi si applica il calcolo storico o previsionale." />
+              </label>
+              <p className="text-[11px] text-zinc-400 mb-3">
+                Inserisci 1 se sei al primo anno, 2 se sei al secondo, e così
+                via.
+              </p>
+              <input
+                type="number"
+                min={1}
+                step={1}
+                value={activityYear}
+                onChange={(e) =>
+                  setActivityYear(
+                    Math.max(1, parseInt(e.target.value || "1", 10) || 1),
+                  )
+                }
+                className="w-full border border-zinc-300 px-3 py-3 text-base font-mono tabular text-zinc-900 font-semibold focus:outline-none focus:border-zinc-700 bg-transparent"
+              />
+            </div>
+
             {/* Previous year tax input */}
             <div className="bg-white border border-zinc-200 p-6">
               <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
-                Imposta Sostitutiva {YEAR - 1}
+                Imposta Sostitutiva {TAX_YEAR - 1}
                 <InfoTooltip
-                  content={`Trovata nel modello Redditi PF ${YEAR - 1}, quadro LM, riga LM42. Se usi il 730 precompilato, cerca la sezione Forfettario. È l'imposta flat (15% o 5%) applicata al tuo reddito imponibile dell'anno scorso.`}
+                  content={`Trovata nel modello Redditi PF ${TAX_YEAR - 1}, quadro LM, riga LM42. Se usi il 730 precompilato, cerca la sezione Forfettario. È l'imposta flat (15% o 5%) applicata al tuo reddito imponibile dell'anno scorso.`}
                 />
               </label>
               <p className="text-[11px] text-zinc-400 mb-3">
-                Trovata nella tua dichiarazione dei redditi {YEAR - 1} - riga
-                &ldquo;Imposta sostitutiva&rdquo;.
+                Trovata nella tua dichiarazione dei redditi {TAX_YEAR - 1} -
+                riga &ldquo;Imposta sostitutiva&rdquo;.
               </p>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-zinc-400 font-mono">
@@ -145,9 +172,9 @@ export default function AccontoCalculator({
               {metodo === "previsionale" && (
                 <div className="mt-4 pt-4 border-t border-zinc-100">
                   <label className="flex items-center text-xs font-semibold text-zinc-500 uppercase tracking-editorial mb-1.5">
-                    Imposta Sostitutiva Stimata {YEAR}
+                    Imposta Sostitutiva Stimata {TAX_YEAR}
                     <InfoTooltip
-                      content={`La stima dell'imposta che pagherai quest'anno. Usa il Simulatore Forfettario con il fatturato previsto per il ${YEAR} - il valore nella riga "Imposta" del riepilogo. Se prevedi un reddito più basso dell'anno scorso, il metodo previsionale può ridurre l'acconto da versare.`}
+                      content={`La stima dell'imposta che pagherai quest'anno. Usa il Simulatore Forfettario con il fatturato previsto per il ${TAX_YEAR} - il valore nella riga "Imposta" del riepilogo. Se prevedi un reddito più basso dell'anno scorso, il metodo previsionale può ridurre l'acconto da versare.`}
                       side="top"
                     />
                   </label>
@@ -179,7 +206,7 @@ export default function AccontoCalculator({
               </p>
               <p className="text-xs text-zinc-500 leading-relaxed">
                 Calcolala dal Simulatore Forfettario inserendo il fatturato
-                dell&apos;anno {YEAR - 1}. La trovi nella riga{" "}
+                dell&apos;anno {TAX_YEAR - 1}. La trovi nella riga{" "}
                 <span className="font-bold text-zinc-700">
                   &ldquo;Imposta&rdquo;
                 </span>{" "}
@@ -213,7 +240,7 @@ export default function AccontoCalculator({
                     Esente
                   </p>
                   <p className="text-xs text-zinc-500 mt-1">
-                    Importo inferiore a {formatCurrency(SOGLIA_ESENZIONE)} -
+                    Importo inferiore a {formatCurrency(ACCONTO_ESENZIONE)} -
                     nessun versamento richiesto.
                   </p>
                 </div>
@@ -223,12 +250,24 @@ export default function AccontoCalculator({
                     {formatCurrency(result.totale)}
                   </p>
                   <p className="text-xs text-zinc-500 mt-2">
-                    100% dell&apos;imposta sostitutiva {YEAR - 1} - metodo{" "}
+                    100% dell&apos;imposta sostitutiva {TAX_YEAR - 1} - metodo{" "}
                     {metodo}
                   </p>
                 </div>
               )}
             </div>
+
+            {result.isFirstYear && (
+              <div className="bg-emerald-50 border border-emerald-200 p-4">
+                <p className="text-xs font-bold uppercase tracking-editorial text-emerald-700 mb-1">
+                  Primo anno di attività
+                </p>
+                <p className="text-xs text-emerald-700 leading-relaxed">
+                  Nessun acconto è dovuto nel primo anno. Inserisci il numero di
+                  anno corretto per calcolare l&apos;eventuale versamento.
+                </p>
+              </div>
+            )}
 
             {!result.nessunPagamento && (
               <>
@@ -294,8 +333,8 @@ export default function AccontoCalculator({
                     )}
                     {result.unicaRata && (
                       <p className="text-[11px] text-zinc-400 mt-1">
-                        Importo ≤ {formatCurrency(SOGLIA_UNICA)} - pagamento
-                        unico in novembre.
+                        Importo ≤ {formatCurrency(ACCONTO_SINGOLA_RATA_LIMIT)} -
+                        pagamento unico in novembre.
                       </p>
                     )}
                   </div>

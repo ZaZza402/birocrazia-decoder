@@ -4,6 +4,22 @@ export type CassaType =
   | "commercianti"
   | "custom";
 
+import {
+  FORFETTARIO_ENTRY_LIMIT,
+  FORFETTARIO_EXIT_CLIFF,
+  INPS_ARTIGIANI_FIXED,
+  INPS_ARTIGIANI_RATE_1,
+  INPS_ARTIGIANI_RATE_2,
+  INPS_ARTIGIANI_THRESHOLD_1,
+  INPS_ARTIGIANI_THRESHOLD_2,
+  INPS_COMMERCIANTI_FIXED,
+  INPS_COMMERCIANTI_RATE_1,
+  INPS_COMMERCIANTI_RATE_2,
+  INPS_COMMERCIANTI_THRESHOLD_1,
+  INPS_COMMERCIANTI_THRESHOLD_2,
+  INPS_GESTIONE_SEPARATA_RATE,
+} from "@/lib/tax-constants-2026";
+
 export interface ForfettarioInputs {
   atecoCoefficient: number;
   cassaType: CassaType;
@@ -45,45 +61,31 @@ export const ATECO_CODES = [
   },
 ];
 
-// CONSTANTS 2025
-const INPS_GS_RATE = 0.2607; // Gestione Separata 26.07%
-
-// Artigiani 2025
-const INPS_ART_FIXED = 4460.64;
-const INPS_ART_THRESHOLD_1 = 18555;
-const INPS_ART_RATE_1 = 0.24;
-const INPS_ART_THRESHOLD_2 = 55440;
-const INPS_ART_RATE_2 = 0.25;
-
-// Commercianti 2025
-const INPS_COM_FIXED = 4549.7;
-const INPS_COM_THRESHOLD_1 = 18555;
-const INPS_COM_RATE_1 = 0.2448;
-const INPS_COM_THRESHOLD_2 = 55440;
-const INPS_COM_RATE_2 = 0.254;
-
 function calcArtigianiINPS(taxable: number, applyReduction: boolean): number {
-  let contrib = INPS_ART_FIXED;
-  if (taxable > INPS_ART_THRESHOLD_1) {
+  let contrib = INPS_ARTIGIANI_FIXED;
+  if (taxable > INPS_ARTIGIANI_THRESHOLD_1) {
     const band1 =
-      Math.min(taxable, INPS_ART_THRESHOLD_2) - INPS_ART_THRESHOLD_1;
-    contrib += band1 * INPS_ART_RATE_1;
+      Math.min(taxable, INPS_ARTIGIANI_THRESHOLD_2) -
+      INPS_ARTIGIANI_THRESHOLD_1;
+    contrib += band1 * INPS_ARTIGIANI_RATE_1;
   }
-  if (taxable > INPS_ART_THRESHOLD_2) {
-    contrib += (taxable - INPS_ART_THRESHOLD_2) * INPS_ART_RATE_2;
+  if (taxable > INPS_ARTIGIANI_THRESHOLD_2) {
+    contrib += (taxable - INPS_ARTIGIANI_THRESHOLD_2) * INPS_ARTIGIANI_RATE_2;
   }
   return applyReduction ? contrib * 0.65 : contrib;
 }
 
 function calcCommercianti(taxable: number, applyReduction: boolean): number {
-  let contrib = INPS_COM_FIXED;
-  if (taxable > INPS_COM_THRESHOLD_1) {
+  let contrib = INPS_COMMERCIANTI_FIXED;
+  if (taxable > INPS_COMMERCIANTI_THRESHOLD_1) {
     const band1 =
-      Math.min(taxable, INPS_COM_THRESHOLD_2) - INPS_COM_THRESHOLD_1;
-    contrib += band1 * INPS_COM_RATE_1;
+      Math.min(taxable, INPS_COMMERCIANTI_THRESHOLD_2) -
+      INPS_COMMERCIANTI_THRESHOLD_1;
+    contrib += band1 * INPS_COMMERCIANTI_RATE_1;
   }
-  if (taxable > INPS_COM_THRESHOLD_2) {
-    contrib += (taxable - INPS_COM_THRESHOLD_2) * INPS_COM_RATE_2;
+  if (taxable > INPS_COMMERCIANTI_THRESHOLD_2) {
+    contrib +=
+      (taxable - INPS_COMMERCIANTI_THRESHOLD_2) * INPS_COMMERCIANTI_RATE_2;
   }
   return applyReduction ? contrib * 0.65 : contrib;
 }
@@ -120,10 +122,10 @@ export function compareRegimes(inputs: ForfettarioInputs): {
   const f_gross = inputs.expectedRevenue;
 
   // THE 100K TRAP: If > 100k, you are NOT Forfettario anymore. Immediate exit.
-  const isForcedOrdinario = inputs.expectedRevenue > 100000;
+  const isForcedOrdinario = inputs.expectedRevenue > FORFETTARIO_EXIT_CLIFF;
 
   // If > 85k but < 100k, you are technically Forfettario THIS year, but out NEXT year.
-  if (inputs.expectedRevenue > 85000 && !isForcedOrdinario) {
+  if (inputs.expectedRevenue > FORFETTARIO_ENTRY_LIMIT && !isForcedOrdinario) {
     f_warnings.push(
       "ATTENZIONE: Superando gli 85k uscirai dal regime l'anno prossimo.",
     );
@@ -134,7 +136,7 @@ export function compareRegimes(inputs: ForfettarioInputs): {
 
   // INPS Calculation (Forfettario: taxable base = gross × coefficient)
   if (inputs.cassaType === "gestione_separata") {
-    f_inps = f_taxable * INPS_GS_RATE;
+    f_inps = f_taxable * INPS_GESTIONE_SEPARATA_RATE;
   } else if (inputs.cassaType === "artigiani") {
     // 35% reduction available in Forfettario
     f_inps = calcArtigianiINPS(f_taxable, true);
@@ -200,7 +202,7 @@ export function compareRegimes(inputs: ForfettarioInputs): {
   let o_inps = 0;
   // INPS Calculation (Ordinario: no 35% reduction)
   if (inputs.cassaType === "gestione_separata") {
-    o_inps = o_taxable * INPS_GS_RATE;
+    o_inps = o_taxable * INPS_GESTIONE_SEPARATA_RATE;
   } else if (inputs.cassaType === "artigiani") {
     o_inps = calcArtigianiINPS(o_taxable, false);
   } else if (inputs.cassaType === "commercianti") {

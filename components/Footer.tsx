@@ -46,7 +46,7 @@ export default function Footer() {
                   href="/calcolatori/ateco"
                   className="text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-2"
                 >
-                  Codice ATECO 2025{" "}
+                  Codice ATECO (catalogo + regole){" "}
                   <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500">
                     Live
                   </span>

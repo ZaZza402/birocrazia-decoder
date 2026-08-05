@@ -1,10 +1,10 @@
-﻿// ATECO 2025 - Curated data for Italian Partita IVA holders
+﻿// ATECO catalog structure (2025 nomenclature) for Italian Partita IVA holders
 // Coefficients from L.190/2014 Allegato 4 (forfettario redditività)
 // Only leaf-level codes (8-char format) included.
 
 export interface AtecoEntry {
   code: string;
-  description: string; // Official ATECO 2025 label
+  description: string; // Official ATECO label from current catalog source
   sector: string; // Human-readable sector
   coefficient: number; // Forfettario redditività (taxable % of revenue)
   tags: string[]; // Search keywords (Italian + English)
@@ -15,6 +15,8 @@ export interface AtecoEntry {
 // 0.67 → IT services, arts/media
 // 0.78 → professional services, education, health, admin services
 // 0.86 → construction + impiantisti
+
+export const ATECO_CATALOG_NOMENCLATURE_YEAR = 2025;
 
 export const ATECO_DATA: AtecoEntry[] = [
   // ─────────────────────────────────────────────

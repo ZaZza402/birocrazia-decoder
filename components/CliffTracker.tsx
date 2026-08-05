@@ -3,6 +3,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { Lock } from "lucide-react";
 import { formatCurrency } from "@/lib/forfettario-utils";
+import {
+  FORFETTARIO_ENTRY_LIMIT,
+  FORFETTARIO_EXIT_CLIFF,
+  TAX_YEAR,
+} from "@/lib/tax-constants-2026";
 import InfoTooltip from "@/components/InfoTooltip";
 
 const MONTHS_IT = [
@@ -21,9 +26,8 @@ const MONTHS_IT = [
 ];
 
 const STORAGE_KEY = "bur0_cliff_2026";
-const YEAR = 2026;
-const CLIFF = 100_000;
-const WARN_RED = 85_000;
+const CLIFF = FORFETTARIO_EXIT_CLIFF;
+const WARN_RED = FORFETTARIO_ENTRY_LIMIT;
 const WARN_AMBER = 70_000;
 
 function readStoredMonths(): Record<number, number | undefined> {
@@ -137,14 +141,15 @@ export default function CliffTracker() {
         {/* HEADER */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
           <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
-            Tax Cliff Monitor {YEAR}
+            Tax Cliff Monitor {TAX_YEAR}
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
             Traccia il Fatturato
           </h1>
           <p className="mt-3 text-base text-zinc-500 max-w-xl">
             Inserisci il fatturato mensile e monitora la distanza dalla Tax
-            Cliff di €100.000. Nessun account, nessun server.
+            Cliff di €{CLIFF.toLocaleString("it-IT")}. Nessun account, nessun
+            server.
           </p>
         </div>
 
@@ -154,7 +159,7 @@ export default function CliffTracker() {
             {/* YTD Total */}
             <div className="bg-white border border-zinc-200 p-6">
               <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
-                Fatturato {YEAR}
+                Fatturato {TAX_YEAR}
               </p>
               <p
                 className={`text-5xl font-black font-mono tabular leading-none ${statusColor}`}
@@ -169,7 +174,7 @@ export default function CliffTracker() {
             {/* Progress bar */}
             <div className="bg-white border border-zinc-200 p-6">
               <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
-                Avanzamento verso €100k
+                Avanzamento verso €{CLIFF.toLocaleString("it-IT")}
               </p>
               <div className="relative h-3 bg-zinc-100 overflow-hidden">
                 <div
@@ -188,8 +193,12 @@ export default function CliffTracker() {
               <div className="flex justify-between text-[10px] font-mono text-zinc-400 mt-1.5">
                 <span>€0</span>
                 <span className="text-amber-500">€70k</span>
-                <span className="text-red-500">€85k</span>
-                <span className="text-red-600 font-bold">€100k</span>
+                <span className="text-red-500">
+                  €{WARN_RED.toLocaleString("it-IT")}
+                </span>
+                <span className="text-red-600 font-bold">
+                  €{CLIFF.toLocaleString("it-IT")}
+                </span>
               </div>
               <div className="mt-4 pt-4 border-t border-zinc-100">
                 <p className="text-2xl font-black font-mono tabular text-zinc-950">
@@ -198,7 +207,7 @@ export default function CliffTracker() {
                 <p className="text-xs text-zinc-400 mt-0.5 flex items-center">
                   rimangono alla cliff
                   <InfoTooltip
-                    content="La \u201ccliff\u201d è il precipizio fiscale a €100.000. Se superi questa soglia nell'anno corrente, esci dal Regime Forfettario con effetto retroattivo - tutte le tasse dell'intero anno vengono ricalcolate in Regime Ordinario, non solo il surplus."
+                    content={`La \u201ccliff\u201d è il precipizio fiscale a €${CLIFF.toLocaleString("it-IT")}. Se superi questa soglia nell'anno corrente, esci dal Regime Forfettario con effetto retroattivo - tutte le tasse dell'intero anno vengono ricalcolate in Regime Ordinario, non solo il surplus.`}
                     side="top"
                   />
                 </p>
@@ -228,8 +237,8 @@ export default function CliffTracker() {
                 </p>
                 {projectedTotal >= CLIFF && (
                   <p className="mt-3 text-xs text-red-600 font-semibold border-l-2 border-red-500 pl-2">
-                    Al ritmo attuale supererai €100k. Simula il Regime
-                    Ordinario.
+                    Al ritmo attuale supererai €{CLIFF.toLocaleString("it-IT")}.
+                    Simula il Regime Ordinario.
                   </p>
                 )}
                 {enteredCount < 12 && (
@@ -270,7 +279,7 @@ export default function CliffTracker() {
           <div className="lg:col-span-2">
             <div className="bg-white border border-zinc-200 p-6">
               <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-5">
-                Fatturato Mensile - {YEAR}
+                Fatturato Mensile - {TAX_YEAR}
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {MONTHS_IT.map((name, idx) => {

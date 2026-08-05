@@ -24,7 +24,7 @@ export default function LandingPage() {
     featureList: [
       "Calcolo Regime Forfettario vs Ordinario",
       "Report PDF gratuito",
-      "Visualizzazione Tax Cliff a €100k",
+      "Visualizzazione Tax Cliff a €85.000",
       "Simulazione con dati reali",
     ],
     audience: {
@@ -234,11 +234,11 @@ export default function LandingPage() {
                   <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2">
                     Trova il tuo
                     <br />
-                    Codice ATECO 2025
+                    Codice ATECO 2026
                   </h2>
                   <p className="text-sm text-zinc-400 leading-relaxed">
-                    Cerca per attività e trova il codice ufficiale + il
-                    coefficiente di redditività per il Forfettario.
+                    Cerca per attività e trova il codice ufficiale più il
+                    coefficiente di redditività corretto per il Forfettario.
                   </p>
                 </div>
                 <div className="flex items-center gap-2 mt-6 text-xs font-bold uppercase tracking-editorial text-zinc-400 group-hover:text-white transition-colors">

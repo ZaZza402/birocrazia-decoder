@@ -1,4 +1,8 @@
 import CliffTracker from "@/components/CliffTracker";
+import {
+  FORFETTARIO_ENTRY_LIMIT,
+  FORFETTARIO_EXIT_CLIFF,
+} from "@/lib/tax-constants-2026";
 
 export default function CliffPage() {
   return (
@@ -8,18 +12,24 @@ export default function CliffPage() {
         <div className="max-w-3xl mx-auto px-6 py-16 space-y-10">
           <div>
             <h2 className="text-2xl font-black tracking-tight text-stone-900 mb-4">
-              La Tax Cliff del Forfettario: €85.000 e €100.000
+              La Tax Cliff del Forfettario: €
+              {FORFETTARIO_ENTRY_LIMIT.toLocaleString("it-IT")} e €
+              {FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")}
             </h2>
             <p className="text-stone-600 leading-relaxed">
               Per i titolari di Partita IVA in regime forfettario esistono due
               soglie critiche di ricavo annuo. La prima è{" "}
-              <strong>€85.000</strong>: superarla comporta l&#8217;obbligo di
-              transitare al regime ordinario a partire dal{" "}
+              <strong>
+                €{FORFETTARIO_ENTRY_LIMIT.toLocaleString("it-IT")}
+              </strong>
+              : superarla comporta l&#8217;obbligo di transitare al regime
+              ordinario a partire dal{" "}
               <strong>1° gennaio dell&#8217;anno successivo</strong>. La seconda
-              è <strong>€100.000</strong>: superarla durante l&#8217;anno
-              provoca un&#8217;uscita immediata dal forfettario, con
-              applicazione dell&#8217;IVA sulle fatture emesse dopo il
-              superamento della soglia.
+              è{" "}
+              <strong>€{FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")}</strong>
+              : superarla durante l&#8217;anno provoca un&#8217;uscita immediata
+              dal forfettario, con applicazione dell&#8217;IVA sulle fatture
+              emesse dopo il superamento della soglia.
             </p>
           </div>
 
@@ -43,13 +53,14 @@ export default function CliffPage() {
               Gestire la soglia in modo proattivo
             </h3>
             <p className="text-stone-600 leading-relaxed">
-              Se prevedi di avvicinarti a €85.000, pianifica con anticipo:
-              alcune strategie includono il rinvio dell&#8217;incasso di
-              compensi a gennaio (principio di cassa), la valutazione di costi
-              deducibili nel regime ordinario (dipendenti, attrezzature, auto) e
-              l&#8217;analisi del netto effettivo post-transizione. Questo
-              strumento mostra in tempo reale quanto ti manca alla soglia e il
-              tuo tasso di avanzamento mensile.
+              Se prevedi di avvicinarti a €
+              {FORFETTARIO_ENTRY_LIMIT.toLocaleString("it-IT")}, pianifica con
+              anticipo: alcune strategie includono il rinvio dell&#8217;incasso
+              di compensi a gennaio (principio di cassa), la valutazione di
+              costi deducibili nel regime ordinario (dipendenti, attrezzature,
+              auto) e l&#8217;analisi del netto effettivo post-transizione.
+              Questo strumento mostra in tempo reale quanto ti manca alla soglia
+              e il tuo tasso di avanzamento mensile.
             </p>
           </div>
         </div>

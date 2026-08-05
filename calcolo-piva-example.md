@@ -32,7 +32,7 @@ L’ultima voce che devi trovare sono i contributi, che sono diversi in base all
 
 Se sei iscritto ad un albo o ordine, devi iscriverti alla tua cassa di riferimento e versare i contributi secondo le sue regole.
 
-Se per la tua attività non esiste una cassa o non hai i requisiti per accedervi, devi iscriverti alla gestione separata INPS. I contributi si calcolano come una percentuale dell’imponibile. Per il 2025 questa percentuale è il 26,07%.
+Se per la tua attività non esiste una cassa o non hai i requisiti per accedervi, devi iscriverti alla gestione separata INPS. I contributi si calcolano come una percentuale dell’imponibile. Nell’esempio usiamo il 26,07% (valore da verificare in base all’anno fiscale).
 
 Se sei artigiano o commerciante sono di due tipi:
 
@@ -69,7 +69,7 @@ L’ultima voce che devi calcolare sono i contributi, diversi in base all’atti
 
 Se sei iscritto ad un albo o ordine, devi iscriverti alla tua cassa di riferimento e versare i contributi secondo le sue regole.
 
-Se per la tua attività non esiste una cassa di categoria o non hai i requisiti per accedervi, devi iscriverti alla gestione separata INPS. I contributi si calcolano come una percentuale della differenza tra incassi e spese. Per il 2025 questa percentuale è il 26,07%.
+Se per la tua attività non esiste una cassa di categoria o non hai i requisiti per accedervi, devi iscriverti alla gestione separata INPS. I contributi si calcolano come una percentuale della differenza tra incassi e spese. Nell’esempio usiamo il 26,07% (valore da verificare in base all’anno fiscale).
 
 Se sei artigiano o commerciante sono di due tipi:
 
@@ -106,7 +106,7 @@ L’ultima voce che devi calcolare sono i contributi, diversi in base all’atti
 
 Se sei iscritto ad un albo o ordine, devi iscriverti alla tua cassa di riferimento e versare i contributi secondo le sue regole.
 
-Se per la tua attività non esiste una cassa di categoria o non hai i requisiti per accedervi, devi iscriverti alla gestione separata INPS. I contributi si calcolano come una percentuale della differenza tra incassi e spese. Per il 2024 questa percentuale è il 26,07%.
+Se per la tua attività non esiste una cassa di categoria o non hai i requisiti per accedervi, devi iscriverti alla gestione separata INPS. I contributi si calcolano come una percentuale della differenza tra incassi e spese. Nell’esempio usiamo il 26,07% (valore da verificare in base all’anno fiscale).
 
 Se sei artigiano o commerciante sono di due tipi:
 
