@@ -43,6 +43,17 @@ const CURRENCY_SYMBOLS: Record<string, string> = {
   GBP: "£",
 };
 
+function formatItalianDate(value: string): string {
+  if (!value) return "—";
+  const parts = value.split("-");
+  if (parts.length !== 3) return value;
+
+  const [year, month, day] = parts;
+  if (!year || !month || !day) return value;
+
+  return `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${year}`;
+}
+
 function fmt(value: number, currency: string): string {
   const sym = CURRENCY_SYMBOLS[currency] ?? currency;
   return `${sym}${value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -84,7 +95,26 @@ const s = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     color: "#09090b",
     letterSpacing: 0.5,
+    lineHeight: 1.02,
+  },
+  invoiceTitleBlock: {
+    minHeight: 68,
     marginBottom: 4,
+    justifyContent: "flex-start",
+  },
+  invoiceTitleLead: {
+    fontSize: 18,
+    fontFamily: "Helvetica-Bold",
+    color: "#09090b",
+    letterSpacing: 0.4,
+    lineHeight: 1.05,
+  },
+  invoiceTitleMain: {
+    fontSize: 32,
+    fontFamily: "Helvetica-Bold",
+    color: "#09090b",
+    letterSpacing: 0.5,
+    lineHeight: 1.02,
   },
   sectionLabel: {
     fontSize: 8,
@@ -291,6 +321,10 @@ export default function FatturaDocument({ data }: Props) {
 
   const docLabel =
     data.docType === "pro_forma" ? "Pro-Forma" : "Avviso di Parcella";
+  const invoiceTitleLead =
+    data.docType === "pro_forma" ? "Pro-" : "Avviso di";
+  const invoiceTitleMain =
+    data.docType === "pro_forma" ? "Forma" : "Parcella";
 
   return (
     <Document
@@ -304,7 +338,10 @@ export default function FatturaDocument({ data }: Props) {
           <View style={s.headerLeft}>
             {/* eslint-disable-next-line jsx-a11y/alt-text */}
             {data.logoBase64 && <Image style={s.logo} src={data.logoBase64} />}
-            <Text style={s.invoiceTitle}>{docLabel}</Text>
+            <View style={s.invoiceTitleBlock}>
+              <Text style={s.invoiceTitleLead}>{invoiceTitleLead}</Text>
+              <Text style={s.invoiceTitleMain}>{invoiceTitleMain}</Text>
+            </View>
             <View style={s.nonFiscalBadge}>
               <Text style={s.nonFiscalBadgeText}>
                 Non è una fattura fiscale
@@ -331,11 +368,11 @@ export default function FatturaDocument({ data }: Props) {
           </View>
           <View style={s.metaCell}>
             <Text style={s.metaLabel}>Data</Text>
-            <Text style={s.metaValue}>{data.invoiceDate || "—"}</Text>
+            <Text style={s.metaValue}>{formatItalianDate(data.invoiceDate)}</Text>
           </View>
           <View style={s.metaCell}>
             <Text style={s.metaLabel}>Scadenza</Text>
-            <Text style={s.metaValue}>{data.dueDate || "—"}</Text>
+            <Text style={s.metaValue}>{formatItalianDate(data.dueDate)}</Text>
           </View>
           <View style={s.metaCell}>
             <Text style={s.metaLabel}>Valuta</Text>
