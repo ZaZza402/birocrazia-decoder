@@ -378,7 +378,7 @@ export default function CliffTracker() {
                       </div>
                       {warnedMonth === m && (
                         <p className="mt-1 text-[9px] text-amber-600 leading-tight font-medium">
-                          Gestito dal Registro Incassi — modificando qui
+                          Gestito dal Registro Incassi - modificando qui
                           sovrascriverai il totale automatico.
                         </p>
                       )}

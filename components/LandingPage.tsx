@@ -222,13 +222,13 @@ export default function LandingPage() {
         <section className="bg-zinc-950 text-white">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
             <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-500 mb-10">
-              Sei strumenti — dal profilo alla fattura
+              Sei strumenti - dal profilo alla fattura
             </p>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-800">
-              {/* 01 — ATECO */}
+              {/* 01 - ATECO */}
               <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
                 <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
-                  01 — Identifica
+                  01 - Identifica
                 </span>
                 <Link
                   href="/calcolatori/ateco"
@@ -255,10 +255,10 @@ export default function LandingPage() {
                 </details>
               </div>
 
-              {/* 02 — SIMULATORE */}
+              {/* 02 - SIMULATORE */}
               <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
                 <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
-                  02 — Simula
+                  02 - Simula
                 </span>
                 <Link
                   href="/calcolatori/forfettario"
@@ -285,10 +285,10 @@ export default function LandingPage() {
                 </details>
               </div>
 
-              {/* 03 — TAX CLIFF MONITOR */}
+              {/* 03 - TAX CLIFF MONITOR */}
               <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
                 <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
-                  03 — Monitora
+                  03 - Monitora
                 </span>
                 <Link
                   href="/calcolatori/cliff"
@@ -315,10 +315,10 @@ export default function LandingPage() {
                 </details>
               </div>
 
-              {/* 04 — REGISTRO INCASSI */}
+              {/* 04 - REGISTRO INCASSI */}
               <div className="bg-zinc-900 p-5 md:p-6 flex flex-col min-h-[150px]">
                 <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 flex items-center gap-2">
-                  04 — Registra
+                  04 - Registra
                   <span className="text-[8px] bg-red-600 text-white px-1.5 py-0.5 font-black tracking-wider leading-tight">
                     NUOVO
                   </span>
@@ -348,10 +348,10 @@ export default function LandingPage() {
                 </details>
               </div>
 
-              {/* 05 — ACCONTO */}
+              {/* 05 - ACCONTO */}
               <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
                 <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
-                  05 — Pianifica
+                  05 - Pianifica
                 </span>
                 <Link
                   href="/calcolatori/acconto"
@@ -378,10 +378,10 @@ export default function LandingPage() {
                 </details>
               </div>
 
-              {/* 06 — PRO-FORMA */}
+              {/* 06 - PRO-FORMA */}
               <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
                 <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
-                  06 — Emetti
+                  06 - Emetti
                 </span>
                 <Link
                   href="/calcolatori/fattura"

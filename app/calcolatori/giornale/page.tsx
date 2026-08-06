@@ -13,7 +13,7 @@ export default function GiornalePage() {
             </h2>
             <p className="text-stone-600 leading-relaxed">
               I simulatori fiscali tradizionali ti chiedono il fatturato annuo
-              previsto — un numero che di solito non conosci in anticipo. Il
+              previsto - un numero che di solito non conosci in anticipo. Il
               Registro Incassi ribalta il processo: inserisci ogni pagamento
               appena lo ricevi e il calcolo cresce con te durante l&apos;anno.
               Non servono proiezioni, non servono stime: vedi il reale, in tempo
@@ -29,8 +29,8 @@ export default function GiornalePage() {
               Per ogni incasso, il registro stima la quota da accantonare
               sommando imposta sostitutiva e contributi INPS, applicati al
               coefficiente di redditività del tuo codice ATECO. Il risultato non
-              è il tuo netto fiscale definitivo — per quello usa il Simulatore
-              Forfettario con il totale annuo — ma è una guida pratica e
+              è il tuo netto fiscale definitivo - per quello usa il Simulatore
+              Forfettario con il totale annuo - ma è una guida pratica e
               immediata per non ritrovarti a corto di liquidità a giugno o
               novembre.
             </p>
@@ -57,7 +57,7 @@ export default function GiornalePage() {
             <p className="text-stone-600 leading-relaxed">
               Il mese corrente è sempre aperto e pronto per nuovi incassi. I
               mesi passati rimangono visibili e modificabili in qualsiasi
-              momento — se hai dimenticato un incasso di luglio, puoi
+              momento - se hai dimenticato un incasso di luglio, puoi
               aggiungerlo ad agosto senza perdere nulla. Il registro non blocca
               mai i dati storici.
             </p>

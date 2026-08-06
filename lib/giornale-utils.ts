@@ -6,7 +6,7 @@ import {
 
 export const GIORNALE_PROFILE_KEY = `bur0_giornale_profile_${TAX_YEAR}`;
 export const GIORNALE_ENTRIES_KEY = `bur0_giornale_${TAX_YEAR}`;
-// Same key CliffTracker reads — one-way sync from giornale into cliff
+// Same key CliffTracker reads - one-way sync from giornale into cliff
 const CLIFF_KEY = `bur0_cliff_${TAX_YEAR}`;
 
 export interface GiornaleProfile {
@@ -94,7 +94,7 @@ export function syncMonthToCliff(
   }
 }
 
-// Flat per-entry reserve estimate — not accounting for INPS deductibility (shown in monthly summary)
+// Flat per-entry reserve estimate - not accounting for INPS deductibility (shown in monthly summary)
 export function computeSafeToSpend(
   amount: number,
   profile: GiornaleProfile,

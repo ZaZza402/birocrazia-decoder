@@ -356,7 +356,7 @@ function EntryRow({
         {formatDateShort(entry.date)}
       </span>
       <span className="flex-1 min-w-0 text-xs text-zinc-500 truncate">
-        {entry.label || <span className="text-zinc-300 italic">—</span>}
+        {entry.label || <span className="text-zinc-300 italic">-</span>}
       </span>
       {/* safe-to-spend chip */}
       <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono text-emerald-600 bg-emerald-50 px-1.5 py-0.5 flex-shrink-0">
@@ -467,7 +467,7 @@ function MonthPanel({
 
   return (
     <div className={`mb-3 ${isCurrentMonth ? "ring-1 ring-zinc-950/10" : ""}`}>
-      {/* Month header — always visible */}
+      {/* Month header - always visible */}
       <button
         onClick={onToggle}
         className={`w-full flex items-center justify-between px-5 py-4 transition-colors ${
@@ -753,7 +753,7 @@ export default function GiornaleCalcolatore() {
           onChange={handleProfileChange}
         />
 
-        {/* Month panels — current month first, then past months */}
+        {/* Month panels - current month first, then past months */}
         {visibleMonths.map((month) => (
           <MonthPanel
             key={month}
@@ -771,7 +771,7 @@ export default function GiornaleCalcolatore() {
         <div className="mt-6 flex items-start gap-2 border border-zinc-200 bg-zinc-50 p-4">
           <Lock className="w-3.5 h-3.5 text-zinc-400 mt-0.5 flex-shrink-0" />
           <p className="text-[11px] text-zinc-400 leading-relaxed">
-            Tutti i dati rimangono esclusivamente nel tuo browser — nessun
+            Tutti i dati rimangono esclusivamente nel tuo browser - nessun
             server, nessun account. Si azzerano se svuoti la cache del browser.
           </p>
         </div>
