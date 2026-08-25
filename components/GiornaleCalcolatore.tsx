@@ -136,24 +136,24 @@ function ProfileDrawer({
         aria-expanded={isOpen}
       >
         <div className="flex items-center gap-2">
-          <BookOpen className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
+          <BookOpen className="w-3.5 h-3.5 text-zinc-600 flex-shrink-0" />
           <span className="text-xs font-bold uppercase tracking-editorial text-zinc-500">
             Profilo Fiscale
           </span>
-          <span className="hidden sm:block text-xs font-mono text-zinc-400 ml-2">
+          <span className="hidden sm:block text-xs font-mono text-zinc-600 ml-2">
             {profileSummary(profile)}
           </span>
         </div>
         {isOpen ? (
-          <ChevronUp className="w-4 h-4 text-zinc-400" />
+          <ChevronUp className="w-4 h-4 text-zinc-600" />
         ) : (
-          <ChevronDown className="w-4 h-4 text-zinc-400" />
+          <ChevronDown className="w-4 h-4 text-zinc-600" />
         )}
       </button>
 
       {/* sm: summary below pull tab on mobile */}
       {!isOpen && (
-        <p className="sm:hidden text-[11px] font-mono text-zinc-400 px-4 py-1.5 bg-white border-x border-b border-zinc-200">
+        <p className="sm:hidden text-[11px] font-mono text-zinc-600 px-4 py-1.5 bg-white border-x border-b border-zinc-200">
           {profileSummary(profile)}
         </p>
       )}
@@ -164,14 +164,14 @@ function ProfileDrawer({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {/* ATECO */}
             <div className="sm:col-span-2">
-              <label className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 block mb-2">
+              <label className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 block mb-2">
                 Codice ATECO
               </label>
               <AtecoCombobox
                 value={selectedAteco}
                 onChange={handleAtecoChange}
               />
-              <p className="text-[11px] text-zinc-400 mt-1.5">
+              <p className="text-[11px] text-zinc-600 mt-1.5">
                 Coefficiente:{" "}
                 <span className="font-mono font-bold text-zinc-700">
                   {Math.round(profile.atecoCoefficient * 100)}%
@@ -181,7 +181,7 @@ function ProfileDrawer({
 
             {/* Regime */}
             <div>
-              <label className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 block mb-2">
+              <label className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 block mb-2">
                 Aliquota Imposta Sostitutiva
                 <InfoTooltip content="5% per i primi 5 anni di attività (regime startup). 15% per tutti gli altri." />
               </label>
@@ -207,7 +207,7 @@ function ProfileDrawer({
 
             {/* Cassa */}
             <div>
-              <label className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 block mb-2">
+              <label className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 block mb-2">
                 Contributi Previdenziali
               </label>
               <select
@@ -241,12 +241,12 @@ function ProfileDrawer({
 
             {/* Prev INPS */}
             <div>
-              <label className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 block mb-2">
+              <label className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 block mb-2">
                 INPS Versato Anno Precedente
                 <InfoTooltip content="Contributi INPS versati nell'anno fiscale precedente. Riducono la base imponibile (principio di cassa). Se è il tuo primo anno, lascia 0." />
               </label>
               <div className="flex items-center gap-1">
-                <span className="text-xs text-zinc-400 font-mono">€</span>
+                <span className="text-xs text-zinc-600 font-mono">€</span>
                 <input
                   type="text"
                   inputMode="decimal"
@@ -260,7 +260,7 @@ function ProfileDrawer({
             </div>
           </div>
 
-          <p className="text-[11px] text-zinc-400 flex items-center gap-1.5">
+          <p className="text-[11px] text-zinc-600 flex items-center gap-1.5">
             <Lock className="w-3 h-3 flex-shrink-0" />
             Salvato solo nel tuo browser. Nessun account, nessun server.
           </p>
@@ -311,7 +311,7 @@ function EntryRow({
   if (isEditing) {
     return (
       <div className="flex items-center gap-2 py-2 border-b border-zinc-100 last:border-0">
-        <span className="text-[10px] font-mono text-zinc-300 w-8 flex-shrink-0">
+        <span className="text-[10px] font-mono text-zinc-500 w-8 flex-shrink-0">
           {formatDateShort(entry.date)}
         </span>
         <input
@@ -341,7 +341,7 @@ function EntryRow({
         </button>
         <button
           onClick={onCancelEdit}
-          className="p-1 text-zinc-400 hover:text-zinc-700 flex-shrink-0"
+          className="p-1 text-zinc-600 hover:text-zinc-700 flex-shrink-0"
           aria-label="Annulla modifica"
         >
           <XIcon className="w-3.5 h-3.5" />
@@ -352,11 +352,11 @@ function EntryRow({
 
   return (
     <div className="flex items-center gap-2 py-2 border-b border-zinc-100 last:border-0 group">
-      <span className="text-[10px] font-mono text-zinc-300 w-8 flex-shrink-0">
+      <span className="text-[10px] font-mono text-zinc-500 w-8 flex-shrink-0">
         {formatDateShort(entry.date)}
       </span>
       <span className="flex-1 min-w-0 text-xs text-zinc-500 truncate">
-        {entry.label || <span className="text-zinc-300 italic">-</span>}
+        {entry.label || <span className="text-zinc-500 italic">-</span>}
       </span>
       {/* safe-to-spend chip */}
       <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono text-emerald-600 bg-emerald-50 px-1.5 py-0.5 flex-shrink-0">
@@ -372,14 +372,14 @@ function EntryRow({
           setEditLabel(entry.label);
           onStartEdit(entry.id);
         }}
-        className="p-1 text-zinc-300 hover:text-zinc-600 flex-shrink-0 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
+        className="p-1 text-zinc-500 hover:text-zinc-600 flex-shrink-0 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
         aria-label="Modifica"
       >
         <Pencil className="w-3 h-3" />
       </button>
       <button
         onClick={() => onDelete(entry.id)}
-        className="p-1 text-zinc-300 hover:text-red-500 flex-shrink-0 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
+        className="p-1 text-zinc-500 hover:text-red-500 flex-shrink-0 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
         aria-label="Elimina incasso"
       >
         <Trash2 className="w-3.5 h-3.5" />
@@ -484,12 +484,12 @@ function MonthPanel({
             {monthName} {TAX_YEAR}
           </span>
           {isCurrentMonth && (
-            <span className="text-[9px] uppercase tracking-widest font-black text-zinc-400 bg-zinc-800 px-1.5 py-0.5">
+            <span className="text-[9px] uppercase tracking-widest font-black text-zinc-600 bg-zinc-800 px-1.5 py-0.5">
               MESE CORRENTE
             </span>
           )}
           {!isCurrentMonth && entries.length === 0 && (
-            <span className="text-[10px] text-zinc-300 font-mono">
+            <span className="text-[10px] text-zinc-500 font-mono">
               Nessun incasso
             </span>
           )}
@@ -501,7 +501,7 @@ function MonthPanel({
             >
               {formatCurrency(total)}
               <span
-                className={`ml-2 text-[10px] font-normal ${isCurrentMonth ? "text-zinc-400" : "text-zinc-400"}`}
+                className={`ml-2 text-[10px] font-normal ${isCurrentMonth ? "text-zinc-600" : "text-zinc-600"}`}
               >
                 {entries.length} {entries.length === 1 ? "incasso" : "incassi"}
               </span>
@@ -509,11 +509,11 @@ function MonthPanel({
           )}
           {isCollapsed ? (
             <ChevronDown
-              className={`w-4 h-4 ${isCurrentMonth ? "text-zinc-400" : "text-zinc-400"}`}
+              className={`w-4 h-4 ${isCurrentMonth ? "text-zinc-600" : "text-zinc-600"}`}
             />
           ) : (
             <ChevronUp
-              className={`w-4 h-4 ${isCurrentMonth ? "text-zinc-400" : "text-zinc-400"}`}
+              className={`w-4 h-4 ${isCurrentMonth ? "text-zinc-600" : "text-zinc-600"}`}
             />
           )}
         </div>
@@ -530,7 +530,7 @@ function MonthPanel({
               {/* Add form */}
               <div className="flex gap-2 mb-5">
                 <div className="relative flex items-center flex-shrink-0">
-                  <span className="text-xs text-zinc-400 font-mono absolute left-0">
+                  <span className="text-xs text-zinc-600 font-mono absolute left-0">
                     €
                   </span>
                   <input
@@ -580,7 +580,7 @@ function MonthPanel({
                     />
                   ))}
                   <div className="pt-3 flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400">
+                    <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600">
                       Totale {monthName}
                     </span>
                     <span className="text-base font-black font-mono text-zinc-950">
@@ -589,7 +589,7 @@ function MonthPanel({
                   </div>
                 </div>
               ) : (
-                <p className="text-xs text-zinc-400 py-4 text-center border border-dashed border-zinc-200">
+                <p className="text-xs text-zinc-600 py-4 text-center border border-dashed border-zinc-200">
                   Nessun incasso registrato per {monthName}.
                 </p>
               )}
@@ -597,7 +597,7 @@ function MonthPanel({
 
             {/* ── Right: monthly summary ── */}
             <div className="p-5 space-y-4">
-              <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400">
+              <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600">
                 Riepilogo {monthName}
               </p>
 
@@ -635,7 +635,7 @@ function MonthPanel({
                     </div>
                   </div>
 
-                  <p className="text-[10px] text-zinc-400 leading-relaxed">
+                  <p className="text-[10px] text-zinc-600 leading-relaxed">
                     Stima indicativa.{" "}
                     <Link
                       href={`/calcolatori/forfettario?rev=${Math.round(total * 12)}`}
@@ -646,7 +646,7 @@ function MonthPanel({
                   </p>
                 </>
               ) : (
-                <p className="text-xs text-zinc-400">
+                <p className="text-xs text-zinc-600">
                   Aggiungi un incasso per vedere il riepilogo fiscale.
                 </p>
               )}
@@ -655,8 +655,8 @@ function MonthPanel({
               <div
                 className={`flex items-center gap-1.5 transition-opacity duration-300 ${syncFlash ? "opacity-100" : "opacity-40"}`}
               >
-                <TrendingUp className="w-3 h-3 text-zinc-400 flex-shrink-0" />
-                <span className="text-[10px] text-zinc-400">
+                <TrendingUp className="w-3 h-3 text-zinc-600 flex-shrink-0" />
+                <span className="text-[10px] text-zinc-600">
                   Tax Cliff Monitor aggiornato
                 </span>
               </div>
@@ -724,7 +724,7 @@ export default function GiornaleCalcolatore() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8 border-b border-zinc-200 pb-6">
-          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-2">
             Registro Incassi {TAX_YEAR}
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
@@ -738,7 +738,7 @@ export default function GiornaleCalcolatore() {
           {ytdTotal > 0 && (
             <p className="mt-4 text-2xl font-black font-mono text-zinc-950">
               {formatCurrency(ytdTotal)}{" "}
-              <span className="text-sm font-normal text-zinc-400">
+              <span className="text-sm font-normal text-zinc-600">
                 fatturati nel {TAX_YEAR}
               </span>
             </p>
@@ -769,8 +769,8 @@ export default function GiornaleCalcolatore() {
 
         {/* Privacy note */}
         <div className="mt-6 flex items-start gap-2 border border-zinc-200 bg-zinc-50 p-4">
-          <Lock className="w-3.5 h-3.5 text-zinc-400 mt-0.5 flex-shrink-0" />
-          <p className="text-[11px] text-zinc-400 leading-relaxed">
+          <Lock className="w-3.5 h-3.5 text-zinc-600 mt-0.5 flex-shrink-0" />
+          <p className="text-[11px] text-zinc-600 leading-relaxed">
             Tutti i dati rimangono esclusivamente nel tuo browser - nessun
             server, nessun account. Si azzerano se svuoti la cache del browser.
           </p>

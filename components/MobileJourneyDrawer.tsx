@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect } from "react";
 import Link from "next/link";
@@ -120,7 +120,10 @@ export default function MobileJourneyDrawer({ isOpen, onClose }: Props) {
       {/* Panel */}
       <div
         role="dialog"
+        aria-modal="true"
         aria-label="Navigazione percorso"
+        aria-hidden={!isOpen}
+        inert={!isOpen}
         className={`fixed top-0 left-0 bottom-0 w-72 bg-white z-[200] flex flex-col shadow-2xl transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
@@ -128,7 +131,7 @@ export default function MobileJourneyDrawer({ isOpen, onClose }: Props) {
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-100">
           <div>
-            <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-0.5">
+            <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-0.5">
               Percorso guidato
             </p>
             <p className="text-sm text-zinc-950">
@@ -139,7 +142,7 @@ export default function MobileJourneyDrawer({ isOpen, onClose }: Props) {
           <button
             onClick={onClose}
             aria-label="Chiudi menu"
-            className="p-1.5 text-zinc-400 hover:text-zinc-950 transition-colors"
+            className="p-1.5 text-zinc-600 hover:text-zinc-950 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -162,21 +165,21 @@ export default function MobileJourneyDrawer({ isOpen, onClose }: Props) {
               >
                 <s.Icon
                   className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
-                    isActive ? "text-red-500" : "text-zinc-400"
+                    isActive ? "text-red-500" : "text-zinc-600"
                   }`}
                 />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
                     <span
                       className={`text-[9px] font-mono font-black ${
-                        isActive ? "text-red-500" : "text-zinc-400"
+                        isActive ? "text-red-500" : "text-zinc-600"
                       }`}
                     >
                       {s.num}
                     </span>
                     <span
                       className={`text-[9px] uppercase tracking-editorial font-semibold ${
-                        isActive ? "text-red-600" : "text-zinc-400"
+                        isActive ? "text-red-600" : "text-zinc-600"
                       }`}
                     >
                       {s.label}

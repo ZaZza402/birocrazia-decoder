@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="max-w-lg w-full">
         {/* ── HEADER ── */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
-          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-2">
             Errore
           </p>
           <h1 className="text-8xl md:text-9xl font-black text-zinc-950 tracking-tight leading-none">
@@ -36,7 +36,7 @@ export default function NotFound() {
           </Link>
         </div>
 
-        <p className="mt-8 text-xs text-zinc-400">
+        <p className="mt-8 text-xs text-zinc-600">
           Pensi sia un errore?{" "}
           <a
             href="mailto:info@alecsdesign.xyz?subject=Errore%20404%20su%20BurZero"

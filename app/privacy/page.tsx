@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -16,7 +16,7 @@ export default function PrivacyPage() {
       <div className="max-w-3xl mx-auto">
         {/* â”€â”€ HEADER â”€â”€ */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
-          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-2">
             Privacy Policy - BurZero
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
@@ -30,7 +30,7 @@ export default function PrivacyPage() {
 
         {/* â”€â”€ HIGHLIGHT â”€â”€ */}
         <div className="bg-white border border-zinc-200 border-l-4 border-l-zinc-950 p-5 mb-10">
-          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-1">
             In breve
           </p>
           <p className="text-sm text-zinc-700 leading-relaxed">
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
         <div className="space-y-8">
           {/* 1 */}
           <section className="border-b border-zinc-100 pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               01
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">
@@ -63,7 +63,7 @@ export default function PrivacyPage() {
 
           {/* 2 */}
           <section className="border-b border-zinc-100 pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               02
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">
@@ -71,7 +71,7 @@ export default function PrivacyPage() {
             </h2>
             <div className="space-y-4">
               <div className="bg-white border border-zinc-200 p-4">
-                <p className="text-xs font-semibold uppercase tracking-editorial text-zinc-400 mb-1">
+                <p className="text-xs font-semibold uppercase tracking-editorial text-zinc-600 mb-1">
                   Dati inseriti dall&apos;utente
                 </p>
                 <p className="text-sm text-zinc-600 leading-relaxed">
@@ -84,7 +84,7 @@ export default function PrivacyPage() {
                 </p>
               </div>
               <div className="bg-white border border-zinc-200 p-4">
-                <p className="text-xs font-semibold uppercase tracking-editorial text-zinc-400 mb-1">
+                <p className="text-xs font-semibold uppercase tracking-editorial text-zinc-600 mb-1">
                   Dati tecnici
                 </p>
                 <p className="text-sm text-zinc-600 leading-relaxed">
@@ -98,7 +98,7 @@ export default function PrivacyPage() {
 
           {/* 3 */}
           <section className="border-b border-zinc-100 pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               03
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">
@@ -115,7 +115,7 @@ export default function PrivacyPage() {
 
           {/* 4 */}
           <section className="border-b border-zinc-100 pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               04
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">
@@ -131,7 +131,7 @@ export default function PrivacyPage() {
 
           {/* 5 */}
           <section className="border-b border-zinc-100 pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               05
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">Sicurezza</h2>
@@ -144,7 +144,7 @@ export default function PrivacyPage() {
 
           {/* 6 */}
           <section className="pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               06
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">Modifiche</h2>
@@ -158,7 +158,7 @@ export default function PrivacyPage() {
 
         {/* â”€â”€ FOOTER ROW â”€â”€ */}
         <div className="mt-8 pt-6 border-t border-zinc-200 flex items-center justify-between gap-4">
-          <p className="text-xs text-zinc-400">Ultima revisione: Marzo 2026</p>
+          <p className="text-xs text-zinc-600">Ultima revisione: Marzo 2026</p>
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-editorial text-zinc-500 hover:text-zinc-950 transition-colors"

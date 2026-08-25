@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, {
   useState,
@@ -481,14 +481,14 @@ export default function FatturaGenerator() {
           {/* Page header */}
           <div className="mb-8 pt-4">
             <div className="flex items-center gap-3 mb-2">
-              <FileText className="w-5 h-5 text-zinc-400" />
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400">
+              <FileText className="w-5 h-5 text-zinc-600" />
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600">
                 Strumento 05 - Emetti
               </p>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-zinc-950 leading-none mb-2">
               Pro-Forma /{" "}
-              <span className="text-zinc-400 font-normal">
+              <span className="text-zinc-600 font-normal">
                 Avviso di Parcella
               </span>
             </h1>
@@ -503,7 +503,7 @@ export default function FatturaGenerator() {
             <div className="grid md:grid-cols-2 gap-4">
               {/* From */}
               <div className="bg-white border border-zinc-200 p-5">
-                <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+                <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
                   Da (il tuo profilo)
                 </label>
                 <textarea
@@ -513,13 +513,13 @@ export default function FatturaGenerator() {
                     "Ragione Sociale / Nome\nPartita IVA / CF\nIndirizzo\nCodice SDI / PEC"
                   }
                   rows={5}
-                  className="w-full text-sm text-zinc-800 placeholder:text-zinc-300 resize-none focus:outline-none leading-relaxed"
+                  className="w-full text-sm text-zinc-800 placeholder:text-zinc-500 resize-none focus:outline-none leading-relaxed"
                 />
               </div>
 
               {/* To */}
               <div className="bg-white border border-zinc-200 p-5">
-                <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+                <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
                   A (cliente)
                 </label>
                 <textarea
@@ -529,14 +529,14 @@ export default function FatturaGenerator() {
                     "Ragione Sociale / Nome\nPartita IVA / CF\nIndirizzo\nCodice SDI / PEC"
                   }
                   rows={5}
-                  className="w-full text-sm text-zinc-800 placeholder:text-zinc-300 resize-none focus:outline-none leading-relaxed"
+                  className="w-full text-sm text-zinc-800 placeholder:text-zinc-500 resize-none focus:outline-none leading-relaxed"
                 />
               </div>
             </div>
 
             {/* Logo upload */}
             <div className="bg-white border border-zinc-200 p-5">
-              <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+              <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
                 Logo (opzionale - JPG, PNG, max 5MB)
               </label>
               {logoBase64 ? (
@@ -549,7 +549,7 @@ export default function FatturaGenerator() {
                   />
                   <button
                     onClick={() => setLogoBase64(null)}
-                    className="flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-red-600 transition-colors uppercase tracking-editorial"
+                    className="flex items-center gap-1.5 text-xs font-bold text-zinc-600 hover:text-red-600 transition-colors uppercase tracking-editorial"
                   >
                     <X className="w-3.5 h-3.5" />
                     Rimuovi
@@ -567,8 +567,8 @@ export default function FatturaGenerator() {
                       : "border-zinc-200 hover:border-zinc-400"
                   }`}
                 >
-                  <Upload className="w-5 h-5 text-zinc-300" />
-                  <p className="text-xs text-zinc-400">
+                  <Upload className="w-5 h-5 text-zinc-500" />
+                  <p className="text-xs text-zinc-600">
                     Trascina qui o{" "}
                     <span className="font-bold text-zinc-600 underline underline-offset-2">
                       scegli file
@@ -588,7 +588,7 @@ export default function FatturaGenerator() {
             {/* ── INVOICE META ─────────────────────────────────── */}
             <div className="bg-white border border-zinc-200 p-5">
               <div className="flex items-center justify-between mb-4">
-                <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-400">
+                <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-600">
                   Dati documento
                 </label>
                 {/* Doc type selector */}
@@ -598,7 +598,7 @@ export default function FatturaGenerator() {
                     className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-editorial transition-colors ${
                       docType === "avviso_di_parcella"
                         ? "bg-zinc-950 text-white"
-                        : "text-zinc-400 hover:text-zinc-700"
+                        : "text-zinc-600 hover:text-zinc-700"
                     }`}
                   >
                     Avviso di Parcella
@@ -608,7 +608,7 @@ export default function FatturaGenerator() {
                     className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-editorial transition-colors ${
                       docType === "pro_forma"
                         ? "bg-zinc-950 text-white"
-                        : "text-zinc-400 hover:text-zinc-700"
+                        : "text-zinc-600 hover:text-zinc-700"
                     }`}
                   >
                     Pro-Forma
@@ -617,7 +617,7 @@ export default function FatturaGenerator() {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div>
-                  <p className="text-[9px] uppercase tracking-editorial text-zinc-400 mb-1.5">
+                  <p className="text-[9px] uppercase tracking-editorial text-zinc-600 mb-1.5">
                     N. Documento
                   </p>
                   <input
@@ -628,7 +628,7 @@ export default function FatturaGenerator() {
                   />
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-editorial text-zinc-400 mb-1.5">
+                  <p className="text-[9px] uppercase tracking-editorial text-zinc-600 mb-1.5">
                     Valuta
                   </p>
                   <select
@@ -644,7 +644,7 @@ export default function FatturaGenerator() {
                   </select>
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-editorial text-zinc-400 mb-1.5">
+                  <p className="text-[9px] uppercase tracking-editorial text-zinc-600 mb-1.5">
                     Data fattura
                   </p>
                   <input
@@ -655,7 +655,7 @@ export default function FatturaGenerator() {
                   />
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-editorial text-zinc-400 mb-1.5">
+                  <p className="text-[9px] uppercase tracking-editorial text-zinc-600 mb-1.5">
                     Scadenza
                   </p>
                   <input
@@ -667,7 +667,7 @@ export default function FatturaGenerator() {
                 </div>
               </div>
               <div className="mt-4 max-w-xs">
-                <p className="text-[9px] uppercase tracking-editorial text-zinc-400 mb-1.5">
+                <p className="text-[9px] uppercase tracking-editorial text-zinc-600 mb-1.5">
                   Interessi di mora (%)
                 </p>
                 <input
@@ -688,13 +688,13 @@ export default function FatturaGenerator() {
                 {items.map((item, idx) => (
                   <div key={idx} className="p-4 space-y-3">
                     <div className="flex items-center justify-between">
-                      <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400">
+                      <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600">
                         Voce {idx + 1}
                       </p>
                       {items.length > 1 && (
                         <button
                           onClick={() => removeItem(idx)}
-                          className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-editorial text-zinc-400 hover:text-red-600 transition-colors"
+                          className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-editorial text-zinc-600 hover:text-red-600 transition-colors"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                           Rimuovi
@@ -703,7 +703,7 @@ export default function FatturaGenerator() {
                     </div>
 
                     <div>
-                      <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                      <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-1">
                         Descrizione
                       </p>
                       <input
@@ -713,13 +713,13 @@ export default function FatturaGenerator() {
                           updateItem(idx, "description", e.target.value)
                         }
                         placeholder="Descrizione prestazione..."
-                        className="w-full border border-zinc-200 px-3 py-2.5 text-sm text-zinc-800 placeholder:text-zinc-300 focus:outline-none focus:border-zinc-400"
+                        className="w-full border border-zinc-200 px-3 py-2.5 text-sm text-zinc-800 placeholder:text-zinc-500 focus:outline-none focus:border-zinc-400"
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-1">
                           Qtà
                         </p>
                         <input
@@ -747,7 +747,7 @@ export default function FatturaGenerator() {
                         />
                       </div>
                       <div>
-                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-1">
                           Unità
                         </p>
                         <select
@@ -768,11 +768,11 @@ export default function FatturaGenerator() {
 
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-1">
                           Prezzo
                         </p>
                         <div className="flex items-center border border-zinc-200 px-3 py-2.5">
-                          <span className="text-xs text-zinc-400 mr-1">
+                          <span className="text-xs text-zinc-600 mr-1">
                             {currSym}
                           </span>
                           <input
@@ -800,7 +800,7 @@ export default function FatturaGenerator() {
                         </div>
                       </div>
                       <div>
-                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                        <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-1">
                           Sconto %
                         </p>
                         <input
@@ -831,7 +831,7 @@ export default function FatturaGenerator() {
                     </div>
 
                     <div className="pt-1 border-t border-zinc-100 flex items-center justify-between">
-                      <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400">
+                      <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600">
                         Importo
                       </p>
                       <p className="text-base font-black font-mono text-zinc-950">
@@ -878,7 +878,7 @@ export default function FatturaGenerator() {
                           updateItem(idx, "description", e.target.value)
                         }
                         placeholder="Descrizione prestazione..."
-                        className="col-span-4 text-sm text-zinc-800 placeholder:text-zinc-300 focus:outline-none"
+                        className="col-span-4 text-sm text-zinc-800 placeholder:text-zinc-500 focus:outline-none"
                       />
                       <input
                         type="text"
@@ -917,7 +917,7 @@ export default function FatturaGenerator() {
                         ))}
                       </select>
                       <div className="col-span-2 flex items-center gap-0.5">
-                        <span className="text-xs text-zinc-400">{currSym}</span>
+                        <span className="text-xs text-zinc-600">{currSym}</span>
                         <input
                           type="text"
                           inputMode="decimal"
@@ -970,7 +970,7 @@ export default function FatturaGenerator() {
                         {items.length > 1 && (
                           <button
                             onClick={() => removeItem(idx)}
-                            className="text-zinc-300 hover:text-red-500 transition-colors flex-shrink-0"
+                            className="text-zinc-500 hover:text-red-500 transition-colors flex-shrink-0"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -985,7 +985,7 @@ export default function FatturaGenerator() {
               <div className="px-5 py-3 border-t border-zinc-100">
                 <button
                   onClick={addItem}
-                  className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-editorial text-zinc-400 hover:text-zinc-950 transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-editorial text-zinc-600 hover:text-zinc-950 transition-colors"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   Aggiungi voce
@@ -995,7 +995,7 @@ export default function FatturaGenerator() {
 
             {/* ── ITALIAN TOGGLES ──────────────────────────────── */}
             <div className="bg-white border border-zinc-200 p-5">
-              <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
+              <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-4">
                 Opzioni fiscali italiane
               </label>
 
@@ -1022,7 +1022,7 @@ export default function FatturaGenerator() {
                     <p className="text-sm font-bold text-zinc-800">
                       Regime Forfettario
                     </p>
-                    <p className="text-xs text-zinc-400 mt-0.5">
+                    <p className="text-xs text-zinc-600 mt-0.5">
                       Aggiunge automaticamente la dicitura legale di esenzione
                       IVA (art. 1, commi 54-89, L. 190/2014). Il campo IVA viene
                       disabilitato.
@@ -1034,7 +1034,7 @@ export default function FatturaGenerator() {
                 {!isForfettario && (
                   <div className="flex items-center gap-4 pl-13">
                     <div className="ml-[52px]">
-                      <p className="text-xs text-zinc-400 mb-1.5 uppercase tracking-editorial font-semibold">
+                      <p className="text-xs text-zinc-600 mb-1.5 uppercase tracking-editorial font-semibold">
                         Aliquota IVA (%)
                       </p>
                       <input
@@ -1087,7 +1087,7 @@ export default function FatturaGenerator() {
                     <p className="text-sm font-bold text-zinc-800">
                       Ritenuta d&apos;acconto (20%)
                     </p>
-                    <p className="text-xs text-zinc-400 mt-0.5">
+                    <p className="text-xs text-zinc-600 mt-0.5">
                       {isForfettario
                         ? "Non applicabile in Regime Forfettario - il contribuente è escluso dalla qualifica di sostituto d imposta."
                         : "Deduce automaticamente il 20% dal totale. Il cliente trattiene questa quota e la versa al fisco per tuo conto."}
@@ -1114,7 +1114,7 @@ export default function FatturaGenerator() {
             {/* ── NOTES / BANK ─────────────────────────────────── */}
             <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-white border border-zinc-200 p-5">
-                <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+                <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
                   Note aggiuntive
                 </label>
                 <textarea
@@ -1122,11 +1122,11 @@ export default function FatturaGenerator() {
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Eventuali condizioni, riferimenti ordine, ecc."
                   rows={4}
-                  className="w-full text-sm text-zinc-800 placeholder:text-zinc-300 resize-none focus:outline-none leading-relaxed"
+                  className="w-full text-sm text-zinc-800 placeholder:text-zinc-500 resize-none focus:outline-none leading-relaxed"
                 />
               </div>
               <div className="bg-white border border-zinc-200 p-5">
-                <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+                <label className="block text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
                   Coordinate bancarie
                 </label>
                 <textarea
@@ -1136,7 +1136,7 @@ export default function FatturaGenerator() {
                     "IBAN: IT00 X000 0000 0000 0000 0000 000\nBIC/SWIFT: XXXXXXXX\nBanca: Nome Istituto"
                   }
                   rows={4}
-                  className="w-full text-sm text-zinc-800 placeholder:text-zinc-300 resize-none focus:outline-none leading-relaxed"
+                  className="w-full text-sm text-zinc-800 placeholder:text-zinc-500 resize-none focus:outline-none leading-relaxed"
                 />
               </div>
             </div>
@@ -1187,7 +1187,7 @@ export default function FatturaGenerator() {
                     </span>
                   </div>
                   {ritenuta && (
-                    <p className="text-[10px] text-zinc-400 pt-1">
+                    <p className="text-[10px] text-zinc-600 pt-1">
                       * Tu incassi{" "}
                       <strong>{fmtCurrency(total, currency)}</strong>. Il
                       cliente trattiene{" "}
@@ -1249,7 +1249,7 @@ export default function FatturaGenerator() {
             </div>
 
             {/* Disclaimer */}
-            <p className="text-[10px] text-zinc-400 leading-relaxed text-center pb-2">
+            <p className="text-[10px] text-zinc-600 leading-relaxed text-center pb-2">
               Il Pro-Forma / Avviso di Parcella non è una fattura elettronica ai
               sensi del D.P.R. 633/72 e non ha valore fiscale. Dati salvati
               automaticamente nel browser. Verifica sempre con il tuo

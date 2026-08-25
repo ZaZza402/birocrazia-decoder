@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 import type { Metadata } from "next";
@@ -17,7 +17,7 @@ export default function TermsPage() {
       <div className="max-w-3xl mx-auto">
         {/* â”€â”€ HEADER â”€â”€ */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
-          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-2">
             Termini di Utilizzo - BurZero
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
@@ -31,7 +31,7 @@ export default function TermsPage() {
 
         {/* â”€â”€ DISCLAIMER BOX â”€â”€ */}
         <div className="bg-white border border-zinc-200 border-l-4 border-l-red-600 p-5 mb-10">
-          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-1">
             Importante
           </p>
           <p className="text-sm text-zinc-700 leading-relaxed">
@@ -45,7 +45,7 @@ export default function TermsPage() {
         <div className="space-y-8">
           {/* 1 */}
           <section className="border-b border-zinc-100 pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               01
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">
@@ -65,7 +65,7 @@ export default function TermsPage() {
 
           {/* 2 */}
           <section className="border-b border-zinc-100 pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               02
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">
@@ -78,7 +78,7 @@ export default function TermsPage() {
                 "L'utente \u00e8 l'unico responsabile della verifica dei dati e della consultazione con un professionista prima di qualsiasi decisione fiscale.",
               ].map((text, i) => (
                 <div key={i} className="flex gap-3">
-                  <span className="text-zinc-300 font-mono font-black flex-shrink-0 pt-0.5">
+                  <span className="text-zinc-500 font-mono font-black flex-shrink-0 pt-0.5">
                     -
                   </span>
                   <p className="text-sm text-zinc-600 leading-relaxed">
@@ -91,7 +91,7 @@ export default function TermsPage() {
 
           {/* 3 */}
           <section className="border-b border-zinc-100 pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               03
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">
@@ -109,7 +109,7 @@ export default function TermsPage() {
 
           {/* 4 */}
           <section className="border-b border-zinc-100 pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               04
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">
@@ -125,7 +125,7 @@ export default function TermsPage() {
 
           {/* 5 */}
           <section className="border-b border-zinc-100 pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               05
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">
@@ -141,7 +141,7 @@ export default function TermsPage() {
 
           {/* 6 */}
           <section className="border-b border-zinc-100 pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               06
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">
@@ -157,7 +157,7 @@ export default function TermsPage() {
 
           {/* 7 */}
           <section className="pb-8">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
               07
             </p>
             <h2 className="text-xl font-black text-zinc-950 mb-3">
@@ -173,7 +173,7 @@ export default function TermsPage() {
 
         {/* â”€â”€ FOOTER ROW â”€â”€ */}
         <div className="mt-8 pt-6 border-t border-zinc-200 flex items-center justify-between gap-4">
-          <p className="text-xs text-zinc-400">
+          <p className="text-xs text-zinc-600">
             Ultima revisione: Marzo 2026 - Utilizzando BurZero accetti questi
             Termini.
           </p>

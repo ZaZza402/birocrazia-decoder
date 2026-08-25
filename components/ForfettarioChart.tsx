@@ -121,7 +121,7 @@ export default function ForfettarioChart({
               axisLine={false}
               tickLine={false}
               tick={{
-                fill: "#a1a1aa",
+                fill: "#52525b",
                 fontSize: isCompact ? 10 : 11,
                 fontFamily: "Courier New",
               }}
@@ -131,7 +131,7 @@ export default function ForfettarioChart({
               axisLine={false}
               tickLine={false}
               tick={{
-                fill: "#a1a1aa",
+                fill: "#52525b",
                 fontSize: isCompact ? 10 : 11,
                 fontFamily: "Courier New",
               }}
@@ -197,7 +197,7 @@ export default function ForfettarioChart({
             {activePoint && (
               <ReferenceLine
                 x={activePoint.revenue}
-                stroke="#a1a1aa"
+                stroke="#52525b"
                 strokeWidth={1}
                 strokeDasharray="2 3"
               />
@@ -263,7 +263,7 @@ export default function ForfettarioChart({
       <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
         <div className="flex items-center gap-2">
           <div className="w-6 h-[2px] bg-zinc-950"></div>
-          <span className="text-xs text-zinc-400 font-semibold uppercase tracking-editorial">
+          <span className="text-xs text-zinc-600 font-semibold uppercase tracking-editorial">
             Forfettario
           </span>
         </div>
@@ -275,7 +275,7 @@ export default function ForfettarioChart({
                 "repeating-linear-gradient(to right, #dc2626 0, #dc2626 5px, transparent 5px, transparent 8px)",
             }}
           ></div>
-          <span className="text-xs text-zinc-400 font-semibold uppercase tracking-editorial">
+          <span className="text-xs text-zinc-600 font-semibold uppercase tracking-editorial">
             Ordinario
           </span>
         </div>
@@ -288,7 +288,7 @@ export default function ForfettarioChart({
           </p>
           <div className="grid grid-cols-2 gap-2">
             <div className="bg-white border border-zinc-200 px-2.5 py-2">
-              <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400">
+              <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600">
                 Forfettario
               </p>
               <p className="text-sm font-black font-mono text-zinc-950 mt-0.5">
@@ -298,7 +298,7 @@ export default function ForfettarioChart({
               </p>
             </div>
             <div className="bg-white border border-zinc-200 px-2.5 py-2">
-              <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400">
+              <p className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600">
                 Ordinario
               </p>
               <p className="text-sm font-black font-mono text-red-600 mt-0.5">

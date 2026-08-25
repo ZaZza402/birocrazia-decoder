@@ -161,7 +161,7 @@ export default function InfoTooltip({
         }}
         onMouseLeave={startClose}
         aria-label="Informazioni"
-        className="w-3.5 h-3.5 rounded-full border border-zinc-400 text-zinc-400 hover:border-zinc-700 hover:text-zinc-700 transition-colors flex items-center justify-center flex-shrink-0 focus:outline-none"
+        className="w-3.5 h-3.5 rounded-full border border-zinc-400 text-zinc-600 hover:border-zinc-700 hover:text-zinc-700 transition-colors flex items-center justify-center flex-shrink-0 focus:outline-none"
         style={{ fontSize: "9px", lineHeight: 1, fontWeight: 700 }}
       >
         i

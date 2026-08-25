@@ -88,7 +88,7 @@ export default function RicevutaPageClient() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10">
               <div>
-                <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <h3 className="text-sm font-bold text-slate-600 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-500" />
                   Il Problema
                 </h3>
@@ -113,7 +113,7 @@ export default function RicevutaPageClient() {
               </div>
 
               <div>
-                <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <h3 className="text-sm font-bold text-slate-600 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-green-500" />
                   LA SOLUZIONE{" "}
                   <span className="tracking-tight">
@@ -152,7 +152,7 @@ export default function RicevutaPageClient() {
                   <h3 className="text-xl font-bold text-slate-900 mb-2">
                     Sei in lista!
                   </h3>
-                  <p className="text-slate-500">
+                  <p className="text-slate-600">
                     Ti avviseremo appena lo strumento sarà online (questione di
                     giorni).
                   </p>
@@ -162,7 +162,7 @@ export default function RicevutaPageClient() {
                   <h3 className="text-xl font-bold text-slate-900 mb-2">
                     In arrivo a brevissimo
                   </h3>
-                  <p className="text-slate-500 mb-6 text-sm">
+                  <p className="text-slate-600 mb-6 text-sm">
                     Stiamo finendo di testare il generatore PDF. Lascia la mail
                     per essere il primo a usarlo.
                   </p>
@@ -197,7 +197,7 @@ export default function RicevutaPageClient() {
                   {error && (
                     <p className="mt-3 text-sm text-red-600">{error}</p>
                   )}
-                  <p className="text-xs text-slate-400 mt-4">
+                  <p className="text-xs text-slate-600 mt-4">
                     *Nessuno spam. Solo una mail quando è pronto.
                   </p>
                 </>

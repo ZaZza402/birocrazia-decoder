@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import {
   Page,
   Text,
@@ -119,7 +119,7 @@ const s = StyleSheet.create({
   sectionLabel: {
     fontSize: 8,
     fontFamily: "Helvetica-Bold",
-    color: "#71717a",
+    color: "#52525b",
     letterSpacing: 1.5,
     textTransform: "uppercase",
     marginBottom: 5,
@@ -144,7 +144,7 @@ const s = StyleSheet.create({
   metaLabel: {
     fontSize: 7,
     fontFamily: "Helvetica-Bold",
-    color: "#71717a",
+    color: "#52525b",
     letterSpacing: 1.5,
     textTransform: "uppercase",
     marginBottom: 3,
@@ -207,7 +207,7 @@ const s = StyleSheet.create({
   },
   totalLabel: {
     fontSize: 9,
-    color: "#71717a",
+    color: "#52525b",
   },
   totalValue: {
     fontSize: 9,
@@ -274,7 +274,7 @@ const s = StyleSheet.create({
   },
   disclaimerText: {
     fontSize: 8,
-    color: "#71717a",
+    color: "#52525b",
     lineHeight: 1.6,
     fontStyle: "italic",
   },
@@ -291,12 +291,12 @@ const s = StyleSheet.create({
   },
   footerText: {
     fontSize: 7,
-    color: "#a1a1aa",
+    color: "#52525b",
     letterSpacing: 0.5,
   },
   footerBrand: {
     fontSize: 7,
-    color: "#a1a1aa",
+    color: "#52525b",
     letterSpacing: 0.5,
     fontFamily: "Helvetica-Bold",
   },

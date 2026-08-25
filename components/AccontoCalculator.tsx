@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { AlertTriangle, Clock } from "lucide-react";
@@ -59,7 +59,7 @@ export default function AccontoCalculator({
         <div className="mb-10 border-b border-zinc-200 pb-6">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-2">
                 Acconto Imposta Sostitutiva {TAX_YEAR}
               </p>
               <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
@@ -89,7 +89,7 @@ export default function AccontoCalculator({
           <div className="lg:col-span-5 space-y-5">
             {/* Method toggle */}
             <div className="bg-white border border-zinc-200 p-6">
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-4">
                 Metodo di Calcolo
               </p>
               <div className="flex border border-zinc-300 mb-4">
@@ -114,7 +114,7 @@ export default function AccontoCalculator({
                   Previsionale
                 </button>
               </div>
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <p className="text-xs text-zinc-600 leading-relaxed">
                 {metodo === "storico"
                   ? "Paghi il 100% dell'imposta sostitutiva dell'anno precedente. Metodo più semplice e sicuro."
                   : "Paghi il 100% dell'imposta sostitutiva stimata per l'anno corrente. Conveniente se prevedi un reddito più basso."}
@@ -126,7 +126,7 @@ export default function AccontoCalculator({
                 <span>Anno di attività</span>
                 <InfoTooltip content="Se sei al primo anno di attività, l'acconto non è dovuto. Dal secondo anno in poi si applica il calcolo storico o previsionale." />
               </label>
-              <p className="text-[11px] text-zinc-400 mb-3">
+              <p className="text-[11px] text-zinc-600 mb-3">
                 Inserisci 1 se sei al primo anno, 2 se sei al secondo, e così
                 via.
               </p>
@@ -152,12 +152,12 @@ export default function AccontoCalculator({
                   content={`Trovata nel modello Redditi PF ${TAX_YEAR - 1}, quadro LM, riga LM42. Se usi il 730 precompilato, cerca la sezione Forfettario. È l'imposta flat (15% o 5%) applicata al tuo reddito imponibile dell'anno scorso.`}
                 />
               </label>
-              <p className="text-[11px] text-zinc-400 mb-3">
+              <p className="text-[11px] text-zinc-600 mb-3">
                 Trovata nella tua dichiarazione dei redditi {TAX_YEAR - 1} -
                 riga &ldquo;Imposta sostitutiva&rdquo;.
               </p>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-zinc-400 font-mono">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-zinc-600 font-mono">
                   €
                 </span>
                 <input
@@ -178,12 +178,12 @@ export default function AccontoCalculator({
                       side="top"
                     />
                   </label>
-                  <p className="text-[11px] text-zinc-400 mb-3">
+                  <p className="text-[11px] text-zinc-600 mb-3">
                     La tua stima dell&apos;imposta sostitutiva per l&apos;anno
                     corrente.
                   </p>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-zinc-400 font-mono">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-zinc-600 font-mono">
                       €
                     </span>
                     <input
@@ -201,7 +201,7 @@ export default function AccontoCalculator({
 
             {/* Help section */}
             <div className="bg-zinc-50 border border-zinc-200 p-5 space-y-3">
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600">
                 Non sai la tua imposta sostitutiva?
               </p>
               <p className="text-xs text-zinc-500 leading-relaxed">
@@ -231,7 +231,7 @@ export default function AccontoCalculator({
                   : "border-l-4 border-l-zinc-950 border-zinc-200"
               }`}
             >
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-2">
                 Acconto Totale Dovuto
               </p>
               {result.nessunPagamento ? (
@@ -279,7 +279,7 @@ export default function AccontoCalculator({
                       className={`bg-white border p-5 ${isJuneUrgent ? "border-l-4 border-l-amber-500 border-zinc-200" : "border-zinc-200"}`}
                     >
                       <div className="flex items-start justify-between mb-3">
-                        <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400">
+                        <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600">
                           Prima Rata (40%)
                         </p>
                         {isJuneUrgent && (
@@ -289,14 +289,14 @@ export default function AccontoCalculator({
                       <p className="text-3xl font-black font-mono tabular text-zinc-950 leading-none mb-1">
                         {formatCurrency(result.primaRata)}
                       </p>
-                      <p className="text-xs text-zinc-400">
+                      <p className="text-xs text-zinc-600">
                         Entro il{" "}
                         <span className="font-semibold text-zinc-600">
                           {formatDeadline(PRIMA_RATA_DEADLINE)}
                         </span>
                       </p>
                       {daysToFirstRata > 0 && (
-                        <p className="text-[11px] text-zinc-400 mt-1">
+                        <p className="text-[11px] text-zinc-600 mt-1">
                           {daysToFirstRata} giorni
                         </p>
                       )}
@@ -308,7 +308,7 @@ export default function AccontoCalculator({
                     className={`bg-white border p-5 ${result.unicaRata ? "sm:col-span-2" : ""} ${isNovemberUrgent ? "border-l-4 border-l-red-600 border-zinc-200" : "border-zinc-200"}`}
                   >
                     <div className="flex items-start justify-between mb-3">
-                      <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400">
+                      <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600">
                         {result.unicaRata
                           ? "Unica Rata (100%)"
                           : "Seconda Rata (60%)"}
@@ -320,19 +320,19 @@ export default function AccontoCalculator({
                     <p className="text-3xl font-black font-mono tabular text-zinc-950 leading-none mb-1">
                       {formatCurrency(result.secondaRata)}
                     </p>
-                    <p className="text-xs text-zinc-400">
+                    <p className="text-xs text-zinc-600">
                       Entro il{" "}
                       <span className="font-semibold text-zinc-600">
                         {formatDeadline(SECONDA_RATA_DEADLINE)}
                       </span>
                     </p>
                     {daysToSecondRata > 0 && (
-                      <p className="text-[11px] text-zinc-400 mt-1">
+                      <p className="text-[11px] text-zinc-600 mt-1">
                         {daysToSecondRata} giorni
                       </p>
                     )}
                     {result.unicaRata && (
-                      <p className="text-[11px] text-zinc-400 mt-1">
+                      <p className="text-[11px] text-zinc-600 mt-1">
                         Importo ≤ {formatCurrency(ACCONTO_SINGOLA_RATA_LIMIT)} -
                         pagamento unico in novembre.
                       </p>
@@ -342,7 +342,7 @@ export default function AccontoCalculator({
 
                 {/* Info note */}
                 <div className="bg-white border border-zinc-200 p-5">
-                  <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+                  <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-2">
                     Come si paga
                   </p>
                   <ul className="space-y-1.5 text-xs text-zinc-500 leading-relaxed">

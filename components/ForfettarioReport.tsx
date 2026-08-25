@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 import {
   ForfettarioInputs,
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 9,
-    color: "#71717a",
+    color: "#52525b",
     marginTop: 3,
     letterSpacing: 1,
     textTransform: "uppercase",
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     fontSize: 9,
     fontWeight: "bold",
     marginBottom: 8,
-    color: "#71717a",
+    color: "#52525b",
     letterSpacing: 1.5,
     textTransform: "uppercase",
   },
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     letterSpacing: 1.5,
     textTransform: "uppercase",
-    color: "#71717a",
+    color: "#52525b",
   },
   bigNumber: {
     fontSize: 24,
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   verdictLabel: {
     fontSize: 9,
-    color: "#a1a1aa",
+    color: "#52525b",
     letterSpacing: 1.5,
     textTransform: "uppercase",
     marginBottom: 4,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     left: 40,
     right: 40,
     fontSize: 7.5,
-    color: "#a1a1aa",
+    color: "#52525b",
     textAlign: "center",
     borderTopWidth: 1,
     borderTopColor: "#e4e4e7",
@@ -187,14 +187,14 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
             </Text>
           </View>
           <View style={{ alignItems: "flex-end" }}>
-            <Text style={{ fontSize: 9, color: "#71717a", letterSpacing: 0.5 }}>
+            <Text style={{ fontSize: 9, color: "#52525b", letterSpacing: 0.5 }}>
               {new Date().toLocaleDateString("it-IT", {
                 day: "2-digit",
                 month: "long",
                 year: "numeric",
               })}
             </Text>
-            <Text style={{ fontSize: 9, color: "#a1a1aa", marginTop: 2 }}>
+            <Text style={{ fontSize: 9, color: "#52525b", marginTop: 2 }}>
               BurZero
             </Text>
           </View>
@@ -272,13 +272,13 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
             ]}
           >
             <Text style={styles.cardTitle}>Regime Forfettario</Text>
-            <Text style={{ fontSize: 9, color: "#71717a", marginBottom: 4 }}>
+            <Text style={{ fontSize: 9, color: "#52525b", marginBottom: 4 }}>
               Netto Annuale
             </Text>
             <Text
               style={[
                 styles.bigNumber,
-                isOverCliff ? { color: "#a1a1aa" } : {},
+                isOverCliff ? { color: "#52525b" } : {},
               ]}
             >
               {isOverCliff
@@ -329,7 +329,7 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
             ]}
           >
             <Text style={styles.cardTitle}>Regime Ordinario</Text>
-            <Text style={{ fontSize: 9, color: "#71717a", marginBottom: 4 }}>
+            <Text style={{ fontSize: 9, color: "#52525b", marginBottom: 4 }}>
               Netto Annuale
             </Text>
             <Text style={styles.bigNumber}>
@@ -390,7 +390,7 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
           <Text
             style={{
               fontSize: 9,
-              color: "#71717a",
+              color: "#52525b",
               letterSpacing: 1,
               textTransform: "uppercase",
               marginBottom: 6,

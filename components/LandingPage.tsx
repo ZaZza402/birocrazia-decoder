@@ -1,4 +1,4 @@
-﻿import "../LandingPage.css";
+import "../LandingPage.css";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -96,7 +96,7 @@ export default function LandingPage() {
               <span className="text-red-500">o Ordinario?</span>
             </h1>
 
-            <p className="text-lg text-zinc-400 max-w-xl mb-10 leading-relaxed">
+            <p className="text-lg text-zinc-600 max-w-xl mb-10 leading-relaxed">
               Simula il passaggio di regime con i tuoi numeri reali. Pianifica
               la crescita senza sorprese fiscali - report PDF pronto per il
               commercialista.
@@ -124,7 +124,7 @@ export default function LandingPage() {
         {/* ── NUMBERS - THE EVIDENCE ── */}
         <section className="bg-white border-b border-zinc-200">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-10">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-10">
               Esempio reale - Fatturato €50.000, ATECO 67%, senza spese
               aziendali
             </p>
@@ -132,14 +132,14 @@ export default function LandingPage() {
             <div className="grid md:grid-cols-3 gap-0 border border-zinc-200">
               {/* Forfettario */}
               <div className="p-8 border-r border-zinc-200">
-                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
                   Regime Forfettario
                 </p>
                 <p className="text-5xl font-black font-mono tabular text-zinc-950 leading-none mb-2">
                   €36.242
                 </p>
                 <p className="text-sm text-zinc-500">Netto in tasca</p>
-                <p className="text-xs text-zinc-400 mt-3">
+                <p className="text-xs text-zinc-600 mt-3">
                   Aliquota effettiva:{" "}
                   <strong className="text-zinc-700">27.5%</strong>
                 </p>
@@ -147,14 +147,14 @@ export default function LandingPage() {
 
               {/* Ordinario */}
               <div className="p-8 border-r border-zinc-200">
-                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
                   Regime Ordinario
                 </p>
                 <p className="text-5xl font-black font-mono tabular text-zinc-950 leading-none mb-2">
                   €29.153
                 </p>
                 <p className="text-sm text-zinc-500">Netto in tasca</p>
-                <p className="text-xs text-zinc-400 mt-3">
+                <p className="text-xs text-zinc-600 mt-3">
                   Aliquota effettiva:{" "}
                   <strong className="text-zinc-700">41.7%</strong>
                 </p>
@@ -168,7 +168,7 @@ export default function LandingPage() {
                 <p className="text-5xl font-black font-mono tabular text-white leading-none mb-2">
                   €7.089
                 </p>
-                <p className="text-sm text-zinc-400">
+                <p className="text-sm text-zinc-600">
                   Regalati allo stato ogni anno
                 </p>
                 <p className="text-xs text-red-400 mt-3 font-semibold">
@@ -182,7 +182,7 @@ export default function LandingPage() {
         {/* ── PEACE OF MIND ── */}
         <section className="border-b border-zinc-200">
           <div className="max-w-5xl mx-auto px-6 py-12 md:py-16">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-10">
+            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-10">
               I tuoi dati
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-zinc-200">
@@ -237,7 +237,7 @@ export default function LandingPage() {
                   <h2 className="text-base md:text-xl font-black text-white leading-tight">
                     Codice ATECO 2026
                   </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
                     <Search className="w-3 h-3 flex-shrink-0" />
                     Cerca
                     <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
@@ -248,7 +248,7 @@ export default function LandingPage() {
                     Dettagli{" "}
                     <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
                   </summary>
-                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
+                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
                     Cerca per attività e trova il codice ufficiale più il
                     coefficiente di redditività corretto per il Forfettario.
                   </p>
@@ -267,7 +267,7 @@ export default function LandingPage() {
                   <h2 className="text-base md:text-xl font-black text-white leading-tight">
                     Forfettario vs Ordinario
                   </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
                     <Calculator className="w-3 h-3 flex-shrink-0" />
                     Simula
                     <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
@@ -278,7 +278,7 @@ export default function LandingPage() {
                     Dettagli{" "}
                     <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
                   </summary>
-                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
+                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
                     Calcola il netto con i tuoi numeri reali. Tax cliff a €100k.
                     Report PDF per il commercialista.
                   </p>
@@ -297,7 +297,7 @@ export default function LandingPage() {
                   <h2 className="text-base md:text-xl font-black text-white leading-tight">
                     Tax Cliff Monitor
                   </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
                     <TrendingUp className="w-3 h-3 flex-shrink-0" />
                     Monitora
                     <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
@@ -308,7 +308,7 @@ export default function LandingPage() {
                     Dettagli{" "}
                     <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
                   </summary>
-                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
+                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
                     Traccia il fatturato mensile e monitora quanto sei lontano
                     dalla soglia di €100.000.
                   </p>
@@ -330,7 +330,7 @@ export default function LandingPage() {
                   <h2 className="text-base md:text-xl font-black text-white leading-tight">
                     Registro Incassi
                   </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
                     <BookOpen className="w-3 h-3 flex-shrink-0" />
                     Registra
                     <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
@@ -341,7 +341,7 @@ export default function LandingPage() {
                     Dettagli{" "}
                     <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
                   </summary>
-                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
+                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
                     Logga ogni incasso, vedi il netto spendibile e quanto
                     accantonare. Aggiorna il Tax Cliff automaticamente.
                   </p>
@@ -360,7 +360,7 @@ export default function LandingPage() {
                   <h2 className="text-base md:text-xl font-black text-white leading-tight">
                     Acconto Imposta Sostitutiva
                   </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
                     <Calendar className="w-3 h-3 flex-shrink-0" />
                     Calcola
                     <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
@@ -371,7 +371,7 @@ export default function LandingPage() {
                     Dettagli{" "}
                     <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
                   </summary>
-                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
+                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
                     Calcola quanto pagare di acconto entro il 30 Novembre. Rate,
                     scadenze e codice F24.
                   </p>
@@ -390,7 +390,7 @@ export default function LandingPage() {
                   <h2 className="text-base md:text-xl font-black text-white leading-tight">
                     Pro-Forma &amp; Avviso di Parcella
                   </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-300 transition-colors">
+                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
                     <FileText className="w-3 h-3 flex-shrink-0" />
                     Crea
                     <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
@@ -401,7 +401,7 @@ export default function LandingPage() {
                     Dettagli{" "}
                     <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
                   </summary>
-                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
+                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
                     Documento di pagamento non fiscale. Forfettario, ritenuta,
                     logo drag &amp; drop. La fattura parte solo a incasso.
                   </p>
@@ -415,7 +415,7 @@ export default function LandingPage() {
         <section className="max-w-5xl mx-auto px-6 py-16 md:py-20">
           <div className="grid md:grid-cols-2 gap-12">
             <div>
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-4">
                 Perché succede
               </p>
               <h2 className="text-3xl font-black text-zinc-950 mb-4 leading-tight">
@@ -438,7 +438,7 @@ export default function LandingPage() {
             </div>
 
             <div>
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-4">
                 Caso B2C
               </p>
               <div className="border-l-2 border-red-500 pl-5">
@@ -484,7 +484,7 @@ export default function LandingPage() {
                 <br />
                 Calcola.
               </h2>
-              <p className="text-zinc-400 max-w-sm">
+              <p className="text-zinc-600 max-w-sm">
                 Inserisci i tuoi numeri reali e scarica il report PDF per il tuo
                 commercialista.
               </p>

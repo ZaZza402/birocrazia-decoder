@@ -70,18 +70,18 @@ export default async function AtecoCodePage({ params }: { params: Params }) {
         <div className="flex items-center gap-1.5 mb-4 text-[10px] uppercase tracking-editorial font-semibold">
           <Link
             href="/"
-            className="text-zinc-400 hover:text-zinc-700 transition-colors"
+            className="text-zinc-600 hover:text-zinc-700 transition-colors"
           >
             BurZero
           </Link>
-          <ChevronRight className="w-2.5 h-2.5 text-zinc-300" />
+          <ChevronRight className="w-2.5 h-2.5 text-zinc-500" />
           <Link
             href="/calcolatori/ateco"
-            className="text-zinc-400 hover:text-zinc-700 transition-colors"
+            className="text-zinc-600 hover:text-zinc-700 transition-colors"
           >
             ATECO
           </Link>
-          <ChevronRight className="w-2.5 h-2.5 text-zinc-300" />
+          <ChevronRight className="w-2.5 h-2.5 text-zinc-500" />
           <span className="text-zinc-700">{entry.code}</span>
         </div>
 
@@ -89,7 +89,7 @@ export default async function AtecoCodePage({ params }: { params: Params }) {
           Codice ATECO {entry.code}
         </h1>
         <p className="mt-2 text-lg text-zinc-700">{entry.description}</p>
-        <p className="mt-1 text-[11px] uppercase tracking-editorial text-zinc-400">
+        <p className="mt-1 text-[11px] uppercase tracking-editorial text-zinc-600">
           {entry.sector} - nomenclatura {ATECO_CATALOG_NOMENCLATURE_YEAR}
         </p>
 
@@ -155,7 +155,7 @@ export default async function AtecoCodePage({ params }: { params: Params }) {
                     href={`/calcolatori/ateco/${getAtecoSlug(r)}`}
                     className="flex items-center gap-2 text-sm text-stone-600 hover:text-zinc-950 border border-stone-200 hover:border-zinc-400 px-3 py-2 transition-colors"
                   >
-                    <span className="font-mono text-xs text-zinc-400">
+                    <span className="font-mono text-xs text-zinc-600">
                       {r.code}
                     </span>
                     <span className="truncate">{r.description}</span>

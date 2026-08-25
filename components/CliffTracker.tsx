@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Lock } from "lucide-react";
@@ -168,7 +168,7 @@ export default function CliffTracker() {
       <div className="max-w-4xl mx-auto">
         {/* HEADER */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
-          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-2">
             Tax Cliff Monitor {TAX_YEAR}
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
@@ -186,7 +186,7 @@ export default function CliffTracker() {
           <div className="lg:col-span-1 space-y-5">
             {/* YTD Total */}
             <div className="bg-white border border-zinc-200 p-6">
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-2">
                 Fatturato {TAX_YEAR}
               </p>
               <p
@@ -201,7 +201,7 @@ export default function CliffTracker() {
 
             {/* Progress bar */}
             <div className="bg-white border border-zinc-200 p-6">
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-4">
                 Avanzamento verso €{CLIFF.toLocaleString("it-IT")}
               </p>
               <div className="relative h-3 bg-zinc-100 overflow-hidden">
@@ -218,7 +218,7 @@ export default function CliffTracker() {
                   style={{ left: `${(WARN_RED / CLIFF) * 100}%` }}
                 />
               </div>
-              <div className="flex justify-between text-[10px] font-mono text-zinc-400 mt-1.5">
+              <div className="flex justify-between text-[10px] font-mono text-zinc-600 mt-1.5">
                 <span>€0</span>
                 <span className="text-amber-500">€70k</span>
                 <span className="text-red-500">
@@ -232,7 +232,7 @@ export default function CliffTracker() {
                 <p className="text-2xl font-black font-mono tabular text-zinc-950">
                   {formatCurrency(Math.max(0, CLIFF - total))}
                 </p>
-                <p className="text-xs text-zinc-400 mt-0.5 flex items-center">
+                <p className="text-xs text-zinc-600 mt-0.5 flex items-center">
                   rimangono alla cliff
                   <InfoTooltip
                     content={`La \u201ccliff\u201d è il precipizio fiscale a €${CLIFF.toLocaleString("it-IT")}. Se superi questa soglia nell'anno corrente, esci dal Regime Forfettario con effetto retroattivo - tutte le tasse dell'intero anno vengono ricalcolate in Regime Ordinario, non solo il surplus.`}
@@ -245,7 +245,7 @@ export default function CliffTracker() {
             {/* Projection - show when at least 2 months entered */}
             {enteredCount >= 2 && (
               <div className="bg-white border border-zinc-200 p-6">
-                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-3">
+                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-3">
                   Proiezione Fine Anno
                 </p>
                 <p
@@ -259,7 +259,7 @@ export default function CliffTracker() {
                 >
                   {formatCurrency(projectedTotal)}
                 </p>
-                <p className="text-[11px] text-zinc-400 mt-1">
+                <p className="text-[11px] text-zinc-600 mt-1">
                   Media {formatCurrency(Math.round(avgMonthly))}/mese ×{" "}
                   {remainingMonths} mesi rimanenti
                 </p>
@@ -285,7 +285,7 @@ export default function CliffTracker() {
               href={`/calcolatori/forfettario?rev=${clampRev(total)}`}
               className="block bg-zinc-950 hover:bg-zinc-800 text-white p-5 transition-colors"
             >
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-1">
                 Simulatore Fiscale
               </p>
               <p className="text-sm font-bold">
@@ -295,8 +295,8 @@ export default function CliffTracker() {
 
             {/* Privacy note */}
             <div className="flex items-start gap-2 border border-zinc-200 bg-zinc-50 p-4">
-              <Lock className="w-3.5 h-3.5 text-zinc-400 mt-0.5 flex-shrink-0" />
-              <p className="text-[11px] text-zinc-400 leading-relaxed">
+              <Lock className="w-3.5 h-3.5 text-zinc-600 mt-0.5 flex-shrink-0" />
+              <p className="text-[11px] text-zinc-600 leading-relaxed">
                 I tuoi dati rimangono solo nel tuo browser - nessun server,
                 nessun account. Si azzerano se svuoti la cache.
               </p>
@@ -306,7 +306,7 @@ export default function CliffTracker() {
           {/* ── RIGHT: MONTHLY GRID ── */}
           <div className="lg:col-span-2">
             <div className="bg-white border border-zinc-200 p-6">
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-5">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-5">
                 Fatturato Mensile - {TAX_YEAR}
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -328,7 +328,7 @@ export default function CliffTracker() {
                       <label
                         htmlFor={`month-${m}`}
                         className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial mb-1 cursor-pointer ${
-                          isCurrent ? "text-zinc-950" : "text-zinc-400"
+                          isCurrent ? "text-zinc-950" : "text-zinc-600"
                         }`}
                       >
                         {name}
@@ -344,7 +344,7 @@ export default function CliffTracker() {
                         </span>
                       )}
                       <div className="relative flex items-center">
-                        <span className="text-xs text-zinc-400 font-mono mr-1">
+                        <span className="text-xs text-zinc-600 font-mono mr-1">
                           €
                         </span>
                         <input
@@ -401,7 +401,7 @@ export default function CliffTracker() {
               {/* Running total */}
               {enteredCount > 0 && (
                 <div className="mt-5 pt-4 border-t border-zinc-100 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-zinc-400 uppercase tracking-editorial">
+                  <span className="text-xs font-semibold text-zinc-600 uppercase tracking-editorial">
                     Totale inserito
                   </span>
                   <div className="flex items-center gap-4">
@@ -412,7 +412,7 @@ export default function CliffTracker() {
                     </span>
                     <button
                       onClick={handleReset}
-                      className="text-[11px] font-semibold uppercase tracking-editorial text-zinc-400 hover:text-red-600 transition-colors"
+                      className="text-[11px] font-semibold uppercase tracking-editorial text-zinc-600 hover:text-red-600 transition-colors"
                     >
                       Azzera tutto
                     </button>

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, {
   useState,
@@ -320,11 +320,11 @@ export default function ForfettarioCalculator({
       <div className="max-w-7xl mx-auto">
         {/* ── HEADER ── */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
-          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
+          <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-2">
             Simulatore Fiscale 2026
           </p>
           {scenarioLabel && (
-            <p className="text-xs font-mono text-zinc-400 mb-2 tracking-tight">
+            <p className="text-xs font-mono text-zinc-600 mb-2 tracking-tight">
               {scenarioLabel}
             </p>
           )}
@@ -337,7 +337,7 @@ export default function ForfettarioCalculator({
           </p>
           <button
             onClick={handleShare}
-            className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-editorial text-zinc-400 hover:text-zinc-700 transition-colors"
+            className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-editorial text-zinc-600 hover:text-zinc-700 transition-colors"
           >
             <Share2 className="w-3 h-3" />
             {copied ? "Copiato!" : "Condividi"}
@@ -349,7 +349,7 @@ export default function ForfettarioCalculator({
           {/* ── LEFT: INPUTS ── */}
           <div className="lg:col-span-4 space-y-5">
             <div className="bg-white border border-zinc-200 p-6">
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-5">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-5">
                 Configurazione Fiscale
               </p>
 
@@ -363,7 +363,7 @@ export default function ForfettarioCalculator({
                     value={selectedAteco}
                     onChange={handleAtecoChange}
                   />
-                  <p className="mt-1.5 text-[11px] text-zinc-400 flex items-center">
+                  <p className="mt-1.5 text-[11px] text-zinc-600 flex items-center">
                     Coefficiente di redditività:{" "}
                     <span className="font-mono font-bold text-zinc-700 ml-1">
                       {(resolveAtecoCoefficient(selectedAteco) * 100).toFixed(
@@ -454,7 +454,7 @@ export default function ForfettarioCalculator({
                     <span className="text-sm font-semibold text-zinc-800">
                       Start-up
                     </span>
-                    <span className="ml-2 text-xs text-zinc-400">
+                    <span className="ml-2 text-xs text-zinc-600">
                       Aliquota 5% (primi 5 anni)
                     </span>
                   </div>
@@ -577,7 +577,7 @@ export default function ForfettarioCalculator({
             {/* SLIDER */}
             <div className="bg-white border border-zinc-200 p-6">
               <div className="flex justify-between items-baseline mb-6">
-                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400">
+                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600">
                   Fatturato Annuo Previsto
                 </p>
                 <span className="text-5xl font-black font-mono tabular text-zinc-950 leading-none">
@@ -609,7 +609,7 @@ export default function ForfettarioCalculator({
                 />
               </SliderPrimitive.Root>
 
-              <div className="flex justify-between text-xs font-semibold text-zinc-400 mt-3">
+              <div className="flex justify-between text-xs font-semibold text-zinc-600 mt-3">
                 <span>€20k</span>
                 <span className="text-amber-600">
                   €{FORFETTARIO_ENTRY_LIMIT.toLocaleString("it-IT")} limite
@@ -642,7 +642,7 @@ export default function ForfettarioCalculator({
 
             {/* CHART */}
             <div className="bg-white border border-zinc-200 p-6">
-              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
+              <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-4">
                 Netto Disponibile - Proiezione €30k → €120k
               </p>
               <ForfettarioChart
@@ -669,7 +669,7 @@ export default function ForfettarioCalculator({
                 <>
                   <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                     <div>
-                      <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                      <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-1">
                         {forfettarioWins
                           ? "Forfettario - Regime Consigliato"
                           : "Ordinario - Regime Consigliato"}
@@ -686,7 +686,7 @@ export default function ForfettarioCalculator({
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-1">
+                      <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-1">
                         Risparmio vs alternativa
                       </p>
                       <p
@@ -725,7 +725,7 @@ export default function ForfettarioCalculator({
                 <div
                   className={`bg-white border ${forfettarioWins ? "border-zinc-950" : "border-zinc-200"} p-5`}
                 >
-                  <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
+                  <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-4">
                     Regime Forfettario
                   </p>
                   <div className="space-y-2.5">
@@ -766,7 +766,7 @@ export default function ForfettarioCalculator({
                     ))}
                   </div>
                   {inputs.realExpenses > 0 && (
-                    <p className="text-[10px] text-zinc-400 mt-3 leading-relaxed">
+                    <p className="text-[10px] text-zinc-600 mt-3 leading-relaxed">
                       Spese ({formatCurrency(inputs.realExpenses)}) incluse nel
                       netto - nel forfettario non sono deducibili fiscalmente ma
                       le paghi comunque.
@@ -779,7 +779,7 @@ export default function ForfettarioCalculator({
               <div
                 className={`bg-white border ${!forfettarioWins && !isOverCliff ? "border-zinc-950" : "border-zinc-200"} p-5 ${isOverCliff ? "sm:col-span-2" : ""}`}
               >
-                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-4">
+                <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-600 mb-4">
                   Regime Ordinario
                 </p>
                 <div className="space-y-2.5">
@@ -927,7 +927,7 @@ export default function ForfettarioCalculator({
             <p className="text-sm font-black text-zinc-950 uppercase tracking-editorial">
               Generazione Report
             </p>
-            <p className="text-xs text-zinc-400">Calcoli in corso&hellip;</p>
+            <p className="text-xs text-zinc-600">Calcoli in corso&hellip;</p>
           </div>
         </div>
       )}
