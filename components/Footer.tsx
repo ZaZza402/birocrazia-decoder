@@ -117,7 +117,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:info@bur0.click"
+                  href="mailto:info@alecsdesign.xyz"
                   className="text-sm text-zinc-400 hover:text-white transition-colors"
                 >
                   Contatti
