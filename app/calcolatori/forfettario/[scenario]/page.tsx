@@ -20,13 +20,13 @@ export async function generateMetadata({
   if (!scenario) return {};
 
   return {
-    title: `${scenario.title} | Bur0`,
+    title: `${scenario.title} | BurZero`,
     description: scenario.description,
     alternates: {
       canonical: `/calcolatori/forfettario/${scenario.slug}`,
     },
     openGraph: {
-      title: `${scenario.title} | Bur0`,
+      title: `${scenario.title} | BurZero`,
       description: scenario.description,
       url: `https://www.bur0.click/calcolatori/forfettario/${scenario.slug}`,
       type: "website",

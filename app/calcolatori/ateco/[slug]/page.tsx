@@ -9,7 +9,10 @@ import {
   getAtecoSlug,
   type AtecoEntry,
 } from "@/lib/ateco-data";
-import { ATECO_RULESET_YEAR, resolveAtecoCoefficient } from "@/lib/ateco-rules-2026";
+import {
+  ATECO_RULESET_YEAR,
+  resolveAtecoCoefficient,
+} from "@/lib/ateco-rules-2026";
 
 type Params = Promise<{ slug: string }>;
 
@@ -33,7 +36,7 @@ export async function generateMetadata({
   if (!entry) return {};
 
   const pct = (resolveAtecoCoefficient(entry) * 100).toFixed(0);
-  const title = `Codice ATECO ${entry.code} - ${entry.description} | Coefficiente ${pct}% | Bur0`;
+  const title = `Codice ATECO ${entry.code} - ${entry.description} | Coefficiente ${pct}% | BurZero`;
   const description = `Codice ATECO ${entry.code} (${entry.description}): coefficiente di redditività forfettario ${pct}%, settore ${entry.sector}. Calcola il netto esatto per il ${ATECO_RULESET_YEAR}.`;
 
   return {
@@ -65,8 +68,11 @@ export default async function AtecoCodePage({ params }: { params: Params }) {
     <div className="min-h-screen bg-stone-50 pt-20 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-1.5 mb-4 text-[10px] uppercase tracking-editorial font-semibold">
-          <Link href="/" className="text-zinc-400 hover:text-zinc-700 transition-colors">
-            Bur0
+          <Link
+            href="/"
+            className="text-zinc-400 hover:text-zinc-700 transition-colors"
+          >
+            BurZero
           </Link>
           <ChevronRight className="w-2.5 h-2.5 text-zinc-300" />
           <Link
@@ -93,12 +99,18 @@ export default async function AtecoCodePage({ params }: { params: Params }) {
           </p>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-4xl font-black font-mono leading-none">{pct}%</p>
-              <p className="text-[11px] text-zinc-500 mt-1">del fatturato è tassabile</p>
+              <p className="text-4xl font-black font-mono leading-none">
+                {pct}%
+              </p>
+              <p className="text-[11px] text-zinc-500 mt-1">
+                del fatturato è tassabile
+              </p>
             </div>
             <div>
               <p className="text-4xl font-black font-mono leading-none">15%</p>
-              <p className="text-[11px] text-zinc-500 mt-1">aliquota flat (5% startup)</p>
+              <p className="text-[11px] text-zinc-500 mt-1">
+                aliquota flat (5% startup)
+              </p>
             </div>
           </div>
           <div className="mt-5 pt-4 border-t border-zinc-800">
@@ -116,11 +128,11 @@ export default async function AtecoCodePage({ params }: { params: Params }) {
 
         <p className="mt-6 text-stone-600 leading-relaxed">
           Se operi nel settore <strong>{entry.sector}</strong> con attività di{" "}
-          <strong>{entry.description.toLowerCase()}</strong>, il tuo coefficiente
-          di redditività in Regime Forfettario per il {ATECO_RULESET_YEAR} è del{" "}
-          <strong>{pct}%</strong>: solo questa quota del fatturato lordo concorre
-          a formare il reddito imponibile su cui si applica l&apos;imposta
-          sostitutiva.
+          <strong>{entry.description.toLowerCase()}</strong>, il tuo
+          coefficiente di redditività in Regime Forfettario per il{" "}
+          {ATECO_RULESET_YEAR} è del <strong>{pct}%</strong>: solo questa quota
+          del fatturato lordo concorre a formare il reddito imponibile su cui si
+          applica l&apos;imposta sostitutiva.
         </p>
 
         <Link
@@ -143,7 +155,9 @@ export default async function AtecoCodePage({ params }: { params: Params }) {
                     href={`/calcolatori/ateco/${getAtecoSlug(r)}`}
                     className="flex items-center gap-2 text-sm text-stone-600 hover:text-zinc-950 border border-stone-200 hover:border-zinc-400 px-3 py-2 transition-colors"
                   >
-                    <span className="font-mono text-xs text-zinc-400">{r.code}</span>
+                    <span className="font-mono text-xs text-zinc-400">
+                      {r.code}
+                    </span>
                     <span className="truncate">{r.description}</span>
                   </Link>
                 </li>

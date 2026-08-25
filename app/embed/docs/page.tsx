@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Embed Integration Docs",
+  robots: { index: false, follow: false },
+};
+
 export default function EmbedDocsPage() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-12">
@@ -12,7 +19,7 @@ export default function EmbedDocsPage() {
             White Label (Senza Brand)
           </h2>
           <p className="text-gray-700 mb-4">
-            Versione completamente priva di branding Bur0 - ideale per
+            Versione completamente priva di branding BurZero - ideale per
             commercialisti che vogliono integrare il calcolatore nel proprio
             sito mantenendo la propria identità visiva.
           </p>
@@ -45,10 +52,10 @@ export default function EmbedDocsPage() {
         {/* Branded Version */}
         <section className="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
           <h2 className="text-2xl font-bold mb-4 text-purple-600">
-            Versione con Brand Bur0
+            Versione con Brand BurZero
           </h2>
           <p className="text-gray-700 mb-4">
-            Include footer con logo e link &ldquo;Powered by Bur0&rdquo; -
+            Include footer con logo e link &ldquo;Powered by BurZero&rdquo; -
             gratuita per uso illimitato. Ottima per blog, community e risorse
             gratuite.
           </p>
@@ -65,7 +72,7 @@ export default function EmbedDocsPage() {
   frameborder="0"
   scrolling="yes"
   style="border: none; border-radius: 8px;"
-  title="Calcolatore Forfettario by Bur0"
+  title="Calcolatore Forfettario by BurZero"
 ></iframe>`}
             </pre>
           </div>

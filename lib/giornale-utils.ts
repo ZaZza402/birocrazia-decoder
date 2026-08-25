@@ -4,10 +4,10 @@ import {
   TAX_YEAR,
 } from "@/lib/tax-constants-2026";
 
-export const GIORNALE_PROFILE_KEY = `bur0_giornale_profile_${TAX_YEAR}`;
-export const GIORNALE_ENTRIES_KEY = `bur0_giornale_${TAX_YEAR}`;
+export const GIORNALE_PROFILE_KEY = `burzero_giornale_profile_${TAX_YEAR}`;
+export const GIORNALE_ENTRIES_KEY = `burzero_giornale_${TAX_YEAR}`;
 // Same key CliffTracker reads - one-way sync from giornale into cliff
-const CLIFF_KEY = `bur0_cliff_${TAX_YEAR}`;
+const CLIFF_KEY = `burzero_cliff_${TAX_YEAR}`;
 
 export interface GiornaleProfile {
   isNewBusiness: boolean;

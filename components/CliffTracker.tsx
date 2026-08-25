@@ -27,7 +27,7 @@ const MONTHS_IT = [
   "Dicembre",
 ];
 
-const STORAGE_KEY = "bur0_cliff_2026";
+const STORAGE_KEY = "burzero_cliff_2026";
 const CLIFF = FORFETTARIO_EXIT_CLIFF;
 const WARN_RED = FORFETTARIO_ENTRY_LIMIT;
 const WARN_AMBER = 70_000;

@@ -1,9 +1,13 @@
 ﻿import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Privacy Policy | Bur0",
+export const metadata: Metadata = {
+  title: "Privacy Policy | BurZero",
   description: "Informativa Privacy - Local-First, Zero Tracking",
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 export default function PrivacyPage() {
@@ -19,8 +23,8 @@ export default function PrivacyPage() {
             I tuoi dati restano tuoi
           </h1>
           <p className="mt-3 text-base text-zinc-500 max-w-xl">
-            Bur0 non raccoglie, non trasmette e non conserva alcun dato fiscale.
-            Tutto viene elaborato localmente nel tuo browser.
+            BurZero non raccoglie, non trasmette e non conserva alcun dato
+            fiscale. Tutto viene elaborato localmente nel tuo browser.
           </p>
         </div>
 
@@ -46,10 +50,10 @@ export default function PrivacyPage() {
               Titolare del Trattamento
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed">
-              <strong className="text-zinc-900">Bur0</strong> - per qualsiasi
+              <strong className="text-zinc-900">BurZero</strong> - per qualsiasi
               richiesta:{" "}
               <a
-                href="mailto:info@alecsdesign.xyz?subject=Privacy%20Bur0"
+                href="mailto:info@alecsdesign.xyz?subject=Privacy%20BurZero"
                 className="underline underline-offset-2 hover:text-zinc-900 transition-colors"
               >
                 info@alecsdesign.xyz

@@ -181,7 +181,7 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
         {/* HEADER */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.title}>Bur0</Text>
+            <Text style={styles.title}>BurZero</Text>
             <Text style={styles.subtitle}>
               Simulazione Fiscale - Forfettario vs Ordinario
             </Text>
@@ -420,8 +420,8 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
           Simulazione indicativa basata sui dati forniti e sulla normativa
           fiscale italiana vigente al {new Date().getFullYear()}. Non
           costituisce consulenza fiscale o contabile. Per decisioni definitive,
-          consulta un Commercialista abilitato. bur0.click · Bur0 non si assume
-          responsabilità per decisioni prese sulla base di questo report.
+          consulta un Commercialista abilitato. bur0.click · BurZero non si
+          assume responsabilità per decisioni prese sulla base di questo report.
         </Text>
       </Page>
     </Document>

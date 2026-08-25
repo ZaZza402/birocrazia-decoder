@@ -6,24 +6,24 @@ import CookieBanner from "@/components/CookieBanner";
 import PageTransition from "@/components/PageTransition";
 
 export const metadata: Metadata = {
-  title: "Conviene Forfettario o Ordinario? Simulatore 2026 | Bur0",
+  title: "Conviene Forfettario o Ordinario? Simulatore 2026 | BurZero",
   description:
     "Scopri quanto risparmi con il Regime Forfettario vs Ordinario. Simulazione reale con i tuoi numeri, report PDF gratuito. Evita la trappola degli €85k.",
   keywords:
     "conviene forfettario o ordinario, regime forfettario simulatore, calcolo tasse partita iva, forfettario vs ordinario, limite 85k forfettario, regime forfettario 2026, calcolo netto partita iva, simulatore fiscale freelance, commercialista online",
-  authors: [{ name: "Bur0" }],
-  creator: "Bur0",
-  publisher: "Bur0",
+  authors: [{ name: "BurZero" }],
+  creator: "BurZero",
+  publisher: "BurZero",
   metadataBase: new URL("https://www.bur0.click"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Conviene Forfettario o Ordinario? Simulatore 2026 | Bur0",
+    title: "Conviene Forfettario o Ordinario? Simulatore 2026 | BurZero",
     description:
       "Scopri quanto risparmi con il Regime Forfettario vs Ordinario. Simulazione reale con i tuoi numeri, report PDF gratuito.",
     url: "https://www.bur0.click",
-    siteName: "Bur0",
+    siteName: "BurZero",
     locale: "it_IT",
     type: "website",
     images: [
@@ -31,14 +31,14 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Bur0 - Simulatore Regime Forfettario",
+        alt: "BurZero - Simulatore Regime Forfettario",
         type: "image/jpeg",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Conviene Forfettario o Ordinario? Simulatore 2026 | Bur0",
+    title: "Conviene Forfettario o Ordinario? Simulatore 2026 | BurZero",
     description:
       "Scopri quanto risparmi con il Regime Forfettario vs Ordinario. Simulazione reale con i tuoi numeri.",
     images: ["/og-image.jpg"],

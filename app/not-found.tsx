@@ -39,7 +39,7 @@ export default function NotFound() {
         <p className="mt-8 text-xs text-zinc-400">
           Pensi sia un errore?{" "}
           <a
-            href="mailto:info@alecsdesign.xyz?subject=Errore%20404%20su%20Bur0"
+            href="mailto:info@alecsdesign.xyz?subject=Errore%20404%20su%20BurZero"
             className="underline underline-offset-2 hover:text-zinc-700 transition-colors"
           >
             Scrivici

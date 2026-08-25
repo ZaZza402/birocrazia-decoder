@@ -2,14 +2,14 @@
 import { FORFETTARIO_EXIT_CLIFF } from "@/lib/tax-constants-2026";
 
 export const metadata: Metadata = {
-  title: "Tax Cliff Monitor 2026 - Traccia il Fatturato Mensile | Bur0",
+  title: "Tax Cliff Monitor 2026 - Traccia il Fatturato Mensile | BurZero",
   description: `Monitora mese per mese quanto sei lontano dalla Tax Cliff di €${FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")} del Regime Forfettario. Gratuito, dati solo nel browser, nessun account.`,
   keywords: `tax cliff ${FORFETTARIO_EXIT_CLIFF}, monitoraggio fatturato forfettario, limite regime forfettario 2026, tracker fatturato annuale, quando esco dal forfettario`,
   alternates: {
     canonical: "/calcolatori/cliff",
   },
   openGraph: {
-    title: "Tax Cliff Monitor 2026 | Bur0",
+    title: "Tax Cliff Monitor 2026 | BurZero",
     description: `Traccia il tuo fatturato mensile e scopri quando sei vicino alla Tax Cliff di €${FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")}.`,
     url: "https://www.bur0.click/calcolatori/cliff",
     type: "website",
@@ -24,7 +24,7 @@ export default function CliffLayout({
   const schema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Tax Cliff Monitor Bur0",
+    name: "Tax Cliff Monitor BurZero",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web Browser",
     offers: {

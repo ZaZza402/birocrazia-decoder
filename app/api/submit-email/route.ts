@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     if (!email || !email.includes("@")) {
       return NextResponse.json(
         { error: "Invalid email address" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -47,15 +47,15 @@ export async function POST(request: NextRequest) {
 
     // Email content
     const mailOptions = {
-      from: `"Bur0 Notifiche" <${emailUser}>`,
+      from: `"BurZero Notifiche" <${emailUser}>`,
       to: "start@alecsdesign.xyz",
       replyTo: email, // User's email as reply-to
-      subject: "🚀 Nuovo Interesse Bur0 PRO",
+      subject: "🚀 Nuovo Interesse BurZero PRO",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #4f46e5;">🚀 Nuova Richiesta Bur0 PRO</h2>
+          <h2 style="color: #4f46e5;">🚀 Nuova Richiesta BurZero PRO</h2>
           <p style="font-size: 16px; color: #333;">
-            Un utente ha espresso interesse per le funzionalità PRO di Bur0.
+            Un utente ha espresso interesse per le funzionalità PRO di BurZero.
           </p>
           <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <p style="margin: 0; font-size: 18px; font-weight: bold; color: #4f46e5;">
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
         </div>
       `,
       text: `
-Nuovo Interesse Bur0 PRO
+Nuovo Interesse BurZero PRO
 
 Email: ${email}
 
@@ -115,7 +115,7 @@ Data: ${new Date().toLocaleString("it-IT", { timeZone: "Europe/Rome" })}
         success: false,
         error: process.env.NODE_ENV === "development" ? error : "Email failed",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

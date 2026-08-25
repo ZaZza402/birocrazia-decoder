@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Calcolatore Forfettario - Versione Embedabile con Brand",
-  description: "Calcolatore Regime Forfettario embedabile con brand Bur0",
+  description: "Calcolatore Regime Forfettario embedabile con brand BurZero",
   robots: {
     index: false,
     follow: false,

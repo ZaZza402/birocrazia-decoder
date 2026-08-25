@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "Simulatore Regime Forfettario 2026 - Calcolo Tasse Partita IVA | Bur0",
+    "Simulatore Regime Forfettario 2026 - Calcolo Tasse Partita IVA | BurZero",
   description:
     "Calcola esattamente quanto risparmi tra Regime Forfettario e Ordinario. Inserisci i tuoi dati, visualizza la Tax Cliff a €100k, scarica il report PDF gratuito per il commercialista.",
   keywords:
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     canonical: "/calcolatori/forfettario",
   },
   openGraph: {
-    title: "Simulatore Regime Forfettario 2026 | Bur0",
+    title: "Simulatore Regime Forfettario 2026 | BurZero",
     description:
       "Calcola esattamente quanto risparmi tra Regime Forfettario e Ordinario. Report PDF gratuito.",
     url: "https://www.bur0.click/calcolatori/forfettario",
@@ -27,7 +27,7 @@ export default function ForfettarioLayout({
   const calculatorSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Simulatore Regime Forfettario Bur0",
+    name: "Simulatore Regime Forfettario BurZero",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web Browser",
     offers: {

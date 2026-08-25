@@ -130,7 +130,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-zinc-800 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <p className="text-xs text-zinc-600">
-            © {currentYear} Bur0 - I calcoli sono indicativi. Per consulenze
+            © {currentYear} BurZero - I calcoli sono indicativi. Per consulenze
             specifiche, rivolgiti a un commercialista.
           </p>
           <div className="flex gap-5 text-xs text-zinc-600">

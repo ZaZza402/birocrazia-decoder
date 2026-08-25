@@ -244,7 +244,7 @@ export default function AtecoFinder() {
               href="/"
               className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-400 hover:text-zinc-700 transition-colors"
             >
-              Bur0
+              BurZero
             </Link>
             <ChevronRight className="w-2.5 h-2.5 text-zinc-300" />
             <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-700">

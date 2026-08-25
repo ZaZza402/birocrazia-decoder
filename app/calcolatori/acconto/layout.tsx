@@ -2,7 +2,7 @@
 
 export const metadata: Metadata = {
   title:
-    "Calcola Acconto Imposta Sostitutiva 2026 - Scadenza 30 Novembre | Bur0",
+    "Calcola Acconto Imposta Sostitutiva 2026 - Scadenza 30 Novembre | BurZero",
   description:
     "Calcola l'acconto dell'imposta sostitutiva del Regime Forfettario. Scopri quanto pagare entro il 30 giugno e il 30 novembre. Metodo storico e previsionale.",
   keywords:
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     canonical: "/calcolatori/acconto",
   },
   openGraph: {
-    title: "Calcola Acconto Imposta Sostitutiva 2026 | Bur0",
+    title: "Calcola Acconto Imposta Sostitutiva 2026 | BurZero",
     description:
       "Scopri quanto devi pagare di acconto sull'imposta sostitutiva e quando. Scadenza 30 novembre.",
     url: "https://www.bur0.click/calcolatori/acconto",
@@ -27,7 +27,7 @@ export default function AccontoLayout({
   const schema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Calcolatore Acconto Imposta Sostitutiva Bur0",
+    name: "Calcolatore Acconto Imposta Sostitutiva BurZero",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web Browser",
     offers: {

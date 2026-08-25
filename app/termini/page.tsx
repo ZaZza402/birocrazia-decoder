@@ -1,9 +1,14 @@
 ﻿import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
-export const metadata = {
-  title: "Termini e Condizioni | Bur0",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Termini e Condizioni | BurZero",
   description: "Termini di Utilizzo - Strumento di Simulazione Fiscale",
+  alternates: {
+    canonical: "/termini",
+  },
 };
 
 export default function TermsPage() {
@@ -19,7 +24,7 @@ export default function TermsPage() {
             Termini e Condizioni
           </h1>
           <p className="mt-3 text-base text-zinc-500 max-w-xl">
-            Bur0 &egrave; uno strumento di simulazione fiscale a scopo
+            BurZero &egrave; uno strumento di simulazione fiscale a scopo
             informativo. Non sostituisce la consulenza di un commercialista.
           </p>
         </div>
@@ -30,7 +35,7 @@ export default function TermsPage() {
             Importante
           </p>
           <p className="text-sm text-zinc-700 leading-relaxed">
-            I risultati forniti da Bur0 hanno valore
+            I risultati forniti da BurZero hanno valore
             <strong className="text-zinc-900"> puramente indicativo</strong>.
             L&apos;utente &egrave; l&apos;unico responsabile delle proprie
             scelte fiscali e della verifica con un professionista abilitato.
@@ -47,7 +52,7 @@ export default function TermsPage() {
               Scopo del Servizio
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed">
-              <strong className="text-zinc-900">Bur0</strong> &egrave; uno
+              <strong className="text-zinc-900">BurZero</strong> &egrave; uno
               strumento di{" "}
               <strong className="text-zinc-900">simulazione e stima</strong>{" "}
               fiscale gratuito. I risultati (inclusi i report PDF) sono basati
@@ -68,7 +73,7 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3">
               {[
-                "Bur0 non sostituisce il parere di un commercialista o consulente fiscale.",
+                "BurZero non sostituisce il parere di un commercialista o consulente fiscale.",
                 "L'autore non si assume alcuna responsabilit\u00e0 per sanzioni, errori dichiarativi, perdite finanziarie o danni derivanti dall'uso di questo strumento.",
                 "L'utente \u00e8 l'unico responsabile della verifica dei dati e della consultazione con un professionista prima di qualsiasi decisione fiscale.",
               ].map((text, i) => (
@@ -127,7 +132,7 @@ export default function TermsPage() {
               Propriet&agrave; Intellettuale
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed">
-              Tutti i contenuti, il codice, il design e gli algoritmi di Bur0
+              Tutti i contenuti, il codice, il design e gli algoritmi di BurZero
               sono di propriet&agrave; esclusiva dell&apos;autore. &Egrave;
               vietata la riproduzione, distribuzione o uso commerciale senza
               autorizzazione scritta.
@@ -143,7 +148,7 @@ export default function TermsPage() {
               Uso Accettabile
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed mb-3">
-              L&apos;utente si impegna a utilizzare Bur0 in modo lecito.
+              L&apos;utente si impegna a utilizzare BurZero in modo lecito.
               &Egrave; vietato tentare di violare la sicurezza del sito,
               effettuare reverse-engineering del codice o utilizzare il servizio
               per scopi illegali.
@@ -169,7 +174,7 @@ export default function TermsPage() {
         {/* â”€â”€ FOOTER ROW â”€â”€ */}
         <div className="mt-8 pt-6 border-t border-zinc-200 flex items-center justify-between gap-4">
           <p className="text-xs text-zinc-400">
-            Ultima revisione: Marzo 2026 - Utilizzando Bur0 accetti questi
+            Ultima revisione: Marzo 2026 - Utilizzando BurZero accetti questi
             Termini.
           </p>
           <Link

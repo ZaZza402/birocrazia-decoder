@@ -17,7 +17,7 @@ export default function LandingPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Bur0 - Simulatore Regime Forfettario",
+    name: "BurZero - Simulatore Regime Forfettario",
     description:
       "Simulatore fiscale per calcolare la convenienza tra Regime Forfettario e Ordinario. Report PDF gratuito con confronto dettagliato.",
     url: "https://www.bur0.click",
@@ -61,7 +61,7 @@ export default function LandingPage() {
         name: "Il simulatore è gratuito?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Sì, il simulatore Bur0 è completamente gratuito. Include il report PDF dettagliato con tutti i calcoli da portare al commercialista. Non serve registrazione.",
+          text: "Sì, il simulatore BurZero è completamente gratuito. Include il report PDF dettagliato con tutti i calcoli da portare al commercialista. Non serve registrazione.",
         },
       },
     ],
