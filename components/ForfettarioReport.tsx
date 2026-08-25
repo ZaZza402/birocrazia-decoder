@@ -195,7 +195,7 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
               })}
             </Text>
             <Text style={{ fontSize: 9, color: "#a1a1aa", marginTop: 2 }}>
-              bur0.click
+              BurZero
             </Text>
           </View>
         </View>
@@ -420,8 +420,8 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
           Simulazione indicativa basata sui dati forniti e sulla normativa
           fiscale italiana vigente al {new Date().getFullYear()}. Non
           costituisce consulenza fiscale o contabile. Per decisioni definitive,
-          consulta un Commercialista abilitato. bur0.click · BurZero non si
-          assume responsabilità per decisioni prese sulla base di questo report.
+          consulta un Commercialista abilitato. · BurZero non si assume
+          responsabilità per decisioni prese sulla base di questo report.
         </Text>
       </Page>
     </Document>

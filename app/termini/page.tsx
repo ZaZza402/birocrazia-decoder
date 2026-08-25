@@ -18,7 +18,7 @@ export default function TermsPage() {
         {/* â”€â”€ HEADER â”€â”€ */}
         <div className="mb-10 border-b border-zinc-200 pb-6">
           <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-400 mb-2">
-            Termini di Utilizzo - bur0.click
+            Termini di Utilizzo - BurZero
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-none">
             Termini e Condizioni
