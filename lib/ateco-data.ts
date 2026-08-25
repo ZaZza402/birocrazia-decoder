@@ -1512,6 +1512,23 @@ export const ATECO_BY_CODE: Record<string, AtecoEntry> = Object.fromEntries(
   ATECO_DATA.map((e) => [e.code, e]),
 );
 
+// URL-safe slug for per-code pSEO pages, derived from code + description (no stored field to keep in sync)
+export function getAtecoSlug(entry: AtecoEntry): string {
+  const codePart = entry.code.replace(/\./g, "-");
+  const descPart = entry.description
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `${codePart}-${descPart}`;
+}
+
+// Quick lookup by slug for the dynamic [slug] route
+export const ATECO_BY_SLUG: Record<string, AtecoEntry> = Object.fromEntries(
+  ATECO_DATA.map((e) => [getAtecoSlug(e), e]),
+);
+
 // Search function - matches code, description, sector, tags
 export function searchAteco(query: string): AtecoEntry[] {
   const q = query.trim().toLowerCase();

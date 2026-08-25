@@ -20,7 +20,7 @@ export default function LandingPage() {
     name: "Bur0 - Simulatore Regime Forfettario",
     description:
       "Simulatore fiscale per calcolare la convenienza tra Regime Forfettario e Ordinario. Report PDF gratuito con confronto dettagliato.",
-    url: "https://bur0.click",
+    url: "https://www.bur0.click",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web Browser",
     offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },

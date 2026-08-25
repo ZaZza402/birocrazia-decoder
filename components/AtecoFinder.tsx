@@ -13,6 +13,7 @@ import {
 import {
   ATECO_CATALOG_NOMENCLATURE_YEAR,
   ATECO_DATA,
+  getAtecoSlug,
   type AtecoEntry,
 } from "@/lib/ateco-data";
 import {
@@ -68,7 +69,7 @@ function EntryRow({
     <button
       type="button"
       onClick={() => onSelect(entry)}
-      className={`w-full flex items-center gap-3 px-4 py-3 text-left border-b border-zinc-100 last:border-0 transition-colors ${
+      className={`w-full flex items-center gap-3 px-4 py-4 lg:py-3 text-left border-b border-zinc-100 last:border-0 transition-colors ${
         selected
           ? "bg-zinc-950 text-white"
           : "hover:bg-zinc-50 active:bg-zinc-100"
@@ -192,6 +193,14 @@ function DetailSheet({
             Simula il netto completo
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </Link>
+
+          <Link
+            href={`/calcolatori/ateco/${getAtecoSlug(entry)}`}
+            onClick={onClose}
+            className="mt-3 flex items-center justify-center gap-1 text-xs font-bold uppercase tracking-editorial text-zinc-500 hover:text-zinc-300 transition-colors"
+          >
+            Apri la pagina completa del codice
+          </Link>
         </div>
       </div>
     </>,
@@ -282,33 +291,47 @@ export default function AtecoFinder() {
               )}
             </div>
 
-            {/* Sector filter pills - horizontal scroll on mobile, no wrapping */}
+            {/* Sector filter - native select on mobile (avoids horizontal scroll trap), pills on desktop */}
             {!isSearching && (
-              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none -mx-4 px-4 lg:mx-0 lg:px-0 lg:flex-wrap">
-                <button
-                  onClick={() => setActiveSector(null)}
-                  className={`text-[10px] font-bold uppercase tracking-editorial px-3 py-1.5 border flex-shrink-0 transition-colors ${
-                    activeSector === null
-                      ? "bg-zinc-950 text-white border-zinc-950"
-                      : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900"
-                  }`}
+              <>
+                <select
+                  value={activeSector ?? ""}
+                  onChange={(e) => setActiveSector(e.target.value || null)}
+                  className="lg:hidden w-full bg-white border border-zinc-200 text-xs font-bold uppercase tracking-editorial px-3 py-3 text-zinc-700"
                 >
-                  Più cercati
-                </button>
-                {SECTORS.map((sector) => (
+                  <option value="">Più cercati</option>
+                  {SECTORS.map((sector) => (
+                    <option key={sector} value={sector}>
+                      {sector}
+                    </option>
+                  ))}
+                </select>
+                <div className="hidden lg:flex gap-2 lg:flex-wrap">
                   <button
-                    key={sector}
-                    onClick={() => setActiveSector(sector)}
+                    onClick={() => setActiveSector(null)}
                     className={`text-[10px] font-bold uppercase tracking-editorial px-3 py-1.5 border flex-shrink-0 transition-colors ${
-                      activeSector === sector
+                      activeSector === null
                         ? "bg-zinc-950 text-white border-zinc-950"
                         : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900"
                     }`}
                   >
-                    {sector}
+                    Più cercati
                   </button>
-                ))}
-              </div>
+                  {SECTORS.map((sector) => (
+                    <button
+                      key={sector}
+                      onClick={() => setActiveSector(sector)}
+                      className={`text-[10px] font-bold uppercase tracking-editorial px-3 py-1.5 border flex-shrink-0 transition-colors ${
+                        activeSector === sector
+                          ? "bg-zinc-950 text-white border-zinc-950"
+                          : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900"
+                      }`}
+                    >
+                      {sector}
+                    </button>
+                  ))}
+                </div>
+              </>
             )}
 
             {/* Results list */}
@@ -454,6 +477,12 @@ export default function AtecoFinder() {
                   >
                     Apri il Simulatore
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  </Link>
+                  <Link
+                    href={`/calcolatori/ateco/${getAtecoSlug(selected)}`}
+                    className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-editorial text-zinc-500 hover:text-zinc-900 transition-colors w-full justify-center"
+                  >
+                    Pagina completa del codice
                   </Link>
                 </div>
 

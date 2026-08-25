@@ -1,149 +1,106 @@
+import { ATECO_DATA, getAtecoSlug } from "@/lib/ateco-data";
+import { SCENARIOS } from "@/lib/scenarios";
+
 export const dynamic = "force-dynamic";
 
-const XML = `<?xml version="1.0" encoding="UTF-8"?>
+const BASE_URL = "https://www.bur0.click";
+
+const STATIC_PAGES: Array<{
+  path: string;
+  lastmod: string;
+  changefreq: string;
+  priority: string;
+}> = [
+  { path: "/", lastmod: "2026-03-27", changefreq: "weekly", priority: "1.0" },
+  {
+    path: "/calcolatori/forfettario",
+    lastmod: "2026-03-27",
+    changefreq: "weekly",
+    priority: "0.9",
+  },
+  {
+    path: "/calcolatori/ateco",
+    lastmod: "2026-03-27",
+    changefreq: "weekly",
+    priority: "0.9",
+  },
+  {
+    path: "/calcolatori/cliff",
+    lastmod: "2026-03-27",
+    changefreq: "monthly",
+    priority: "0.85",
+  },
+  {
+    path: "/calcolatori/giornale",
+    lastmod: "2026-08-05",
+    changefreq: "weekly",
+    priority: "0.9",
+  },
+  {
+    path: "/calcolatori/acconto",
+    lastmod: "2026-03-27",
+    changefreq: "monthly",
+    priority: "0.85",
+  },
+  {
+    path: "/calcolatori/ricevuta",
+    lastmod: "2026-03-27",
+    changefreq: "monthly",
+    priority: "0.7",
+  },
+  {
+    path: "/calcolatori/fattura",
+    lastmod: "2026-03-27",
+    changefreq: "monthly",
+    priority: "0.85",
+  },
+];
+
+function urlEntry(
+  path: string,
+  lastmod: string,
+  changefreq: string,
+  priority: string,
+): string {
+  return `  <url>
+    <loc>${BASE_URL}${path}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`;
+}
+
+function buildXml(): string {
+  const staticEntries = STATIC_PAGES.map((p) =>
+    urlEntry(p.path, p.lastmod, p.changefreq, p.priority),
+  );
+
+  const scenarioEntries = SCENARIOS.map((s) =>
+    urlEntry(
+      `/calcolatori/forfettario/${s.slug}`,
+      "2026-03-27",
+      "monthly",
+      "0.8",
+    ),
+  );
+
+  const atecoEntries = ATECO_DATA.map((e) =>
+    urlEntry(
+      `/calcolatori/ateco/${getAtecoSlug(e)}`,
+      "2026-08-25",
+      "monthly",
+      "0.6",
+    ),
+  );
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://www.bur0.click/</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/ateco</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/cliff</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/giornale</loc>
-    <lastmod>2026-08-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/acconto</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/ricevuta</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/fattura</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/sviluppatore-software-50k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/sviluppatore-software-75k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/consulente-it-60k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/graphic-designer-35k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/web-designer-40k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/digital-marketing-45k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/commercialista-55k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/avvocato-65k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/architetto-48k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/fisioterapista-38k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/personal-trainer-28k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/psicologo-35k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/traduttore-32k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/elettricista-50k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.bur0.click/calcolatori/forfettario/idraulico-48k</loc>
-    <lastmod>2026-03-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+${[...staticEntries, ...scenarioEntries, ...atecoEntries].join("\n")}
 </urlset>`;
+}
 
 export async function GET() {
-  return new Response(XML, {
+  return new Response(buildXml(), {
     status: 200,
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
@@ -152,3 +109,4 @@ export async function GET() {
     },
   });
 }
+
