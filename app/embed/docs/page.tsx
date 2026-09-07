@@ -118,10 +118,10 @@ export default function EmbedDocsPage() {
               <span>
                 <strong>White Label:</strong> Per accesso contattare{" "}
                 <a
-                  href="mailto:info@alecsdesign.xyz"
+                  href="mailto:info@alemstudio.it"
                   className="text-indigo-600 underline"
                 >
-                  info@alecsdesign.xyz
+                  info@alemstudio.it
                 </a>
               </span>
             </li>

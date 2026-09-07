@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     // Email content
     const mailOptions = {
       from: `"BurZero Notifiche" <${emailUser}>`,
-      to: "start@alecsdesign.xyz",
+      to: "info@alemstudio.it",
       replyTo: email, // User's email as reply-to
       subject: "🚀 Nuovo Interesse BurZero PRO",
       html: `

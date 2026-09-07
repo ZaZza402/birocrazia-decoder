@@ -235,7 +235,7 @@ export default function CliffTracker() {
                 <p className="text-xs text-zinc-600 mt-0.5 flex items-center">
                   rimangono alla cliff
                   <InfoTooltip
-                    content={`La \u201ccliff\u201d è il precipizio fiscale a €${CLIFF.toLocaleString("it-IT")}. Se superi questa soglia nell'anno corrente, esci dal Regime Forfettario con effetto retroattivo - tutte le tasse dell'intero anno vengono ricalcolate in Regime Ordinario, non solo il surplus.`}
+                    content={`La \u201ccliff\u201d è il precipizio fiscale a €${CLIFF.toLocaleString("it-IT")}. Se superi questa soglia nell'anno corrente, esci dal Regime Forfettario nell'anno in corso e applichi l'IVA alle operazioni che determinano il superamento.`}
                     side="top"
                   />
                 </p>

@@ -74,6 +74,14 @@ const STEPS: Step[] = [
     href: "/calcolatori/fattura",
     Icon: FileText,
   },
+  {
+    num: "07",
+    label: "Ricevi",
+    title: "Ricevuta Prestazione Occasionale",
+    desc: "Calcola ritenuta, bollo e limite annuo",
+    href: "/calcolatori/ricevuta",
+    Icon: FileText,
+  },
 ];
 
 interface Props {

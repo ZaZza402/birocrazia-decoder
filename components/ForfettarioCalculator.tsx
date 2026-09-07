@@ -617,7 +617,7 @@ export default function ForfettarioCalculator({
                 <span className="text-red-600 flex items-center">
                   €{FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")} cliff
                   <InfoTooltip
-                    content={`€${FORFETTARIO_ENTRY_LIMIT.toLocaleString("it-IT")}: se superi questo importo nell'anno N, perdi il forfettario dall'anno N+1. €${FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")} (cliff): se superi questo importo nell'anno corrente, esci dal forfettario con effetto retroattivo - tutte le tasse dell'anno vengono ricalcolate in Regime Ordinario.`}
+                    content={`€${FORFETTARIO_ENTRY_LIMIT.toLocaleString("it-IT")}: se superi questo importo nell'anno N, perdi il forfettario dall'anno N+1. €${FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")} (cliff): se superi questo importo nell'anno corrente, esci subito dal forfettario e applichi l'IVA alle operazioni che determinano il superamento.`}
                     side="top"
                   />
                 </span>
@@ -662,7 +662,8 @@ export default function ForfettarioCalculator({
                   </p>
                   <p className="text-sm text-zinc-600">
                     Sopra €{FORFETTARIO_EXIT_CLIFF.toLocaleString("it-IT")} si
-                    esce dal forfettario con effetto retroattivo.
+                    esce dal forfettario nell&apos;anno in corso. L&apos;IVA si
+                    applica alle operazioni che determinano il superamento.
                   </p>
                 </div>
               ) : (

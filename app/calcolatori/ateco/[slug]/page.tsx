@@ -36,8 +36,8 @@ export async function generateMetadata({
   if (!entry) return {};
 
   const pct = (resolveAtecoCoefficient(entry) * 100).toFixed(0);
-  const title = `Codice ATECO ${entry.code} - ${entry.description} | Coefficiente ${pct}% | BurZero`;
-  const description = `Codice ATECO ${entry.code} (${entry.description}): coefficiente di redditività forfettario ${pct}%, settore ${entry.sector}. Calcola il netto esatto per il ${ATECO_RULESET_YEAR}.`;
+  const title = `Codice ATECO ${entry.code}: ${entry.description} ${ATECO_RULESET_YEAR} | ${pct}% | BurZero`;
+  const description = `Trova il codice ATECO ${entry.code} per ${entry.description.toLowerCase()}: coefficiente di redditività ${pct}% nel Forfettario ${ATECO_RULESET_YEAR}. Calcola il tuo netto e le tasse.`;
 
   return {
     title,

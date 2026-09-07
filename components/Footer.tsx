@@ -85,6 +85,28 @@ export default function Footer() {
                   </span>
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/calcolatori/ricevuta"
+                  className="text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  Ricevuta Prestazione Occasionale{" "}
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500">
+                    Live
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/calcolatori/fattura"
+                  className="text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  Pro-Forma &amp; Avviso di Parcella{" "}
+                  <span className="text-[10px] uppercase tracking-editorial font-semibold text-green-500">
+                    Live
+                  </span>
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -117,10 +139,10 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:info@alecsdesign.xyz"
+                  href="mailto:info@alemstudio.it"
                   className="text-sm text-zinc-400 hover:text-white transition-colors"
                 >
-                  Contatti
+                  Alem Studio - Contatti
                 </a>
               </li>
             </ul>

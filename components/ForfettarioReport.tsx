@@ -312,7 +312,9 @@ export const ForfettarioReport = ({ inputs, results }: ReportProps) => {
             )}
             {isOverCliff && (
               <Text style={{ fontSize: 9, color: "#dc2626" }}>
-                Sopra €100k si esce dal forfettario con effetto retroattivo.
+                Sopra €100k si esce dal forfettario nell&apos;anno in corso e
+                l&apos;IVA si applica alle operazioni che determinano il
+                superamento.
               </Text>
             )}
           </View>

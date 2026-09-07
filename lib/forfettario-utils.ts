@@ -168,7 +168,7 @@ export function compareRegimes(inputs: ForfettarioInputs): {
   if (isForcedOrdinario) {
     f_net = 0; // Invalid
     f_warnings.push(
-      "IMPOSSIBILE: Sopra i 100k il regime forfettario cessa immediatamente (retroattivo).",
+      "IMPOSSIBILE: Sopra i 100k il regime forfettario cessa nell'anno in corso; l'IVA si applica alle operazioni che determinano il superamento.",
     );
   }
 

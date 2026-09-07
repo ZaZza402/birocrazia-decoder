@@ -1,17 +1,8 @@
 import "../LandingPage.css";
 import Link from "next/link";
-import {
-  ArrowRight,
-  AlertTriangle,
-  Search,
-  TrendingUp,
-  Calendar,
-  FileText,
-  BookOpen,
-  Calculator,
-  ChevronDown,
-} from "lucide-react";
+import { AlertTriangle, ArrowRight } from "lucide-react";
 import InstallAppButton from "@/components/InstallAppButton";
+import ToolDirectory from "@/components/ToolDirectory";
 
 export default function LandingPage() {
   const jsonLd = {
@@ -53,7 +44,7 @@ export default function LandingPage() {
         name: "Cosa succede a €100.000 di fatturato?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Se si supera il limite di €100.000, si esce IMMEDIATAMENTE dal Regime Forfettario con effetto retroattivo. Questo significa ricalcolare tutte le tasse dell'anno in Regime Ordinario, con possibili sanzioni e conguagli.",
+          text: "Se si supera il limite di €100.000, si esce immediatamente dal Regime Forfettario nell'anno in corso. L'IVA si applica alle operazioni che determinano il superamento della soglia.",
         },
       },
       {
@@ -218,198 +209,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ── TOOLS GRID ── */}
-        <section className="bg-zinc-950 text-white">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20">
-            <p className="text-xs uppercase tracking-editorial font-semibold text-zinc-500 mb-10">
-              Sei strumenti - dal profilo alla fattura
-            </p>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-800">
-              {/* 01 - ATECO */}
-              <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
-                  01 - Identifica
-                </span>
-                <Link
-                  href="/calcolatori/ateco"
-                  className="group/l flex-1 block"
-                >
-                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
-                    Codice ATECO 2026
-                  </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
-                    <Search className="w-3 h-3 flex-shrink-0" />
-                    Cerca
-                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
-                  </span>
-                </Link>
-                <details className="mt-3 group">
-                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
-                    Dettagli{" "}
-                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
-                  </summary>
-                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
-                    Cerca per attività e trova il codice ufficiale più il
-                    coefficiente di redditività corretto per il Forfettario.
-                  </p>
-                </details>
-              </div>
-
-              {/* 02 - SIMULATORE */}
-              <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
-                  02 - Simula
-                </span>
-                <Link
-                  href="/calcolatori/forfettario"
-                  className="group/l flex-1 block"
-                >
-                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
-                    Forfettario vs Ordinario
-                  </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
-                    <Calculator className="w-3 h-3 flex-shrink-0" />
-                    Simula
-                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
-                  </span>
-                </Link>
-                <details className="mt-3 group">
-                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
-                    Dettagli{" "}
-                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
-                  </summary>
-                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
-                    Calcola il netto con i tuoi numeri reali. Tax cliff a €100k.
-                    Report PDF per il commercialista.
-                  </p>
-                </details>
-              </div>
-
-              {/* 03 - TAX CLIFF MONITOR */}
-              <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
-                  03 - Monitora
-                </span>
-                <Link
-                  href="/calcolatori/cliff"
-                  className="group/l flex-1 block"
-                >
-                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
-                    Tax Cliff Monitor
-                  </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
-                    <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                    Monitora
-                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
-                  </span>
-                </Link>
-                <details className="mt-3 group">
-                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
-                    Dettagli{" "}
-                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
-                  </summary>
-                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
-                    Traccia il fatturato mensile e monitora quanto sei lontano
-                    dalla soglia di €100.000.
-                  </p>
-                </details>
-              </div>
-
-              {/* 04 - REGISTRO INCASSI */}
-              <div className="bg-zinc-900 p-5 md:p-6 flex flex-col min-h-[150px]">
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 flex items-center gap-2">
-                  04 - Registra
-                  <span className="text-[8px] bg-red-600 text-white px-1.5 py-0.5 font-black tracking-wider leading-tight">
-                    NUOVO
-                  </span>
-                </span>
-                <Link
-                  href="/calcolatori/giornale"
-                  className="group/l flex-1 block"
-                >
-                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
-                    Registro Incassi
-                  </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
-                    <BookOpen className="w-3 h-3 flex-shrink-0" />
-                    Registra
-                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
-                  </span>
-                </Link>
-                <details className="mt-3 group">
-                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
-                    Dettagli{" "}
-                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
-                  </summary>
-                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
-                    Logga ogni incasso, vedi il netto spendibile e quanto
-                    accantonare. Aggiorna il Tax Cliff automaticamente.
-                  </p>
-                </details>
-              </div>
-
-              {/* 05 - ACCONTO */}
-              <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
-                  05 - Pianifica
-                </span>
-                <Link
-                  href="/calcolatori/acconto"
-                  className="group/l flex-1 block"
-                >
-                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
-                    Acconto Imposta Sostitutiva
-                  </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
-                    <Calendar className="w-3 h-3 flex-shrink-0" />
-                    Calcola
-                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
-                  </span>
-                </Link>
-                <details className="mt-3 group">
-                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
-                    Dettagli{" "}
-                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
-                  </summary>
-                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
-                    Calcola quanto pagare di acconto entro il 30 Novembre. Rate,
-                    scadenze e codice F24.
-                  </p>
-                </details>
-              </div>
-
-              {/* 06 - PRO-FORMA */}
-              <div className="bg-zinc-950 p-5 md:p-6 flex flex-col min-h-[150px]">
-                <span className="text-[10px] uppercase tracking-editorial font-semibold text-zinc-600 mb-3 block">
-                  06 - Emetti
-                </span>
-                <Link
-                  href="/calcolatori/fattura"
-                  className="group/l flex-1 block"
-                >
-                  <h2 className="text-base md:text-xl font-black text-white leading-tight">
-                    Pro-Forma &amp; Avviso di Parcella
-                  </h2>
-                  <span className="mt-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-editorial text-zinc-600 group-hover/l:text-zinc-500 transition-colors">
-                    <FileText className="w-3 h-3 flex-shrink-0" />
-                    Crea
-                    <ArrowRight className="w-3 h-3 group-hover/l:translate-x-0.5 transition-transform" />
-                  </span>
-                </Link>
-                <details className="mt-3 group">
-                  <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1 text-[10px] font-semibold uppercase tracking-editorial text-zinc-700 hover:text-zinc-500 transition-colors select-none">
-                    Dettagli{" "}
-                    <ChevronDown className="w-3 h-3 transition-transform group-open:rotate-180" />
-                  </summary>
-                  <p className="mt-2 text-xs text-zinc-600 leading-relaxed">
-                    Documento di pagamento non fiscale. Forfettario, ritenuta,
-                    logo drag &amp; drop. La fattura parte solo a incasso.
-                  </p>
-                </details>
-              </div>
-            </div>
-          </div>
-        </section>
+        <ToolDirectory />
 
         {/* ── EXPLANATION ── */}
         <section className="max-w-5xl mx-auto px-6 py-16 md:py-20">
@@ -426,8 +226,9 @@ export default function LandingPage() {
                 <strong className="text-zinc-900">€85.000 di fatturato</strong>,
                 perdi automaticamente il regime forfettario l&apos;anno
                 successivo. Se superi
-                <strong className="text-zinc-900"> €100.000</strong>, esci con
-                effetto retroattivo sull&apos;intero anno.
+                <strong className="text-zinc-900"> €100.000</strong>, esci dal
+                forfettario nell&apos;anno in corso e applichi l&apos;IVA alle
+                operazioni che determinano il superamento.
               </p>
               <p className="text-zinc-600 leading-relaxed">
                 Nel regime ordinario l&apos;IRPEF progressiva (23%, 35%, 43%) e

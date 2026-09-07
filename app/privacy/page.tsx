@@ -50,13 +50,14 @@ export default function PrivacyPage() {
               Titolare del Trattamento
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed">
-              <strong className="text-zinc-900">BurZero</strong> - per qualsiasi
-              richiesta:{" "}
+              <strong className="text-zinc-900">BurZero</strong> è uno strumento
+              gestito da <strong className="text-zinc-900">Alem Studio</strong>{" "}
+              - per qualsiasi richiesta:{" "}
               <a
-                href="mailto:info@alecsdesign.xyz?subject=Privacy%20BurZero"
+                href="mailto:info@alemstudio.it?subject=Privacy%20BurZero"
                 className="underline underline-offset-2 hover:text-zinc-900 transition-colors"
               >
-                info@alecsdesign.xyz
+                info@alemstudio.it
               </a>
             </p>
           </section>
